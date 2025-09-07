@@ -1,0 +1,8 @@
+<div class="flex justify-center p-8">
+  @if(message()) {
+  <span class="text-3xl text-center p-12 text-amber-300">{{ message() }}</span>
+  <h2>You can now <a routerLink="/auth/login">Login</a></h2>
+  } @else {
+  <h2 class="text-3xl text-red-500">{{ error() }}</h2>
+  }
+</div>
