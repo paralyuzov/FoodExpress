@@ -1,0 +1,50 @@
+<div class="font-pt-sans">
+  <p-toast position="bottom-right" />
+  <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="w-full flex flex-col gap-4 p-8">
+    <div class="text-center">
+      <h2 class="text-2xl">Welcome back!</h2>
+      <h3>Please enter your account details.</h3>
+    </div>
+
+    <div class="">
+      <p-floatlabel variant="on">
+        <input pInputText id="email" formControlName="email" autocomplete="off" class="w-full!" />
+        <label class="text-amber-300!" for="email">Email</label>
+      </p-floatlabel>
+      @if(isInvalid('email')) {
+      <p-message size="small" severity="error" variant="simple">{{
+        getErrorMessage('email')
+        }}</p-message>
+      }
+    </div>
+    <div class="">
+      <p-floatlabel variant="on">
+        <input pInputText id="password" formControlName="password" type="password" autocomplete="off" class="w-full!" />
+        <label class="text-amber-300!" for="password">Password</label>
+      </p-floatlabel>
+      @if(isInvalid('password')) {
+      <p-message size="small" severity="error" variant="simple">{{
+        getErrorMessage('password')
+        }}</p-message>
+      }
+    </div>
+    <button type="submit" [disabled]="!canSubmit()"
+      class="w-full bg-gradient-to-r from-amber-400 to-orange-500 hover:from-amber-500 hover:to-orange-600 disabled:from-gray-400 disabled:to-gray-500 disabled:cursor-not-allowed text-white font-semibold py-3 px-6 rounded-lg transition-all duration-300 transform hover:scale-[1.02] disabled:scale-100 shadow-lg">
+      @if (isLoading()) {
+      <div class="flex items-center justify-center space-x-2">
+        <div class="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
+        <span>Signing in...</span>
+      </div>
+      } @else { Sign In }
+    </button>
+     <div class="text-center space-y-2">
+        <a href="#" class="text-amber-300 hover:text-amber-200 text-sm transition-colors">
+          Forgot your password?
+        </a>
+        <p class="text-white/60 text-sm">
+          Don't have an account?
+          <a href="#" class="text-amber-300 hover:text-amber-200 transition-colors">Sign up</a>
+        </p>
+      </div>
+  </form>
+</div>
