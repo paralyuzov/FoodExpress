@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
-import { UserResponse } from '../../../models/User.model';
+import { RegisterDto, RegisterResponse, UserResponse } from '../../../models/User.model';
 import { Observable } from 'rxjs';
 
 @Injectable({
@@ -12,5 +12,14 @@ export class AuthService {
 
   login(email: string, password: string): Observable<UserResponse> {
     return this.http.post<UserResponse>(`${this.API_URL}/login`, { email, password });
+  }
+
+  register(registerData: RegisterDto): Observable<RegisterResponse> {
+    console.log(registerData)
+    return this.http.post<RegisterResponse>(`${this.API_URL}/register`, registerData);
+  }
+
+  verifyEmail(token:string) {
+    return this.http.get<{message:string}>(`${this.API_URL}/verify-email?token=${token}`);
   }
 }
