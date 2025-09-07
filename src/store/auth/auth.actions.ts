@@ -1,5 +1,5 @@
 import { createActionGroup, emptyProps, props } from '@ngrx/store';
-import { User } from '../../models/User.model';
+import { RegisterDto, User } from '../../models/User.model';
 
 export const AuthActions = createActionGroup({
   source: 'Auth',
@@ -8,5 +8,12 @@ export const AuthActions = createActionGroup({
     'Login Success': props<{ user: User }>(),
     'Login Failure': props<{ error: string }>(),
     'Logout': emptyProps(),
+    'Register': props<RegisterDto>(),
+    'Register Success': props<{ message: string }>(),
+    'Register Failure': props<{ error: string }>(),
+    'Clear Auth Error': emptyProps(),
+    'Verify Email': props<{ token: string }>(),
+    'Verify Email Success': props<{ message: string }>(),
+    'Verify Email Failure': props<{ error: string }>(),
   },
 });
