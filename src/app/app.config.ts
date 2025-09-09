@@ -14,6 +14,8 @@ import { provideEffects } from '@ngrx/effects';
 import { provideStoreDevtools } from '@ngrx/store-devtools';
 import { authReducer } from '../store/auth/auth.reducers';
 import { authEffects } from '../store/auth/auth.effects';
+import { restaurantReducer } from '../store/restaurant/restaurant.reducers';
+import { restaurantEffects } from '../store/restaurant/restaurant.effects';
 import { provideHttpClient } from '@angular/common/http';
 
 export const appConfig: ApplicationConfig = {
@@ -27,8 +29,12 @@ export const appConfig: ApplicationConfig = {
             preset: Aura,
         },
     }),
-    provideStore({ auth: authReducer }),
+    provideStore({
+      auth: authReducer,
+      restaurant: restaurantReducer
+    }),
     provideEffects(authEffects),
+    provideEffects(restaurantEffects),
     provideStoreDevtools({
       maxAge: 25,
       logOnly: false,
