@@ -15,4 +15,12 @@ export const routes: Routes = [
     path: 'auth/verify-email',
     loadComponent: () => import('./user/verify-email-page/verify-email-page').then((m) => m.VerifyEmailPage),
   },
+  {
+    path: 'restaurants',
+    loadComponent: () => import('./resutaurant/restaurant-page/restaurant-page').then((m) => m.RestaurantPage),
+  },
+  {
+    path: 'restaurants/:id',
+    loadComponent: () => import('./resutaurant/restaurant-menu-page/restaurant-menu-page').then((m) => m.RestaurantMenuPage),
+  }
 ];
