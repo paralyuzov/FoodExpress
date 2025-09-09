@@ -5,6 +5,7 @@ import { Store } from '@ngrx/store';
 import { selectIsAuthenticated, selectUser } from '../../../store/auth/auth.selectors';
 import { Router } from '@angular/router';
 import { RouterModule } from '@angular/router';
+import { AuthActions } from '../../../store/auth/auth.actions';
 
 @Component({
   selector: 'app-nav',
@@ -22,19 +23,19 @@ export class Nav implements OnInit {
   ngOnInit() {
     this.items = [
       {
-        label: 'Login',
+        label: 'Orders',
         icon: 'pi pi-sign-in',
-        command: () => console.log('Login clicked'),
+        command: () => console.log('Orders clicked'),
       },
       {
-        label: 'Register',
+        label: 'Profile',
         icon: 'pi pi-user-plus',
-        command: () => console.log('Register clicked'),
+        command: () => console.log('Profile clicked'),
       },
       {
         label: 'Logout',
         icon: 'pi pi-sign-out',
-        command: () => console.log('Logout clicked'),
+        command: () => this.store.dispatch(AuthActions.logout()),
       },
     ];
   }
