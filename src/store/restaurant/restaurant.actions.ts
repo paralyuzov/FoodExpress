@@ -1,0 +1,16 @@
+import { createActionGroup, emptyProps, props } from '@ngrx/store';
+import type { Restaurant } from '../../models/index';
+
+export const restaurantAction = createActionGroup({
+  source: 'Restaurant',
+  events: {
+    'Load Restaurants': emptyProps(),
+    'Load Restaurants Success': props<{ restaurants: Restaurant[] }>(),
+    'Load Restaurants Failure': props<{ error: string }>(),
+    'Select Restaurant': props<{ restaurant: Restaurant }>(),
+    'Deselect Restaurant': emptyProps(),
+    'Load Selected Restaurant Details': props<{ id: string }>(),
+    'Load Selected Restaurant Details Success': props<{ restaurant: Restaurant }>(),
+    'Load Selected Restaurant Details Failure': props<{ error: string }>(),
+  },
+});
