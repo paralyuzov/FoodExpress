@@ -1,0 +1,58 @@
+@if(dish(); as dishData) {
+<div
+  class="group bg-slate-900 rounded-2xl overflow-hidden shadow-md shadow-black hover:shadow-lg transform hover:scale-102 transition-all duration-300 border border-slate-800/50 hover:saturate-135">
+  <div class="relative overflow-hidden">
+    <img [src]="
+        dishData.imageUrl ||
+        'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=400&h=300&fit=crop'
+      " [alt]="dishData.name" class="w-full h-48 object-cover group-hover:scale-110 transition-transform duration-300" />
+    <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+
+    <div class="absolute top-3 right-3">
+      @if (dishData.isAvailable) {
+      <span class="bg-green-500 text-white text-xs px-2 py-1 rounded-full font-semibold">Available</span>
+      } @else {
+      <span class="bg-red-500 text-white text-xs px-2 py-1 rounded-full font-semibold">Not Available</span>
+      }
+    </div>
+
+    <div class="absolute bottom-3 right-3">
+      <span class="bg-amber-200 text-black text-sm px-3 py-1 rounded-full font-mono tracking-wider">
+        ${{ dishData.price | number : '1.2-2' }}
+      </span>
+    </div>
+  </div>
+
+  <div class="p-5">
+    <h3 class="text-lg font-bold text-white font-pt-sans mb-2 group-hover:text-amber-300 transition-colors">
+      {{ dishData.name }}
+    </h3>
+    @if (dishData.description) {
+    <p class="text-slate-400 text-sm font-pt-sans mb-3 line-clamp-2">
+      {{ dishData.description }}
+    </p>
+    }
+
+    <div class="flex items-center justify-between">
+      @if (dishData.avgRating) {
+      <div class="flex items-center gap-1 text-xs text-slate-500">
+        <span class="text-amber-400">⭐</span>
+        <span>{{ dishData.avgRating | number : '1.1-1' }}</span>
+      </div>
+      } @else {
+      <div class="flex space-x-1">
+        <span class="text-amber-400 text-xs">⭐</span>
+        <span class="text-xs">Not Rated yet</span>
+      </div>
+      }
+
+      <button [disabled]="!dishData.isAvailable"
+        class="bg-amber-300 hover:bg-amber-400 disabled:bg-slate-700 disabled:text-slate-500 text-slate-900 text-sm px-4 py-2 rounded-lg font-semibold transition-colors duration-200 disabled:cursor-not-allowed hover:cursor-pointer">
+        @if(dishData.isAvailable) {
+        <i class="pi pi-cart-plus"></i>
+        } @else { Unavailable }
+      </button>
+    </div>
+  </div>
+</div>
+}
