@@ -1,0 +1,20 @@
+<div>
+  <div class="text-center p-8 border-b-[1px] border-neutral-600">
+    <h4 class="text-2xl  text-white italic font-mono tracking-wider">
+      Restaurants
+    </h4>
+  </div>
+  <div>
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-6 p-4">
+      @if (isLoading()) {
+        <p class="text-center text-neutral-400 col-span-full">Loading restaurants...</p>
+      } @else {
+        @for(restaurant of restaurants(); track restaurant.id) {
+          <app-restaurant-card [restaurant]="restaurant" />
+        } @empty {
+          <p class="text-center text-neutral-400 col-span-full">No restaurants found.</p>
+        }
+      }
+    </div>
+  </div>
+</div>
