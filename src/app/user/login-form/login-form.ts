@@ -8,6 +8,7 @@ import { selectAuthError, selectAuthLoading, selectIsAuthenticated } from '../..
 import { AuthActions } from '../../../store/auth/auth.actions';
 import { MessageService } from 'primeng/api';
 import { ToastModule } from 'primeng/toast';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login-form',
@@ -19,6 +20,7 @@ export class LoginForm {
   private fb = inject(FormBuilder);
   private store = inject(Store);
   private messageService = inject(MessageService);
+  private router = inject(Router)
 
   formSubmitted = signal<boolean>(false);
 
@@ -52,6 +54,7 @@ export class LoginForm {
         detail: 'You have been logged in successfully.',
         life: 3000,
       });
+      this.router.navigate(['/']);
     }
   });
 
