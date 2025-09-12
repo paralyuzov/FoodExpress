@@ -1,0 +1,29 @@
+ <p-toast  [showTransitionOptions]="'500ms'" [showTransformOptions]="'translateX(100%)'" [hideTransitionOptions]="'500ms'" [hideTransformOptions]="'translateX(100%)'"  position="bottom-right" key="cart-toast" [baseZIndex]="5000" >
+  <ng-template let-message #message>
+    <div class="flex items-center space-x-4 rounded-lg shadow-lg">
+      <div class="flex-shrink-0">
+        <img
+          [src]="message.data?.dish?.imageUrl || 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=80&h=80&fit=crop'"
+          alt="Dish Image"
+          class="w-24 h-24 object-cover rounded-md"
+        />
+      </div>
+      <div class="flex-1 min-w-0">
+        <div class="flex items-center space-x-2 mb-1">
+          <i class="pi pi-check-circle text-green-400"></i>
+          <p class="text-sm font-semibold text-amber-300">Added to Cart!</p>
+        </div>
+        <p class="text-sm text-slate-300">
+          <span class="font-medium  text-white">{{ message.data?.dish?.name }}</span>
+          has been added to your cart
+        </p>
+        @if (message.data?.quantity > 1) {
+          <p class="text-xs text-slate-400 mt-1">
+            Quantity: {{ message.data.quantity }}
+          </p>
+        }
+      </div>
+
+    </div>
+  </ng-template>
+</p-toast>
