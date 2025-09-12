@@ -46,7 +46,7 @@
       </div>
       }
 
-      <button [disabled]="!dishData.isAvailable"
+      <button (click)="addToCart(dishData)" [disabled]="!dishData.isAvailable"
         class="bg-amber-300 hover:bg-amber-400 disabled:bg-slate-700 disabled:text-slate-500 text-slate-900 text-sm px-4 py-2 rounded-lg font-semibold transition-colors duration-200 disabled:cursor-not-allowed hover:cursor-pointer">
         @if(dishData.isAvailable) {
         <i class="pi pi-cart-plus"></i>
@@ -56,3 +56,4 @@
   </div>
 </div>
 }
+
