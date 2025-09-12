@@ -6,6 +6,7 @@ import {
 import { provideRouter } from '@angular/router';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { providePrimeNG } from 'primeng/config';
+import { MessageService } from 'primeng/api';
 import Aura from '@primeuix/themes/aura';
 
 import { routes } from './app.routes';
@@ -17,6 +18,8 @@ import { authEffects } from '../store/auth/auth.effects';
 import { restaurantReducer } from '../store/restaurant/restaurant.reducers';
 import { restaurantEffects } from '../store/restaurant/restaurant.effects';
 import { provideHttpClient } from '@angular/common/http';
+import { cartEffects } from '../store/cart/cart.effects';
+import { cartReducer } from '../store/cart/cart.reducer';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -31,14 +34,17 @@ export const appConfig: ApplicationConfig = {
     }),
     provideStore({
       auth: authReducer,
-      restaurant: restaurantReducer
+      restaurant: restaurantReducer,
+      cart: cartReducer
     }),
     provideEffects(authEffects),
     provideEffects(restaurantEffects),
+    provideEffects(cartEffects),
     provideStoreDevtools({
       maxAge: 25,
       logOnly: false,
     }),
-    provideHttpClient()
+    provideHttpClient(),
+    MessageService,
 ],
 };
