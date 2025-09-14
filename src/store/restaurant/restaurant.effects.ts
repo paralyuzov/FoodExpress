@@ -1,6 +1,6 @@
 import { inject } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { RestaurantService } from '../../app/core/restaurant/restaurant.service';
+import { RestaurantService } from '../../app/core/services/restaurant.service';
 import { catchError, map, of, switchMap } from 'rxjs';
 import { restaurantAction } from './restaurant.actions';
 
