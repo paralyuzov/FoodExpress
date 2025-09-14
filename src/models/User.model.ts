@@ -1,3 +1,8 @@
+import { Address } from "./Address.model";
+import { DishRating } from "./Menu.model";
+import { Order } from "./Order.model";
+import { RestaurantRating } from "./Rating.model";
+
 export interface User {
   id: string;
   email: string;
@@ -8,6 +13,10 @@ export interface User {
   role: Role;
   createdAt?: Date;
   updatedAt?: Date;
+  addresses: Address[];
+  orders: Order[];
+  restaurantRatings: RestaurantRating[];
+  dishRatings: DishRating[];
 }
 
 export type Role = 'ADMIN' | 'CUSTOMER';

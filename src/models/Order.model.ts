@@ -23,7 +23,7 @@ export interface Order {
   tax: number;
   total: number;
   notes?: string;
-  estimatedTime?: number; 
+  estimatedTime?: number;
   createdAt: Date;
   updatedAt: Date;
   customer?: User;
@@ -41,4 +41,9 @@ export interface OrderItem {
   notes?: string;
   order?: Order;
   dish?: Dish;
+}
+
+export interface CreateOrderRequest {
+  addressId: string;
+  items: Dish[];
 }
