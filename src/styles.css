@@ -4,9 +4,148 @@
 @plugin "tailwindcss-primeui";
 @import "primeicons/primeicons.css";
 
-
 @theme {
   --font-pt-sans: 'PT Sans', sans-serif;
   --font-story-script: 'Story Script', cursive;
+}
+
+
+.p-select {
+  @apply bg-slate-700/50 border border-slate-600 text-white rounded-lg;
+}
+
+.p-select:not(.p-disabled):hover {
+  @apply border-amber-400/50;
+}
+
+.p-select:not(.p-disabled).p-focus {
+  @apply border-amber-400 shadow-lg shadow-amber-400/20;
+}
+
+.p-select-dropdown {
+  @apply text-amber-400;
+}
+
+.p-select-overlay {
+  @apply bg-slate-800 border border-slate-600 rounded-lg shadow-2xl;
+}
+
+.p-select-option {
+  @apply text-white hover:bg-slate-700 hover:text-amber-300;
+}
+
+.p-select-option.p-selected {
+  @apply bg-amber-500/20 text-amber-300;
+}
+
+/* Input Number Styling */
+.p-inputnumber-input {
+  @apply bg-slate-700/50 border border-slate-600 text-white rounded-lg;
+}
+
+.p-inputnumber-button {
+  @apply bg-slate-600 border border-slate-500 text-white hover:bg-amber-500 hover:border-amber-500;
+}
+
+.p-inputnumber-button:hover {
+  @apply bg-amber-500/80 border-amber-400;
+}
+
+/* Drawer Styling */
+.p-drawer-content {
+  @apply bg-slate-900;
+}
+
+.p-drawer-header {
+  @apply bg-slate-800/50 backdrop-blur-sm border-b border-slate-700/50;
+}
+
+.p-drawer-title {
+  @apply text-white font-bold text-xl;
+}
+
+.p-drawer-close-button {
+  @apply text-slate-400 hover:text-white hover:bg-slate-700/50 rounded-lg;
+}
+
+.p-toast {
+  @apply rounded-xl overflow-hidden;
+}
+
+.p-toast-message-success {
+  @apply bg-green-500/90 backdrop-blur-sm border border-green-400/30;
+}
+
+.p-toast-message-error {
+  @apply bg-red-500/90 backdrop-blur-sm border border-red-400/30;
+}
+
+.p-toast-message-info {
+  @apply bg-blue-500/90 backdrop-blur-sm border border-blue-400/30;
+}
+
+.p-toast-message-warn {
+  @apply bg-amber-500/90 backdrop-blur-sm border border-amber-400/30;
+}
+
+/* Custom animations */
+@keyframes slideInFromRight {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes fadeInUp {
+  from {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.animate-slide-in-right {
+  animation: slideInFromRight 0.3s ease-out;
+}
+
+.animate-fade-in-up {
+  animation: fadeInUp 0.5s ease-out;
+}
+
+.glass-effect {
+  @apply bg-white/10 backdrop-blur-lg border border-white/20;
+}
+
+.gradient-border {
+  background: linear-gradient(45deg, #f59e0b, #eab308);
+  padding: 2px;
+  border-radius: 12px;
+}
+
+.gradient-border > * {
+  @apply bg-slate-900 rounded-lg;
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  @apply bg-slate-800;
+}
+
+::-webkit-scrollbar-thumb {
+  @apply bg-slate-600 rounded-full;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  @apply bg-amber-500;
 }
 
