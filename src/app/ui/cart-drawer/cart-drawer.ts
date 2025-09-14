@@ -13,17 +13,22 @@ import {
 } from '../../../store/cart/cart.selectors';
 import { cartAction } from '../../../store/cart/cart.actions';
 import { DecimalPipe } from '@angular/common';
+import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
+import { AdressForm } from '../../user/adress-form/adress-form';
 
 @Component({
   selector: 'app-cart-drawer',
   imports: [DrawerModule, InputNumber, FormsModule, DecimalPipe],
   templateUrl: './cart-drawer.html',
   styleUrl: './cart-drawer.css',
+  providers: [DialogService],
 })
 export class CartDrawer {
   visible = input.required<boolean>();
   visibleChange = output<boolean>();
   private store = inject(Store);
+  private dialogService = inject(DialogService);
+  private dialogRef: DynamicDialogRef | undefined;
 
   cartItems = this.store.selectSignal(selectCartItems);
   cartTotal = this.store.selectSignal(selectCartTotal);
@@ -42,5 +47,11 @@ export class CartDrawer {
 
   removeItem(dishId: string) {
     this.store.dispatch(cartAction.removeItemFromCart({ dishId }));
+  }
+
+  show() {
+    this.dialogRef = this.dialogService.open(AdressForm, {
+      styleClass: 'bg-gradient-to-br! from-slate-900! via-slate-800! to-slate-900!',
+    });
   }
 }

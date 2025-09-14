@@ -1,85 +1,126 @@
-<p-drawer header="Your Purchase" [visible]="visible()" (onHide)="onHide()" position="right"
-  styleClass="w-[450px]! bg-slate-900! text-amber-300! font-serif!">
-  <div class="flex flex-col h-full font-pt-sans">
-    <div class="border-b border-slate-700 pb-4 mb-4">
+<p-drawer header="Your Order" [visible]="visible()" (onHide)="onHide()" position="right"
+  styleClass="w-[480px]! bg-slate-900! text-white! font-pt-sans!">
+  <div class="flex flex-col min-h-full p-2">
+    <div class="border-b border-slate-700/50 pb-6 mb-6">
+      <div class="flex items-center gap-3 mb-2">
+        <div class="w-8 h-8 bg-gradient-to-r from-amber-400 to-yellow-500 rounded-lg flex items-center justify-center">
+          <i class="pi pi-shopping-cart text-slate-900 text-sm"></i>
+        </div>
+        <h3 class="text-xl font-bold text-white">Order Summary</h3>
+      </div>
       <p class="text-sm text-slate-400">Review your items before checkout</p>
     </div>
 
-    <div class="flex-1 space-y-4">
+    <div class="flex-1 overflow-y-auto">
       @if (isCartEmpty()) {
-      <div class="text-center py-12">
-        <i class="pi pi-shopping-cart text-4xl text-slate-500 mb-4"></i>
-        <h4 class="text-lg font-medium text-slate-300 mb-2">Your cart is empty</h4>
-        <p class="text-sm text-slate-400">Add some delicious items to get started!</p>
+      <div class="text-center py-16">
+        <div class="w-20 h-20 bg-slate-800 rounded-full flex items-center justify-center mx-auto mb-4">
+          <i class="pi pi-shopping-cart text-3xl text-slate-500"></i>
+        </div>
+        <h4 class="text-lg font-semibold text-slate-300 mb-2">Your cart is empty</h4>
+        <p class="text-sm text-slate-400 mb-6">Add some delicious items to get started!</p>
+        <button (click)="onHide()"
+          class="px-6 py-2 bg-amber-500 hover:bg-amber-600 text-slate-900 rounded-lg font-medium transition-colors">
+          Browse Menu
+        </button>
       </div>
-      } @else { @for(cartItem of cartItems(); track cartItem.dish.id) {
-      <div class="flex items-center justify-between p-4 bg-slate-200 rounded-lg shadow-lg shadow-slate-400">
-        <div class="flex items-center space-x-2">
-          <img src="{{ cartItem.dish.imageUrl }}" alt="Dish Image" class="w-24 h-24 object-cover rounded-lg" />
-          <div class="space-y-1 text-center">
-            <h5 class="font-semibold text-black">{{ cartItem.dish.name }}</h5>
-            <p class="font-mono text-amber-800">${{ cartItem.dish.price | number : '1.2-2' }}</p>
+      } @else {
+      <div class="space-y-4 pb-4">
+        @for(cartItem of cartItems(); track cartItem.dish.id) {
+        <div
+          class="group p-4 bg-slate-800/50 border border-slate-700/50 rounded-xl hover:border-slate-600/50 transition-all duration-200">
+          <div class="flex items-start gap-4">
+            <div class="relative overflow-hidden rounded-lg flex-shrink-0">
+              <img src="{{ cartItem.dish.imageUrl }}" alt="{{ cartItem.dish.name }}"
+                class="w-20 h-20 object-cover group-hover:scale-105 transition-transform duration-300" />
+              <div class="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent"></div>
+            </div>
+
+            <div class="flex-1 min-w-0">
+              <h5 class="font-semibold text-white text-sm mb-1 truncate">
+                {{ cartItem.dish.name }}
+              </h5>
+              <p class="text-amber-400 font-bold text-sm mb-3">
+                ${{ cartItem.dish.price | number : '1.2-2' }}
+              </p>
+
+              <div class="flex items-center justify-between">
+                <div class="flex items-center gap-2">
+                  <p-inputnumber [ngModel]="cartItem.quantity"
+                    (ngModelChange)="updateQuantity(cartItem.dish.id, $event)" [min]="1" [max]="99" [showButtons]="true"
+                    buttonLayout="horizontal" size="small" [inputStyle]="{
+                      width: '2.5rem',
+                      textAlign: 'center',
+                      background: '#334155',
+                      border: '1px solid #475569',
+                      color: 'white'
+                    }">
+                    <ng-template #incrementbuttonicon>
+                      <span class="pi pi-plus text-xs"></span>
+                    </ng-template>
+                    <ng-template #decrementbuttonicon>
+                      <span class="pi pi-minus text-xs"></span>
+                    </ng-template>
+                  </p-inputnumber>
+                </div>
+
+                <button (click)="removeItem(cartItem.dish.id)"
+                  class="w-8 h-8 flex items-center justify-center bg-red-500/20 hover:bg-red-500 text-red-400 hover:text-white rounded-lg transition-all duration-200 group/btn"
+                  title="Remove item">
+                  <i class="pi pi-trash text-xs group-hover/btn:scale-110 transition-transform"></i>
+                </button>
+              </div>
+            </div>
           </div>
         </div>
-        <div class="flex items-center justify-between">
-          <p-inputnumber [ngModel]="cartItem.quantity" (ngModelChange)="updateQuantity(cartItem.dish.id, $event)"
-            [min]="1" [max]="99" [showButtons]="true" buttonLayout="vertical" size="small"
-            [inputStyle]="{ width: '3rem', textAlign: 'center' }" class="cart-quantity-input">
-            <ng-template #incrementbuttonicon>
-              <span class="pi pi-plus"></span>
-            </ng-template>
-            <ng-template #decrementbuttonicon>
-              <span class="pi pi-minus"></span>
-            </ng-template>
-          </p-inputnumber>
-
-          <button (click)="removeItem(cartItem.dish.id)"
-            class="ml-2 w-8 h-8 flex items-center justify-center bg-red-600 hover:bg-red-700 text-white rounded transition-colors"
-            title="Remove item">
-            <i class="pi pi-trash text-xs"></i>
-          </button>
-        </div>
+        }
       </div>
-      } }
+      }
     </div>
 
-
     @if(!isCartEmpty()) {
-      <div class="border-t border-slate-700 pt-4 mt-4 font-pt-sans">
-      <div class="flex flex-col justify-between items-center mb-4 text-md ">
-
-
-        <div class="self-end flex space-x-2 text-md">
-          <span class=" font-semibold text-amber-200">Subtotal:</span>
-          <span class=" font-bold text-amber-200">${{ cartSubTotal() | number : '1.2-2' }}</span>
+    <div class="border-t border-slate-700/50 pt-6 mt-4 space-y-4">
+      <div class="space-y-3 p-4 bg-slate-800/30 rounded-xl">
+        <div class="flex justify-between items-center text-sm">
+          <span class="text-slate-300">Subtotal</span>
+          <span class="font-semibold text-white">${{ cartSubTotal() | number : '1.2-2' }}</span>
         </div>
 
-
-
-        <div class="self-end flex space-x-2 text-md">
-          <span class=" font-semibold text-amber-200">Tax(5%):</span>
-          <span class="  font-bold text-amber-200">${{ cartTax() | number : '1.2-2' }}</span>
+        <div class="flex justify-between items-center text-sm">
+          <span class="text-slate-300">Tax (5%)</span>
+          <span class="font-semibold text-white">${{ cartTax() | number : '1.2-2' }}</span>
         </div>
 
-
-        <div class="self-end flex space-x-2 text-md">
-          <span class=" font-semibold text-amber-200">Delivery Fee:</span>
-          <span class=" font-bold text-amber-200">${{ cartDeliveryFee() | number : '1.2-2' }}</span>
+        <div class="flex justify-between items-center text-sm">
+          <span class="text-slate-300">Delivery Fee</span>
+          <span class="font-semibold text-white">${{ cartDeliveryFee() | number : '1.2-2' }}</span>
         </div>
 
-        <div class="self-end flex space-x-2 text-lg">
-          <span class=" font-semibold text-amber-300">Total:</span>
-          <span class=" font-bold text-green-400">${{ cartTotal() | number : '1.2-2' }}</span>
+        <div class="border-t border-slate-600/30 pt-3">
+          <div class="flex justify-between items-center">
+            <span class="font-semibold text-white text-lg">Total</span>
+            <span class="font-bold text-xl text-green-400">${{ cartTotal() | number : '1.2-2' }}</span>
+          </div>
         </div>
-
       </div>
 
-      <button [disabled]="isCartEmpty()"
-        class="w-full bg-gradient-to-r from-amber-400 to-amber-500 hover:from-amber-500 hover:to-amber-600 disabled:from-gray-600 disabled:to-gray-700 disabled:cursor-not-allowed text-slate-900 disabled:text-slate-400 font-semibold py-3 px-4 rounded-lg transition-all duration-200">
-        Proceed to Checkout
+      <button [disabled]="isCartEmpty()" (click)="show()"
+        class="w-full group relative overflow-hidden bg-gradient-to-r from-amber-500 to-yellow-500 hover:from-amber-600 hover:to-yellow-600 disabled:from-slate-600 disabled:to-slate-700 disabled:cursor-not-allowed text-slate-900 disabled:text-slate-400 font-bold py-4 px-6 rounded-xl transition-all duration-300 transform hover:scale-[1.02] disabled:hover:scale-100 shadow-lg hover:shadow-xl">
+        <span class="relative z-10 flex items-center justify-center gap-2">
+          <i class="pi pi-credit-card"></i>
+          Proceed to Checkout
+          <i class="pi pi-arrow-right group-hover:translate-x-1 transition-transform duration-200"></i>
+        </span>
+        <div
+          class="absolute inset-0 bg-gradient-to-r from-white/20 to-transparent translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-500">
+        </div>
+      </button>
+
+      <button (click)="onHide()"
+        class="w-full py-3 px-4 border border-slate-600 hover:border-slate-500 text-slate-300 hover:text-white rounded-lg transition-all duration-200 hover:bg-slate-800/50">
+        Continue Shopping
       </button>
     </div>
     }
-
   </div>
 </p-drawer>

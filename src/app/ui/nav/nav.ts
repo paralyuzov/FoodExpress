@@ -2,7 +2,8 @@ import { Component, inject, OnInit, signal } from '@angular/core';
 import { MenuItem } from 'primeng/api';
 import { TieredMenuModule } from 'primeng/tieredmenu';
 import { Store } from '@ngrx/store';
-import { selectIsAuthenticated, selectUser } from '../../../store/auth/auth.selectors';
+import { selectIsAuthenticated } from '../../../store/auth/auth.selectors';
+import { selectUserProfile } from '../../../store/user/user.selectors';
 import { Router } from '@angular/router';
 import { RouterModule } from '@angular/router';
 import { AuthActions } from '../../../store/auth/auth.actions';
@@ -25,7 +26,7 @@ export class Nav implements OnInit {
   cartItemsCount = this.store.selectSignal(selectCartItemCount);
 
   isAuthenticated = this.store.selectSignal(selectIsAuthenticated);
-  user = this.store.selectSignal(selectUser)
+  user = this.store.selectSignal(selectUserProfile);
   ngOnInit() {
     this.items = [
       {
