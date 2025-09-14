@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
-import { RegisterDto, RegisterResponse, UserResponse } from '../../../models/User.model';
+import { RegisterDto, RegisterResponse, User, UserResponse } from '../../../models/User.model';
 import { Observable } from 'rxjs';
 
 @Injectable({
@@ -21,5 +21,9 @@ export class AuthService {
 
   verifyEmail(token:string) {
     return this.http.get<{message:string}>(`${this.API_URL}/verify-email?token=${token}`);
+  }
+
+  verifyUser() {
+    return this.http.get<User>(`${this.API_URL}/me`);
   }
 }
