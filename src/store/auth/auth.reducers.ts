@@ -1,20 +1,19 @@
 import { createReducer, on } from '@ngrx/store';
-import { User } from '../../models/User.model';
 import { AuthActions } from './auth.actions';
 
 export interface AuthState {
-  user: User | null;
+  isAuthenticated: boolean;
   loading: boolean;
   error: string | null;
-  isAuthenticated: boolean;
+  hasToken: boolean;
   message: string | null;
 }
 
 export const initialAuthState: AuthState = {
-  user: null,
+  isAuthenticated: false,
   loading: false,
   error: null,
-  isAuthenticated: false,
+  hasToken: false,
   message: null,
 };
 
@@ -24,14 +23,14 @@ export const authReducer = createReducer(
     ...state,
     loading: true,
     error: null,
-    isAuthenticated: false,
   })),
 
-  on(AuthActions.loginSuccess, (state, { user }) => ({
+  on(AuthActions.loginSuccess, (state) => ({
     ...state,
     loading: false,
-    user,
     isAuthenticated: true,
+    hasToken: true,
+    error: null,
   })),
 
   on(AuthActions.loginFailure, (state, { error }) => ({
@@ -39,6 +38,7 @@ export const authReducer = createReducer(
     loading: false,
     error,
     isAuthenticated: false,
+    hasToken: false,
   })),
 
   on(AuthActions.logout, () => initialAuthState),
@@ -53,33 +53,58 @@ export const authReducer = createReducer(
   on(AuthActions.registerSuccess, (state, { message }) => ({
     ...state,
     loading: false,
-    registrationMessage: message,
+    message,
   })),
 
   on(AuthActions.registerFailure, (state, { error }) => ({
     ...state,
     loading: false,
     error,
-    message: null,
   })),
+
   on(AuthActions.clearAuthError, (state) => ({
     ...state,
     error: null,
+    message: null,
   })),
+
   on(AuthActions.verifyEmail, (state) => ({
     ...state,
     loading: true,
     error: null,
   })),
+
   on(AuthActions.verifyEmailSuccess, (state, { message }) => ({
     ...state,
     loading: false,
-    message: message,
+    message,
   })),
+
   on(AuthActions.verifyEmailFailure, (state, { error }) => ({
     ...state,
     loading: false,
     error,
-    message: null,
-  }))
+  })),
+
+  on(AuthActions.verifyUser, (state) => ({
+    ...state,
+    loading: true,
+    error: null,
+  })),
+
+  // IMPORTANT: No user data stored, just auth status
+  on(AuthActions.verifyUserSuccess, (state) => ({
+    ...state,
+    loading: false,
+    isAuthenticated: true,
+    hasToken: true,
+  })),
+
+  on(AuthActions.verifyUserFailure, (state, { error }) => ({
+    ...state,
+    loading: false,
+    error,
+    isAuthenticated: false,
+    hasToken: false,
+  })),
 );

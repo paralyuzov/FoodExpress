@@ -4,6 +4,7 @@ import { catchError, map, switchMap } from 'rxjs/operators';
 import { of } from 'rxjs';
 import { AuthService } from '../../app/core/services/auth.service';
 import { AuthActions } from './auth.actions';
+import { userActions } from '../user/user.actions';
 
 export const authEffects = {
   login: createEffect(
@@ -93,6 +94,82 @@ export const authEffects = {
           localStorage.removeItem('access_token');
           return { type: 'NO_ACTION' };
         })
+      );
+    },
+    { functional: true }
+  ),
+
+  verifyUser: createEffect(
+    (actions$ = inject(Actions), authService = inject(AuthService)) => {
+      return actions$.pipe(
+        ofType(AuthActions.verifyUser),
+        switchMap(() =>
+          authService.verifyUser().pipe(
+            map((response) => {
+              return AuthActions.verifyUserSuccess({ user: response });
+            }),
+            catchError((error) =>
+              of(
+                AuthActions.verifyUserFailure({
+                  error: error.error?.message || error.message || 'User verification failed',
+                })
+              )
+            )
+          )
+        )
+      );
+    },
+    { functional: true }
+  ),
+
+  autoVerifyUser: createEffect(
+    (actions$ = inject(Actions), authService = inject(AuthService)) => {
+      return actions$.pipe(
+        ofType(AuthActions.initApp),
+        switchMap(() => {
+          const token = localStorage.getItem('access_token');
+          if (token) {
+            return authService.verifyUser().pipe(
+              map((response) => AuthActions.verifyUserSuccess({ user: response })),
+              catchError(() => {
+                localStorage.removeItem('access_token');
+                return of(AuthActions.verifyUserFailure({ error: 'Invalid token' }));
+              })
+            );
+          } else {
+            return of({ type: 'NO_ACTION' });
+          }
+        })
+      );
+    },
+    { functional: true }
+  ),
+
+  loadUserAfterLogin: createEffect(
+    (actions$ = inject(Actions)) => {
+      return actions$.pipe(
+        ofType(AuthActions.loginSuccess),
+        map(({ user }) => userActions.setUser({ user }))
+      );
+    },
+    { functional: true }
+  ),
+
+  loadUserAfterVerification: createEffect(
+    (actions$ = inject(Actions)) => {
+      return actions$.pipe(
+        ofType(AuthActions.verifyUserSuccess),
+        map(({ user }) => userActions.setUser({ user }))
+      );
+    },
+    { functional: true }
+  ),
+
+  clearUserOnLogout: createEffect(
+    (actions$ = inject(Actions)) => {
+      return actions$.pipe(
+        ofType(AuthActions.logout),
+        map(() => userActions.clearUserData())
       );
     },
     { functional: true }
