@@ -13,7 +13,7 @@ import { Store } from '@ngrx/store';
 import {
   selectAuthLoading,
   selectAuthError,
-  selectMessage,
+  selectAuthMessage,
 } from '../../../store/auth/auth.selectors';
 import { RouterModule } from '@angular/router';
 import { MessageService } from 'primeng/api';
@@ -38,7 +38,7 @@ export class RegisterForm {
 
   readonly isLoading = this.store.selectSignal(selectAuthLoading);
   readonly authError = this.store.selectSignal(selectAuthError);
-  readonly message = this.store.selectSignal(selectMessage);
+  readonly message = this.store.selectSignal(selectAuthMessage);
 
   canSubmit() {
     return this.registerForm.valid && !this.formSubmitted() && !this.isLoading();

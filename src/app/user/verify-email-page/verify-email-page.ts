@@ -2,7 +2,7 @@ import { Component, inject, OnInit } from '@angular/core';
 import { ActivatedRoute, } from '@angular/router';
 import { RouterModule } from '@angular/router';
 import { Store } from '@ngrx/store';
-import { selectAuthError, selectAuthLoading, selectMessage } from '../../../store/auth/auth.selectors';
+import { selectAuthError, selectAuthLoading, selectAuthMessage } from '../../../store/auth/auth.selectors';
 import { AuthActions } from '../../../store/auth/auth.actions';
 @Component({
   selector: 'app-verify-email-page',
@@ -15,7 +15,7 @@ export class VerifyEmailPage implements OnInit  {
   private readonly store  = inject(Store);
 
   readonly isLoading = this.store.selectSignal(selectAuthLoading);
-  readonly message = this.store.selectSignal(selectMessage);
+  readonly message = this.store.selectSignal(selectAuthMessage);
   readonly error = this.store.selectSignal(selectAuthError);
 
   ngOnInit(): void {
