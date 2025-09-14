@@ -22,5 +22,5 @@ export const routes: Routes = [
   {
     path: 'restaurants/:id',
     loadComponent: () => import('./resutaurant/restaurant-menu-page/restaurant-menu-page').then((m) => m.RestaurantMenuPage),
-  }
+  },
 ];
