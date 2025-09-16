@@ -1,4 +1,4 @@
-import { Component, computed, inject, signal } from '@angular/core';
+import { Component, computed, inject, signal, effect } from '@angular/core';
 import { SelectModule } from 'primeng/select';
 import { IftaLabelModule } from 'primeng/iftalabel';
 import { InputTextModule } from 'primeng/inputtext';
@@ -6,17 +6,17 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { Store } from '@ngrx/store';
 import { selectAllAddresses } from '../../../store/user/user.selectors';
 import { userActions, type CreateAddressRequest } from '../../../store/user/user.actions';
-import {
-  selectCartItems,
-  selectCartState,
-  selectCartTotal,
-} from '../../../store/cart/cart.selectors';
+import { selectCartItems, selectCartTotal } from '../../../store/cart/cart.selectors';
+import { orderActions } from '../../../store/orders/order.actions';
+import { selectCheckoutUrl, selectOrderError } from '../../../store/orders/order.selectors';
+import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 
 @Component({
   selector: 'app-adress-form',
   imports: [SelectModule, IftaLabelModule, InputTextModule, ReactiveFormsModule],
   templateUrl: './adress-form.html',
   styleUrl: './adress-form.css',
+  providers: [DialogService],
 })
 export class AdressForm {
   private readonly fb = inject(FormBuilder);
@@ -29,6 +29,19 @@ export class AdressForm {
 
   readonly cartItems = this.store.selectSignal(selectCartItems);
   readonly cartTotal = this.store.selectSignal(selectCartTotal);
+  readonly checkoutUrl = this.store.selectSignal(selectCheckoutUrl);
+  readonly orderError = this.store.selectSignal(selectOrderError);
+
+  private dialogService = inject(DialogService);
+  private dialogRef = inject(DynamicDialogRef);
+
+  private readonly checkoutEffect = effect(() => {
+    const url = this.checkoutUrl();
+    if (url) {
+      this.openCheckoutWindow(url);
+    }
+  });
+  readonly checkout_url = this.store.selectSignal(selectCheckoutUrl);
 
   readonly selectedAddress = computed(() => {
     const addressId = this.selectedAddressId();
@@ -108,12 +121,25 @@ export class AdressForm {
     const cartItems = this.cartItems();
     if (selectedAddr) {
       const orderData = {
-        address: selectedAddr.id,
+        addressId: selectedAddr.id,
         items: cartItems,
       };
 
-      console.log(orderData)
+      this.store.dispatch(orderActions.createOrder({ order: orderData }));
+    }
+  }
 
+  closeDialog(): void {
+    this.dialogRef.close();
+  }
+
+  private openCheckoutWindow(checkoutUrl: string): void {
+    try {
+      // window.open(checkoutUrl, '_blank', 'noopener,noreferrer');
+      window.location.href = checkoutUrl;
+    } catch (error) {
+      console.error('Failed to open checkout window:', error);
+      window.location.href = checkoutUrl;
     }
   }
 }
