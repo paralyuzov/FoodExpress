@@ -1,0 +1,39 @@
+<div class="text-center p-8">
+  @if(confirmedOrder(); as confirmedOrder) {
+
+  <div class="max-w-3xl mx-auto mt-10 bg-slate-800 p-8 rounded-lg shadow-lg">
+    <h2 class="text-2xl font-bold text-amber-300 mb-4 font-pt-sans">{{ orderMessage()}}!</h2>
+    <i
+      class="pi pi-check mb-2 p-4 rounded-full border-2 border-green-300 text-black bg-green-300 animate-zoominup animate-duration-1000"></i>
+
+    <p class="text-slate-200 mb-6">Thank you for your purchase from {{ confirmedOrder.restaurantName }}!</p>
+
+    <div class="bg-slate-900  p-6 rounded-lg font-pt-sans">
+      <h3 class="text-xl font-semibold text-slate-200 mb-4">Order Details</h3>
+      <p class="text-slate-400 mb-2">
+        <span class="font-semibold text-slate-200">Order Number:</span> {{ confirmedOrder.id }}
+      </p>
+      <p class="text-slate-400 mb-2">
+        <span class="font-semibold text-slate-200">Total Amount:</span> ${{ confirmedOrder.total }}
+      </p>
+      <p class="text-slate-400 mb-4">
+        <span class="font-semibold text-slate-200">Estimated Delivery:</span>
+        {{ confirmedOrder.estimatedTime }} min
+      </p>
+    </div>
+    <a routerLink="/"
+      class="inline-block mt-6 bg-amber-500 hover:bg-amber-600 text-slate-900 font-bold py-3 px-6 rounded-lg transition-all duration-200 shadow-lg hover:shadow-xl hover:cursor-pointer">
+      Back to Home
+    </a>
+  </div>
+  }
+
+  @if(orderError(); as orderError) {
+  <div class="max-w-3xl mx-auto mt-10 bg-slate-800 p-8 rounded-lg shadow-lg">
+    <h2 class="text-2xl font-bold text-slate-200 mb-4 font-pt-sans">{{orderError}}!</h2>
+     <a routerLink="/"
+      class="inline-block mt-6 bg-amber-500 hover:bg-amber-600 text-slate-900 font-bold py-3 px-6 rounded-lg transition-all duration-200 shadow-lg hover:shadow-xl hover:cursor-pointer">
+      Back to Home
+    </a>
+  </div>
+}
