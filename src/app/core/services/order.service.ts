@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
-import { CartItem } from '../../../models';
+import { ConfirmPaymentResponse, OrderCheckoutResponse } from '../../../models';
 import { CreateOrderRequest } from '../../../models';
 
 @Injectable({
@@ -12,6 +12,10 @@ export class OrderService {
   private http = inject(HttpClient);
 
   createOrder(order: CreateOrderRequest) {
-    return this.http.post(`${this.API_URL}/checkout`, { order });
+    return this.http.post<OrderCheckoutResponse>(`${this.API_URL}/checkout`, order);
+  }
+
+  confirmOrderPayment(sessionId: string) {
+    return this.http.post<ConfirmPaymentResponse>(`${this.API_URL}/confirm-payment`, { sessionId });
   }
 }

@@ -2,6 +2,7 @@ import { User } from './User.model';
 import type { Restaurant } from './Restaurant.model';
 import type { Address } from './Address.model';
 import type { Dish } from './Menu.model';
+import type { CartItem } from './Cart.model';
 
 export enum OrderStatus {
   PENDING = 'PENDING',
@@ -45,5 +46,48 @@ export interface OrderItem {
 
 export interface CreateOrderRequest {
   addressId: string;
-  items: Dish[];
+  items: CartItem[];
+}
+
+
+export interface OrderCheckoutResponse {
+  success: boolean;
+  message: string;
+  checkoutUrl: string;
+  sessionId: string;
+  orderPreview: OrderPreview;
+}
+
+export interface OrderPreview {
+  items: OrderPreviewItem[];
+  deliveryFee: string;
+  tax: string;
+  total: string;
+  restaurantName: string;
+  itemCount: number;
+}
+
+export interface OrderPreviewItem {
+  name: string;
+  quantity: number;
+  price: number;
+}
+
+export interface ConfirmPaymentResponse {
+  success: boolean;
+  message: string;
+  order: ConfirmedOrder;
+}
+
+export interface ConfirmedOrder {
+  id: string;
+  status: OrderStatus;
+  subtotal: string;
+  deliveryFee: string;
+  tax: string;
+  total: string;
+  estimatedTime: number;
+  itemCount: number;
+  restaurantName: string;
+  sessionId: string;
 }
