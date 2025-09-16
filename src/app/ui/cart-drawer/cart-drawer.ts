@@ -15,6 +15,7 @@ import { cartAction } from '../../../store/cart/cart.actions';
 import { DecimalPipe } from '@angular/common';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { AdressForm } from '../../user/adress-form/adress-form';
+import { orderActions } from '../../../store/orders/order.actions';
 
 @Component({
   selector: 'app-cart-drawer',
@@ -49,7 +50,8 @@ export class CartDrawer {
     this.store.dispatch(cartAction.removeItemFromCart({ dishId }));
   }
 
-  show() {
+  showAddressForm() {
+    this.store.dispatch(orderActions.clearOrderError());
     this.dialogRef = this.dialogService.open(AdressForm, {
       styleClass: 'bg-gradient-to-br! from-slate-900! via-slate-800! to-slate-900!',
     });
