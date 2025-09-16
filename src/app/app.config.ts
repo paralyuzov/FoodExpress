@@ -23,6 +23,8 @@ import { cartEffects } from '../store/cart/cart.effects';
 import { cartReducer } from '../store/cart/cart.reducer';
 import { MessageService } from 'primeng/api';
 import { authInterceptor } from './core/interceptors/auth-interceptor';
+import { ordersEffects } from '../store/orders/order.effects';
+import { ordersReducer } from '../store/orders/orders.reducer';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -31,27 +33,27 @@ export const appConfig: ApplicationConfig = {
     provideRouter(routes),
     provideAnimationsAsync(),
     providePrimeNG({
-        theme: {
-            preset: Aura,
-        },
+      theme: {
+        preset: Aura,
+      },
     }),
     provideStore({
       auth: authReducer,
       user: userReducer,
       restaurant: restaurantReducer,
-      cart: cartReducer
+      cart: cartReducer,
+      orders: ordersReducer,
     }),
     provideEffects(authEffects),
     provideEffects(userEffects),
     provideEffects(restaurantEffects),
     provideEffects(cartEffects),
+    provideEffects(ordersEffects),
     provideStoreDevtools({
       maxAge: 25,
       logOnly: false,
     }),
-    provideHttpClient(
-      withInterceptors([authInterceptor])
-    ),
-    MessageService
-],
+    provideHttpClient(withInterceptors([authInterceptor])),
+    MessageService,
+  ],
 };
