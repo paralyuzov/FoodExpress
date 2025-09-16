@@ -1,7 +1,6 @@
 import { createReducer, on } from '@ngrx/store';
-import { CartItem} from '../../models/index'
+import { CartItem } from '../../models/index';
 import { cartAction } from './cart.actions';
-
 
 export interface CartState {
   items: CartItem[];
@@ -35,7 +34,7 @@ export const initialCartState: CartState = {
 function calculateTotals(items: CartItem[], discountAmountPercent = 0) {
   const totalItems = items.reduce((acc, item) => acc + item.quantity, 0);
   const subtotal = items.reduce((acc, item) => acc + item.totalPrice, 0);
-  const tax = (subtotal * TAX_RATE);
+  const tax = subtotal * TAX_RATE;
   const deliveryFee = totalItems > 0 ? DELIVERY_FEE : 0;
   const total = (subtotal + tax + deliveryFee) * (1 - discountAmountPercent / 100);
   return { totalItems, subtotal, tax, deliveryFee, total };
@@ -44,27 +43,26 @@ function calculateTotals(items: CartItem[], discountAmountPercent = 0) {
 export const cartReducer = createReducer(
   initialCartState,
 
-  on(cartAction.addItemToCart,(state, { dish, quantity = 1 }) => {
-    const existingItemIndex = state.items.findIndex(item => item.dish.id === dish.id);
+  on(cartAction.addItemToCart, (state, { dish, quantity = 1 }) => {
+    const existingItemIndex = state.items.findIndex((item) => item.dish.id === dish.id);
 
-    let updatedItems:CartItem[];
-    if(existingItemIndex != -1) {
-      updatedItems = state.items.map((item,index) => {
-        if(index === existingItemIndex) {
+    let updatedItems: CartItem[];
+    if (existingItemIndex != -1) {
+      updatedItems = state.items.map((item, index) => {
+        if (index === existingItemIndex) {
           return {
             ...item,
             quantity: item.quantity + quantity,
-            totalPrice: (item.quantity + quantity) * item.dish.price
+            totalPrice: (item.quantity + quantity) * item.dish.price,
           };
         }
         return item;
       });
-
     } else {
       const newItem: CartItem = {
         dish,
         quantity,
-        totalPrice: quantity * dish.price
+        totalPrice: quantity * dish.price,
       };
       updatedItems = [...state.items, newItem];
     }
@@ -78,23 +76,25 @@ export const cartReducer = createReducer(
       tax: totals.tax,
       deliveryFee: totals.deliveryFee,
       total: totals.total,
-      totalItems: totals.totalItems
+      totalItems: totals.totalItems,
     };
   }),
 
   on(cartAction.restoreCartState, (_, { cartState }) => cartState),
 
   on(cartAction.updateItemQuantity, (state, { dishId, quantity }) => {
-    const updatedItems = state.items.map(item => {
-      if (item.dish.id === dishId) {
-        return {
-          ...item,
-          quantity,
-          totalPrice: quantity * item.dish.price
-        };
-      }
-      return item;
-    }).filter(item => item.quantity > 0);
+    const updatedItems = state.items
+      .map((item) => {
+        if (item.dish.id === dishId) {
+          return {
+            ...item,
+            quantity,
+            totalPrice: quantity * item.dish.price,
+          };
+        }
+        return item;
+      })
+      .filter((item) => item.quantity > 0);
 
     const totals = calculateTotals(updatedItems, state.discountAmountPercent);
 
@@ -105,11 +105,11 @@ export const cartReducer = createReducer(
       tax: totals.tax,
       deliveryFee: totals.deliveryFee,
       total: totals.total,
-      totalItems: totals.totalItems
+      totalItems: totals.totalItems,
     };
   }),
-  on(cartAction.removeItemFromCart,(state, { dishId }) => {
-    const updatedItem = state.items.filter(item => item.dish.id !== dishId);
+  on(cartAction.removeItemFromCart, (state, { dishId }) => {
+    const updatedItem = state.items.filter((item) => item.dish.id !== dishId);
     const totals = calculateTotals(updatedItem, state.discountAmountPercent);
 
     return {
@@ -119,7 +119,8 @@ export const cartReducer = createReducer(
       tax: totals.tax,
       deliveryFee: totals.deliveryFee,
       total: totals.total,
-      totalItems: totals.totalItems
+      totalItems: totals.totalItems,
     };
-  })
-)
+  }),
+  on(cartAction.clearCart, () => initialCartState)
+);
