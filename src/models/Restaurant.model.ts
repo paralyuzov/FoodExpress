@@ -15,9 +15,9 @@ export interface Restaurant {
   managerId: string;
   createdAt: Date;
   updatedAt: Date;
-  avgRating?: number;
+  avgRating: number;
   manager?: User;
   menus?: Menu[];
   orders?: Order[];
-  ratings?: RestaurantRating[];
+  ratings: RestaurantRating[];
 }
