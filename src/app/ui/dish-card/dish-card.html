@@ -1,80 +1,81 @@
 @if(dish(); as dishData) {
-<div class="group bg-slate-800/50 backdrop-blur-sm rounded-2xl overflow-hidden shadow-xl border border-slate-700/50 hover:border-amber-400/30 transform hover:scale-[1.02] transition-all duration-300 hover:shadow-2xl hover:shadow-amber-500/10">
-  <!-- Image Section -->
+<div
+  class="group bg-slate-800/50 backdrop-blur-sm rounded-2xl overflow-hidden shadow-xl border border-slate-700/50 hover:border-amber-400/30 transform hover:scale-[1.02] transition-all duration-300 hover:shadow-2xl hover:shadow-amber-500/10 hover:saturate-150"
+>
   <div class="relative overflow-hidden">
     <img
-      [src]="dishData.imageUrl || 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=400&h=300&fit=crop'"
+      [src]="
+        dishData.imageUrl ||
+        'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=400&h=300&fit=crop'
+      "
       [alt]="dishData.name"
       class="w-full h-56 object-cover group-hover:scale-110 transition-transform duration-500"
     />
     <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
 
-    <!-- Availability Badge -->
     <div class="absolute top-4 left-4">
       @if (dishData.isAvailable) {
-      <div class="flex items-center gap-2 bg-green-500/90 backdrop-blur-sm text-white text-xs px-3 py-1.5 rounded-full font-semibold">
+      <div
+        class="flex items-center gap-2 bg-green-500/90 backdrop-blur-sm text-white text-xs px-3 py-1.5 rounded-full font-semibold"
+      >
         <div class="w-2 h-2 bg-white rounded-full animate-pulse"></div>
         Available
       </div>
       } @else {
-      <div class="flex items-center gap-2 bg-red-500/90 backdrop-blur-sm text-white text-xs px-3 py-1.5 rounded-full font-semibold">
+      <div
+        class="flex items-center gap-2 bg-red-500/90 backdrop-blur-sm text-white text-xs px-3 py-1.5 rounded-full font-semibold"
+      >
         <div class="w-2 h-2 bg-white rounded-full"></div>
         Unavailable
       </div>
       }
     </div>
 
-    <!-- Price Badge -->
     <div class="absolute top-4 right-4">
-      <div class="bg-gradient-to-r from-amber-400 to-yellow-500 text-slate-900 text-lg font-bold px-3 py-1.5 rounded-full shadow-lg">
+      <div
+        class="bg-gradient-to-r from-amber-400 to-yellow-500 text-slate-900 text-lg font-bold px-3 py-1.5 rounded-full shadow-lg"
+      >
         ${{ dishData.price | number : '1.2-2' }}
       </div>
     </div>
 
-    <!-- Rating Badge -->
     @if (dishData.avgRating) {
     <div class="absolute bottom-4 left-4">
-      <div class="flex items-center gap-1 bg-black/60 backdrop-blur-sm text-white text-sm px-3 py-1.5 rounded-full">
+      <div
+        class="flex items-center gap-1 bg-black/60 backdrop-blur-sm text-white text-sm px-3 py-1.5 rounded-full"
+      >
         <i class="pi pi-star-fill text-amber-400 text-xs"></i>
-        <span class="font-semibold">{{ dishData.avgRating | number : '1.1-1' }}</span>
+        <span class="font-semibold">{{ dishData.avgRating | number : '1.1-1' }} / {{dishData.ratings?.length}}</span>
       </div>
     </div>
     }
   </div>
 
-  <!-- Content Section -->
   <div class="p-6">
-    <!-- Dish Name -->
-    <h3 class="text-xl font-bold text-white font-pt-sans mb-3 group-hover:text-amber-300 transition-colors duration-200 line-clamp-1">
+    <h3
+      class="text-xl font-bold text-white font-pt-sans mb-3 group-hover:text-amber-300 transition-colors duration-200 line-clamp-1"
+    >
       {{ dishData.name }}
     </h3>
 
-    <!-- Description -->
     @if (dishData.description) {
     <p class="text-slate-400 text-sm font-pt-sans mb-4 line-clamp-2 leading-relaxed">
       {{ dishData.description }}
     </p>
     }
 
-    <!-- Footer -->
     <div class="flex items-center justify-between mt-4">
-      <!-- Rating Section -->
       <div class="flex items-center gap-2">
-        @if (dishData.avgRating) {
-        <div class="flex items-center gap-1">
-          <i class="pi pi-star-fill text-amber-400 text-sm"></i>
-          <span class="text-slate-300 text-sm font-medium">{{ dishData.avgRating | number : '1.1-1' }}</span>
-          <span class="text-slate-500 text-xs">(4.2k)</span>
-        </div>
-        } @else {
-        <div class="flex items-center gap-1 text-slate-500 text-sm">
-          <i class="pi pi-star text-slate-600"></i>
-          <span>No ratings yet</span>
-        </div>
+        @if (isAuth()) {
+        <p-rating
+          [ngModel]="rateValue()"
+          [iconOnStyle]="{ color: '#fcd34d' }"
+          [iconOffStyle]="{ color: '#64748b' }"
+          (onRate)="onRate($event, dishData.id)"
+        />
         }
       </div>
 
-      <!-- Add to Cart Button -->
       <button
         (click)="addToCart(dishData)"
         [disabled]="!dishData.isAvailable"
@@ -83,18 +84,17 @@
         <span class="relative z-10 flex items-center gap-2">
           @if(dishData.isAvailable) {
           <i class="pi pi-cart-plus text-sm group-hover/btn:scale-110 transition-transform"></i>
-          Add
-          } @else {
+          Add } @else {
           <i class="pi pi-times text-sm"></i>
-          Unavailable
-          }
+          Unavailable }
         </span>
         @if(dishData.isAvailable) {
-        <div class="absolute inset-0 bg-gradient-to-r from-white/20 to-transparent translate-x-[-100%] group-hover/btn:translate-x-[100%] transition-transform duration-500"></div>
+        <div
+          class="absolute inset-0 bg-gradient-to-r from-white/20 to-transparent translate-x-[-100%] group-hover/btn:translate-x-[100%] transition-transform duration-500"
+        ></div>
         }
       </button>
     </div>
   </div>
 </div>
 }
-
