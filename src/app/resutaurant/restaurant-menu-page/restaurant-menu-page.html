@@ -9,19 +9,24 @@
 <div class="flex justify-center items-center min-h-[50vh] font-pt-sans">
   <div class="text-center space-y-4">
     <p class="text-red-400 text-lg">{{ error() }}</p>
-    <button class="px-4 py-2 bg-amber-400 text-slate-900 rounded-lg hover:bg-amber-300 transition-colors">
+    <button
+      class="px-4 py-2 bg-amber-400 text-slate-900 rounded-lg hover:bg-amber-300 transition-colors"
+    >
       Try Again
     </button>
   </div>
 </div>
 } @else if (restaurant(); as restaurant) {
-<div class="relative overflow-hidden bg-gradient-to-br from-slate-800 to-slate-900 mb-8 rounded-b-2xl">
+<div
+  class="relative overflow-hidden bg-gradient-to-br from-slate-800 to-slate-900 mb-8 rounded-b-2xl"
+>
   <div class="container mx-auto px-8 py-12">
     <div class="flex flex-col lg:flex-row items-center gap-8">
       <div class="w-full lg:w-2/3">
         <h1 class="text-4xl lg:text-5xl font-extrabold text-white font-pt-sans mb-4">
           <span
-            class="bg-gradient-to-r from-amber-100 to-yellow-400 bg-clip-text text-transparent font-story-script tracking-wider">
+            class="bg-gradient-to-r from-amber-100 to-yellow-400 bg-clip-text text-transparent font-story-script tracking-wider"
+          >
             {{ restaurant.name }}
           </span>
         </h1>
@@ -33,10 +38,13 @@
             <i class="pi pi-map-marker text-red-500"></i>
             <span>{{ restaurant.address }}</span>
           </div>
+
           @if (restaurant.avgRating) {
           <div class="flex items-center gap-2">
             <span class="text-amber-400">⭐</span>
-            <span>{{ restaurant.avgRating | number : '1.1-1' }} rating</span>
+            <span
+              >{{ restaurant.avgRating | number : '1.1-1' }} / {{ restaurant.ratings.length }}</span
+            >
           </div>
           }
           <div class="flex items-center gap-2">
@@ -44,11 +52,25 @@
             <span class="text-green-400">{{ restaurant.isActive ? 'Open Now' : 'Closed' }}</span>
           </div>
         </div>
+        @if(isAuth()) {
+           <div class="mt-6">
+          <p-rating
+            [ngModel]="rateValue()"
+            [iconOnStyle]="{ color: '#fcd34d' }"
+            [iconOffStyle]="{ color: '#64748b' }"
+            (onRate)="onRate($event)"
+          />
+        </div>
+        }
+
       </div>
       @if (restaurant.imageUrl) {
       <div class="w-full lg:w-1/2">
-        <img [src]="restaurant.imageUrl" [alt]="restaurant.name"
-          class="w-full h-64 object-cover rounded-2xl shadow-2xl shadow-black/70" />
+        <img
+          [src]="restaurant.imageUrl"
+          [alt]="restaurant.name"
+          class="w-full h-64 object-cover rounded-2xl shadow-2xl shadow-black/70"
+        />
       </div>
       }
     </div>
@@ -72,7 +94,7 @@
 
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
       @for(dish of menu.dishes; track dish.id) {
-        <app-dish-card [dish]="dish" />
+      <app-dish-card [dish]="dish" />
       } @empty {
       <div class="col-span-full text-center py-12">
         <p class="text-slate-400 font-pt-sans">No dishes available in this menu.</p>
