@@ -13,7 +13,6 @@ export const ordersEffects  = {
         switchMap(({ order }) =>
           orderService.createOrder(order).pipe(
             map((response) => {
-              console.log(response)
               return orderActions.createOrderSuccess({
                 message: response.message,
                 checkoutUrl: response.checkoutUrl,

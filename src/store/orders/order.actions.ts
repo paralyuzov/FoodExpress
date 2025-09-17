@@ -1,5 +1,5 @@
 import { createActionGroup, emptyProps, props } from '@ngrx/store';
-import { ConfirmedOrder, ConfirmPaymentResponse, CreateOrderRequest } from '../../models';
+import { ConfirmPaymentResponse, CreateOrderRequest } from '../../models';
 
 export const orderActions = createActionGroup({
   source: 'Orders',
