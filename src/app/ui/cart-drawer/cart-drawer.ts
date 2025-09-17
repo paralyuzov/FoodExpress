@@ -16,6 +16,7 @@ import { DecimalPipe } from '@angular/common';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { AdressForm } from '../../user/adress-form/adress-form';
 import { orderActions } from '../../../store/orders/order.actions';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-cart-drawer',
@@ -30,6 +31,7 @@ export class CartDrawer {
   private store = inject(Store);
   private dialogService = inject(DialogService);
   private dialogRef: DynamicDialogRef | undefined;
+  router = inject(Router);
 
   cartItems = this.store.selectSignal(selectCartItems);
   cartTotal = this.store.selectSignal(selectCartTotal);
@@ -55,5 +57,10 @@ export class CartDrawer {
     this.dialogRef = this.dialogService.open(AdressForm, {
       styleClass: 'bg-gradient-to-br! from-slate-900! via-slate-800! to-slate-900!',
     });
+  }
+
+  onRestaurantMenu() {
+    this.router.navigate(['/restaurants']);
+    this.visibleChange.emit(false);
   }
 }
