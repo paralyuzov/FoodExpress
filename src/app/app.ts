@@ -6,10 +6,11 @@ import { Footer } from "./ui/footer/footer";
 import { CartToast } from "./ui/cart-toast/cart-toast";
 import { cartAction } from '../store/cart/cart.actions';
 import { AuthActions } from '../store/auth/auth.actions';
+import {  ToastModule } from "primeng/toast";
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, Nav, Footer, CartToast],
+  imports: [RouterOutlet, Nav, Footer, CartToast, ToastModule],
   templateUrl: './app.html',
   styleUrl: './app.css'
 })

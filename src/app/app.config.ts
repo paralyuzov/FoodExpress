@@ -25,6 +25,8 @@ import { MessageService } from 'primeng/api';
 import { authInterceptor } from './core/interceptors/auth-interceptor';
 import { ordersEffects } from '../store/orders/order.effects';
 import { ordersReducer } from '../store/orders/orders.reducer';
+import { dishReducer } from '../store/dish/dish.reducer';
+import { dishEffects } from '../store/dish/dish.effects';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -43,12 +45,14 @@ export const appConfig: ApplicationConfig = {
       restaurant: restaurantReducer,
       cart: cartReducer,
       orders: ordersReducer,
+      dish: dishReducer,
     }),
     provideEffects(authEffects),
     provideEffects(userEffects),
     provideEffects(restaurantEffects),
     provideEffects(cartEffects),
     provideEffects(ordersEffects),
+    provideEffects(dishEffects),
     provideStoreDevtools({
       maxAge: 25,
       logOnly: false,
