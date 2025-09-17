@@ -17,3 +17,8 @@ export const selectSelectedRestaurant = createSelector(
   selectRestaurantState,
   (state) => state.selectedRestaurant
 );
+
+export const selectRestaurantMessage = createSelector(
+  selectRestaurantState,
+  (state) => state.message
+);

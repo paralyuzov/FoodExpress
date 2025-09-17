@@ -18,4 +18,8 @@ export class RestaurantService {
   getRestaurantById(id:string) : Observable<Restaurant> {
     return this.http.get<Restaurant>(`${this.API_URL}/${id}`);
   }
+
+  rateRestaurant(rating:number, restaurantId:string) {
+    return this.http.post<{ message: string }>(`${this.API_URL}/${restaurantId}/rate`, { rating });
+  }
 }

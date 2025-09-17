@@ -7,6 +7,7 @@ export interface RestaurantState {
   selectedRestaurant: Restaurant | null;
   loading: boolean;
   error: string | null;
+  message: string | null;
 }
 
 export const initialRestaurantState: RestaurantState = {
@@ -14,6 +15,7 @@ export const initialRestaurantState: RestaurantState = {
   selectedRestaurant: null,
   loading: false,
   error: null,
+  message: null,
 };
 
 export const restaurantReducer = createReducer(
@@ -44,6 +46,22 @@ export const restaurantReducer = createReducer(
     selectedRestaurant: restaurant,
   })),
   on(restaurantAction.loadSelectedRestaurantDetailsFailure, (state, { error }) => ({
+    ...state,
+    loading: false,
+    error,
+  })),
+  on(restaurantAction.rateRestaurant, (state, { rating, restaurantId }) => ({
+    ...state,
+    loading: false,
+    error: null,
+    message: null,
+  })),
+  on(restaurantAction.rateRestaurantSuccess, (state, { message }) => ({
+    ...state,
+    loading: false,
+    message,
+  })),
+  on(restaurantAction.rateRestaurantFailure, (state, { error }) => ({
     ...state,
     loading: false,
     error,

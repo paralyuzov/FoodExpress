@@ -39,4 +39,21 @@ export const restaurantEffects = {
     },
     { functional: true }
   ),
+  rateRestaurant:createEffect(
+    (actions$ = inject(Actions), restaurantService = inject(RestaurantService)) => {
+      return actions$.pipe(
+        ofType(restaurantAction.rateRestaurant),
+        switchMap(({ rating, restaurantId }) =>
+          restaurantService.rateRestaurant(rating, restaurantId).pipe(
+            map(( response ) => {
+              return restaurantAction.rateRestaurantSuccess( {message: response.message} );
+            }),
+            catchError((error) =>
+              of(restaurantAction.rateRestaurantFailure({ error }))
+            )
+          )
+        )
+      );
+    }, { functional: true }
+  )
 };

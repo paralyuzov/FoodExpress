@@ -12,5 +12,8 @@ export const restaurantAction = createActionGroup({
     'Load Selected Restaurant Details': props<{ id: string }>(),
     'Load Selected Restaurant Details Success': props<{ restaurant: Restaurant }>(),
     'Load Selected Restaurant Details Failure': props<{ error: string }>(),
+    'Rate Restaurant': props<{ rating: number; restaurantId: string }>(),
+    'Rate Restaurant Success': props<{ message: string }>(),
+    'Rate Restaurant Failure': props<{ error: string }>(),
   },
 });
