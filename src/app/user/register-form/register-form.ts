@@ -22,10 +22,9 @@ import { ToastModule } from 'primeng/toast';
 
 @Component({
   selector: 'app-register-form',
-  imports: [ReactiveFormsModule, InputTextModule, FloatLabel, Message, RouterModule, ToastModule],
+  imports: [ReactiveFormsModule, InputTextModule, FloatLabel, Message, RouterModule],
   templateUrl: './register-form.html',
   styleUrl: './register-form.css',
-  providers: [MessageService],
 })
 export class RegisterForm {
   private readonly fb = inject(FormBuilder);
