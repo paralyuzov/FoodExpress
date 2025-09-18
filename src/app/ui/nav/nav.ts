@@ -30,14 +30,9 @@ export class Nav implements OnInit {
   ngOnInit() {
     this.items = [
       {
-        label: 'Orders',
-        icon: 'pi pi-sign-in',
-        command: () => console.log('Orders clicked'),
-      },
-      {
         label: 'Profile',
-        icon: 'pi pi-user-plus',
-        command: () => console.log('Profile clicked'),
+        icon: 'pi pi-user',
+        command: () => this.router.navigate(['/profile']),
       },
       {
         label: 'Logout',
