@@ -1,12 +1,11 @@
-import { Actions, createEffect, ofType } from "@ngrx/effects";
-import { OrderService } from "../../app/core/services/order.service";
-import { inject } from "@angular/core";
-import { orderActions } from "./order.actions";
-import { catchError, map, of, switchMap } from "rxjs";
+import { Actions, createEffect, ofType } from '@ngrx/effects';
+import { OrderService } from '../../app/core/services/order.service';
+import { inject } from '@angular/core';
+import { orderActions } from './order.actions';
+import { catchError, map, of, switchMap } from 'rxjs';
 
-
-export const ordersEffects  = {
- createOrder: createEffect(
+export const ordersEffects = {
+  createOrder: createEffect(
     (actions$ = inject(Actions), orderService = inject(OrderService)) => {
       return actions$.pipe(
         ofType(orderActions.createOrder),
@@ -18,7 +17,9 @@ export const ordersEffects  = {
                 checkoutUrl: response.checkoutUrl,
               });
             }),
-            catchError((error) => of(orderActions.createOrderFailure({ error: error.error.message })))
+            catchError((error) =>
+              of(orderActions.createOrderFailure({ error: error.error.message }))
+            )
           )
         )
       );
@@ -34,11 +35,31 @@ export const ordersEffects  = {
             map((order) => {
               return orderActions.confirmPaymentSuccess({ order });
             }),
-            catchError((error) => of(orderActions.confirmPaymentFailure({ error: error.error.message  })))
+            catchError((error) =>
+              of(orderActions.confirmPaymentFailure({ error: error.error.message }))
+            )
           )
         )
       );
     },
     { functional: true }
   ),
-}
+  getUserOrders: createEffect(
+    (actions$ = inject(Actions), orderService = inject(OrderService)) => {
+      return actions$.pipe(
+        ofType(orderActions.getUserOrders),
+        switchMap(() =>
+          orderService.getUserOrders().pipe(
+            map((orders) => {
+              return orderActions.getUserOrdersSuccess({ orders });
+            }),
+            catchError((error) =>
+              of(orderActions.getUserOrdersFailure({ error: error.error.message }))
+            )
+          )
+        )
+      );
+    },
+    { functional: true }
+  ),
+};

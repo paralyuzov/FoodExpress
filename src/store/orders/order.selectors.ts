@@ -33,3 +33,19 @@ export const selectConfirmedOrder = createSelector(
     selectOrders,
     (state) => state.confirmedOrder
 )
+
+export const selectOrdersCount = createSelector(
+    selectOrders,
+    (state) => state.orders.length
+);
+
+export const selectTotalSpent = createSelector(
+    selectOrders,
+    (state) => {
+        return state.orders.reduce((total, order) => {
+            const orderTotal = typeof order.total === 'string' ? parseFloat(order.total) : order.total;
+            return total + (orderTotal || 0);
+        }, 0);
+    }
+);
+
