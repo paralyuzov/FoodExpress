@@ -1,10 +1,11 @@
-<p-drawer header="Your Order" [visible]="visible()" (onHide)="onHide()" position="right"
-  styleClass="w-[480px]! bg-slate-900! text-white! font-pt-sans!">
-  <div class="flex flex-col min-h-full p-2">
+<p-drawer [visible]="visible()" (onHide)="onHide()" position="right"
+  styleClass="w-[480px]! bg-neutral-900 text-white! font-pt-sans!">
+  <ng-template #headless>
+  <div class="flex flex-col min-h-full p-4">
     <div class="border-b border-slate-700/50 pb-6 mb-6">
       <div class="flex items-center gap-3 mb-2">
         <div class="w-8 h-8 bg-gradient-to-r from-amber-400 to-yellow-500 rounded-lg flex items-center justify-center">
-          <i class="pi pi-shopping-cart text-slate-900 text-sm"></i>
+          <i class="pi pi-shopping-cart text-slate-900"></i>
         </div>
         <h3 class="text-xl font-bold text-white">Order Summary</h3>
       </div>
@@ -14,7 +15,7 @@
     <div class="flex-1 overflow-y-auto">
       @if (isCartEmpty()) {
       <div class="text-center py-16">
-        <div class="w-20 h-20 bg-slate-800 rounded-full flex items-center justify-center mx-auto mb-4">
+        <div class="w-20 h-20 bg-neutral-800 rounded-full flex items-center justify-center mx-auto mb-4">
           <i class="pi pi-shopping-cart text-3xl text-slate-500"></i>
         </div>
         <h4 class="text-lg font-semibold text-slate-300 mb-2">Your cart is empty</h4>
@@ -28,11 +29,11 @@
       <div class="space-y-4 pb-4">
         @for(cartItem of cartItems(); track cartItem.dish.id) {
         <div
-          class="group p-4 bg-slate-800/50 border border-slate-700/50 rounded-xl hover:border-slate-600/50 transition-all duration-200">
+          class="group p-4 bg-neutral-800/50 border border-slate-700/50 rounded-xl hover:border-slate-600/50 transition-all duration-200">
           <div class="flex items-start gap-4">
             <div class="relative overflow-hidden rounded-lg flex-shrink-0">
               <img src="{{ cartItem.dish.imageUrl }}" alt="{{ cartItem.dish.name }}"
-                class="w-20 h-20 object-cover group-hover:scale-105 transition-transform duration-300" />
+                class="w-24 h-24 object-cover group-hover:scale-105 transition-transform duration-300" />
               <div class="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent"></div>
             </div>
 
@@ -80,7 +81,7 @@
 
     @if(!isCartEmpty()) {
     <div class="border-t border-slate-700/50 pt-6 mt-4 space-y-4">
-      <div class="space-y-3 p-4 bg-slate-800/30 rounded-xl">
+      <div class="space-y-3 p-4 bg-neutral-800/30 rounded-xl">
         <div class="flex justify-between items-center text-sm">
           <span class="text-slate-300">Subtotal</span>
           <span class="font-semibold text-white">${{ cartSubTotal() | number : '1.2-2' }}</span>
@@ -123,4 +124,5 @@
     </div>
     }
   </div>
+  </ng-template>
 </p-drawer>
