@@ -1,0 +1,158 @@
+@if (isLoading()) {
+<div class="flex justify-center items-center min-h-[50vh] font-pt-sans">
+  <div class="text-center space-y-4">
+    <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-amber-400 mx-auto"></div>
+    <p class="text-slate-300">Loading profile...</p>
+  </div>
+</div>
+} @else if (!isAuthenticated()) {
+<div class="flex justify-center items-center min-h-[50vh] font-pt-sans">
+  <div class="text-center space-y-6">
+    <div class="w-20 h-20 bg-neutral-800 rounded-full flex items-center justify-center mx-auto mb-4">
+      <i class="pi pi-user text-3xl text-slate-500"></i>
+    </div>
+    <h2 class="text-2xl font-bold text-slate-300 mb-2">Please Login</h2>
+    <p class="text-slate-400 mb-6">You need to be logged in to view your profile</p>
+    <a routerLink="/auth/login"
+      class="px-6 py-3 bg-gradient-to-r from-amber-400 to-orange-500 hover:from-amber-500 hover:to-orange-600 text-slate-900 font-semibold rounded-lg transition-all duration-300 transform hover:scale-105 shadow-lg">
+      Login Now
+    </a>
+  </div>
+</div>
+} @else if (user(); as userProfile) {
+<div class="container mx-auto px-6 py-8 max-w-6xl font-pt-sans">
+  <div class="bg-gradient-to-br from-neutral-800 to-neutral-900 rounded-2xl shadow-xl overflow-hidden mb-8">
+    <div class="relative p-8">
+      <div class="absolute inset-0 bg-gradient-to-r from-neutral-500/10 to-neutral-400/10"></div>
+
+      <div class="relative flex flex-col md:flex-row items-center gap-6">
+        <div class="relative">
+          <div
+            class="w-24 h-24 bg-gradient-to-r from-amber-400 to-orange-500 rounded-full flex items-center justify-center text-slate-900 text-2xl font-bold shadow-xl">
+            {{ userInitials() }}
+          </div>
+          <div
+            class="absolute -bottom-2 -right-2 w-8 h-8 bg-green-500 rounded-full border-4 border-slate-800 flex items-center justify-center">
+            <i class="pi pi-check text-white text-xs"></i>
+          </div>
+        </div>
+
+        <div class="flex-1 text-center md:text-left">
+          <h1 class="text-3xl font-bold text-white mb-2">
+            {{ userProfile.firstName }} {{ userProfile.lastName }}
+          </h1>
+          <p class="text-slate-300 mb-2">{{ userProfile.email }}</p>
+          @if (userProfile.phone) {
+          <p class="text-slate-400 text-sm">{{ userProfile.phone }}</p>
+          }
+          <div class="flex flex-wrap gap-2 mt-4 justify-center md:justify-start">
+            <span class="px-3 py-1 bg-amber-400/20 text-amber-300 rounded-full text-xs font-semibold">
+              {{ userProfile.role }}
+            </span>
+            @if (userProfile.isEmailVerified) {
+            <span class="px-3 py-1 bg-green-500/20 text-green-300 rounded-full text-xs font-semibold">
+              Verified
+            </span>
+            }
+          </div>
+        </div>
+
+        <div class="flex flex-col gap-3">
+          <button (click)="onEditProfile()"
+            class="px-6 py-2 bg-amber-500 hover:bg-amber-600 text-slate-900 font-semibold rounded-lg transition-colors duration-200">
+            <i class="pi pi-pencil mr-2"></i>
+            Edit Profile
+          </button>
+          <button (click)="onChangePassword()"
+            class="px-6 py-2 border border-slate-600 hover:border-slate-500 text-slate-300 hover:text-white rounded-lg transition-all duration-200 hover:bg-neutral-800/50">
+            <i class="pi pi-key mr-2"></i>
+            Change Password
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+    <div class="bg-neutral-800/80 backdrop-blur-sm rounded-xl p-6 border border-slate-700/50">
+      <div class="flex items-center gap-4">
+        <div class="w-12 h-12 bg-blue-500/20 rounded-lg flex items-center justify-center">
+          <i class="pi pi-shopping-bag text-blue-400 text-xl"></i>
+        </div>
+        <div>
+          <p class="text-slate-400 text-sm ">Total Orders</p>
+          <p class="text-2xl font-bold text-white">{{ totalOrders() }}</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="bg-neutral-800/80 backdrop-blur-sm rounded-xl p-6 border border-slate-700/50">
+      <div class="flex items-center gap-4">
+        <div class="w-12 h-12 bg-green-500/20 rounded-lg flex items-center justify-center">
+          <i class="pi pi-dollar text-green-400 text-xl"></i>
+        </div>
+        <div>
+          <p class="text-slate-400 text-sm">Total Spent</p>
+          <p class="text-2xl font-bold text-white">${{ totalSpent() | number:'1.2-2' }}</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="bg-neutral-800/80 backdrop-blur-sm rounded-xl p-6 border border-slate-700/50">
+      <div class="flex items-center gap-4">
+        <div class="w-12 h-12 bg-purple-500/20 rounded-lg flex items-center justify-center">
+          <i class="pi pi-calendar text-purple-400 text-xl"></i>
+        </div>
+        <div>
+          <p class="text-slate-400 text-sm">Member Since</p>
+          <p class="text-lg font-semibold text-white">{{ userProfile.createdAt | date:'MMM yyyy' }}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="bg-neutral-800/80 backdrop-blur-sm rounded-2xl border border-slate-700/50 overflow-hidden">
+    <div class="border-b border-slate-700/50">
+      <div class="flex overflow-x-auto">
+        <button
+          class="px-6 py-4 text-amber-400 border-b-2 border-amber-400 bg-neutral-800/50 font-semibold whitespace-nowrap">
+          Recent Orders
+        </button>
+        <button class="px-6 py-4 text-slate-400 hover:text-slate-300 transition-colors whitespace-nowrap">
+          Addresses
+        </button>
+        <button class="px-6 py-4 text-slate-400 hover:text-slate-300 transition-colors whitespace-nowrap">
+          Reviews
+        </button>
+      </div>
+    </div>
+
+    <div class=" bg-neutral-900">
+      @if (orders(); as ordersList) {
+      <app-orders-table [orders]="ordersList"></app-orders-table>
+      } @else {
+      <div class="text-center py-12">
+        <div class="w-20 h-20 bg-neutral-800 rounded-full flex items-center justify-center mx-auto mb-4">
+          <i class="pi pi-shopping-bag text-3xl text-slate-500"></i>
+        </div>
+        <h3 class="text-lg font-semibold text-slate-300 mb-2">No orders yet</h3>
+        <p class="text-slate-400 mb-6">Start ordering delicious food from your favorite restaurants!</p>
+        <a routerLink="/restaurants"
+          class="px-6 py-3 bg-amber-500 hover:bg-amber-600 text-slate-900 font-semibold rounded-lg transition-colors duration-200">
+          Browse Restaurants
+        </a>
+      </div>
+      }
+    </div>
+  </div>
+
+
+  <div class="mt-8 flex flex-col md:flex-row gap-4">
+    <button (click)="onLogout()"
+      class="flex-1 px-6 py-3 border border-red-600 hover:bg-red-600 text-red-400 hover:text-white font-semibold rounded-lg transition-all duration-200">
+      <i class="pi pi-sign-out mr-2"></i>
+      Logout
+    </button>
+  </div>
+</div>
+}
