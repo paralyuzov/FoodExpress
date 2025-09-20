@@ -7,9 +7,7 @@ import { Pipe, PipeTransform } from '@angular/core';
 export class RemoveUnderscorePipe implements PipeTransform {
 
   transform(value: string, ...args: unknown[]): string {
-    console.log(value);
     if (!value) return value;
-
     return value.replace(/_/g, ' ').toUpperCase();
   }
 
