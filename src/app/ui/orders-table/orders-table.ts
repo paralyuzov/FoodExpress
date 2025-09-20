@@ -1,34 +1,27 @@
-import { Component, input } from '@angular/core';
+import { Component, inject, input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TableModule } from 'primeng/table';
 import { TagModule } from 'primeng/tag';
 import { RatingModule } from 'primeng/rating';
 import { ButtonModule } from 'primeng/button';
 import {  DatePipe } from '@angular/common';
-import { TableRowCollapseEvent, TableRowExpandEvent } from 'primeng/table';
 import { Order } from '../../../models';
 import { RemoveUnderscorePipe } from '../../core/pipes/remove-underscore-pipe';
+import { DialogService } from 'primeng/dynamicdialog';
+import { OrderDetailPage } from '../../user/order-detail-page/order-detail-page';
 
 @Component({
   selector: 'app-orders-table',
   imports: [CommonModule, TableModule, TagModule, RatingModule, ButtonModule, DatePipe,RemoveUnderscorePipe],
   templateUrl: './orders-table.html',
   styleUrl: './orders-table.css',
+  providers: [DialogService],
 })
 export class OrdersTable {
   expandedRows: { [key: string]: boolean } = {};
 
   orders = input.required<Order[]>();
-
-  onRowExpand(event: TableRowExpandEvent) {
-    console.log('Row expanded:', event.data);
-    console.log('Order items:', event.data.items);
-    console.log('Items count:', event.data.items?.length || 0);
-  }
-
-  onRowCollapse(event: TableRowCollapseEvent) {
-    console.log('Row collapsed:', event.data);
-  }
+  dialogService = inject(DialogService);
 
   expandAll() {
     const orders = this.orders();
@@ -40,6 +33,19 @@ export class OrdersTable {
     });
   }
 
+  onViewDetails(order: Order) {
+    console.log();
+    this.dialogService.open(OrderDetailPage,{
+      data: {order},
+      styleClass: 'w-6xl! bg-neutral-900!',
+      closable: true,
+      maskStyleClass: 'backdrop-blur-sm',
+      maximizable: true,
+      closeOnEscape: true,
+      focusOnShow: false
+    })
+  }
+
   collapseAll() {
     this.expandedRows = {};
   }
@@ -48,19 +54,18 @@ export class OrdersTable {
     const severity = (() => {
       switch (status.toUpperCase()) {
         case 'CONFIRMED':
-          return 'success';    // Green
-        case 'DELIVERED':
-          return 'contrast';    // Green for completed
+          return 'success';    
+          return 'contrast';    
         case 'PREPARING':
-          return 'warn';    // Orange
+          return 'warn';    
         case 'OUT_FOR_DELIVERY':
-          return 'info';       // Blue
+          return 'info';       
         case 'CANCELLED':
-          return 'danger';     // Red
+          return 'danger';    
         case 'PENDING':
-          return 'warn';    // Orange for pending
+          return 'warn';    
         default:
-          return 'secondary';  // Gray
+          return 'secondary';  
       }
     })();
     return severity;

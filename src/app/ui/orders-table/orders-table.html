@@ -5,8 +5,6 @@
     [expandedRowKeys]="expandedRows"
     class="p-datatable-gridlines!"
     [tableStyle]="{ 'min-width': '60rem' }"
-    (onRowExpand)="onRowExpand($event)"
-    (onRowCollapse)="onRowCollapse($event)"
     size="small"
   >
     <ng-template #caption>
@@ -147,14 +145,15 @@
             </div>
 
             <div class="mt-6 flex flex-wrap gap-3">
-              @if(order.status === 'DELIVERED') {
+              
               <button
-                class="px-4 py-2 bg-blue-700 hover:bg-blue-800 text-white  rounded-lg transition-colors duration-200"
+                (click)="onViewDetails(order)"
+                class="px-4 py-2 bg-amber-300 hover:bg-amber-400 text-neutral-700 rounded-lg transition-colors duration-200"
               >
-                <i class="pi pi-refresh mr-2"></i>
-                Reorder
+                <i class="pi pi-info-circle mr-2"></i>
+                Details
               </button>
-              }
+           
             </div>
           </div>
         </td>
