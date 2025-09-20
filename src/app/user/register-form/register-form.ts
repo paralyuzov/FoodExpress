@@ -18,7 +18,6 @@ import {
 import { RouterModule } from '@angular/router';
 import { MessageService } from 'primeng/api';
 import { AuthActions } from '../../../store/auth/auth.actions';
-import { ToastModule } from 'primeng/toast';
 
 @Component({
   selector: 'app-register-form',
