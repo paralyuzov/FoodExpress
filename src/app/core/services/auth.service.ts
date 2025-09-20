@@ -15,7 +15,6 @@ export class AuthService {
   }
 
   register(registerData: RegisterDto): Observable<RegisterResponse> {
-    console.log(registerData)
     return this.http.post<RegisterResponse>(`${this.API_URL}/register`, registerData);
   }
 
