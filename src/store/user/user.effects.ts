@@ -31,7 +31,7 @@ export const userEffects = {
     (actions$ = inject(Actions), userService = inject(UserService)) => {
       return actions$.pipe(
         ofType(userActions.createAddress),
-        switchMap(({address}) => {
+        switchMap(({ address }) => {
           const addressData = {
             country: address.country,
             state: address.state,
@@ -45,6 +45,33 @@ export const userEffects = {
               of(
                 userActions.createAddressFailure({
                   error: error.error?.message || 'Failed to create address',
+                })
+              )
+            )
+          );
+        })
+      );
+    },
+    { functional: true }
+  ),
+  updateAddress: createEffect(
+    (actions$ = inject(Actions), userService = inject(UserService)) => {
+      return actions$.pipe(
+        ofType(userActions.updateAddress),
+        switchMap(({ addressId, address }) => {
+          const addressData = {
+            country: address.country,
+            state: address.state,
+            city: address.city,
+            zipCode: address.zipCode,
+            street: address.street,
+          };
+          return userService.updateAddress(addressId, addressData).pipe(
+            map((updatedAddress) => userActions.updateAddressSuccess({ address: updatedAddress })),
+            catchError((error) =>
+              of(
+                userActions.updateAddressFailure({
+                  error: error.error?.message || 'Failed to update address',
                 })
               )
             )

@@ -75,6 +75,23 @@ export const userReducer = createReducer(
     addressesLoading: false,
     addressesError: error,
   })),
+  on(userActions.updateAddress, (state) => ({
+    ...state,
+    addressesLoading: true,
+    addressesError: null,
+  })),
+
+  on(userActions.updateAddressSuccess, (state, { address }) => {
+    return addressAdapter.updateOne({ id: address.id, changes: address }, {
+      ...state,
+      addressesLoading: false,
+    });
+  }),
+  on(userActions.updateAddressFailure, (state, { error }) => ({
+    ...state,
+    addressesLoading: false,
+    addressesError: error,
+  })),
 
   on(userActions.clearUserData, () => initialUserState)
 );

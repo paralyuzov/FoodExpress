@@ -18,5 +18,8 @@ export const userActions = createActionGroup({
     'Create Order': props<{ orderData: CreateOrderRequest }>(),
     'Create Order Success': props<{ orderId: string }>(),
     'Create Order Failure': props<{ error: string }>(),
+    'Update Address': props<{ addressId: string, address: CreateAddressRequest }>(),
+    'Update Address Success': props<{ address: Address }>(),
+    'Update Address Failure': props<{ error: string }>(),
   },
 });
