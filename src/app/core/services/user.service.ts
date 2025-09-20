@@ -15,8 +15,11 @@ export class UserService {
   }
 
   createNewAddress(address: Omit<Address, 'id' | 'userId' | 'isDefault'>) {
-    console.log(address)
     return this.http.post<Address>(`${this.apiUrl}/address`, address);
   }
-  
+
+  updateAddress(addressId: string, address: Omit<Address, 'id' | 'userId' | 'isDefault'>) {
+    return this.http.put<Address>(`${this.apiUrl}/address/${addressId}`, address);
+  }
+
 }
