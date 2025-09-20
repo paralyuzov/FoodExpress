@@ -1,4 +1,4 @@
-import { Component, inject, OnInit, computed } from '@angular/core';
+import { Component, inject, OnInit, computed, signal } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { CommonModule, DatePipe, DecimalPipe } from '@angular/common';
 import { RouterModule, Router } from '@angular/router';
@@ -9,10 +9,12 @@ import { AuthActions } from '../../../store/auth/auth.actions';
 import { User } from '../../../models';
 import { orderActions } from '../../../store/orders/order.actions';
 import { OrdersTable } from '../../ui/orders-table/orders-table';
+import { AdressTab } from '../../ui/adress-tab/adress-tab';
+
 
 @Component({
   selector: 'app-profile-page',
-  imports: [CommonModule, RouterModule, DatePipe, DecimalPipe, OrdersTable],
+  imports: [CommonModule, RouterModule, DatePipe, DecimalPipe, OrdersTable, AdressTab],
   templateUrl: './profile-page.html',
   styleUrl: './profile-page.css',
 })
@@ -26,6 +28,7 @@ export class ProfilePage implements OnInit {
   isLoading = this.store.selectSignal(selectProfileLoading);
   totalOrders = this.store.selectSignal(selectOrdersCount);
   totalSpent = this.store.selectSignal(selectTotalSpent);
+  selectedTab = signal<'orders' | 'addresses'>('orders');
 
 
   userInitials = computed(() => {
@@ -33,6 +36,10 @@ export class ProfilePage implements OnInit {
     if (!user || !user.firstName || !user.lastName) return 'U';
     return `${user.firstName.charAt(0)}${user.lastName.charAt(0)}`.toUpperCase();
   });
+
+  selectTab(tab: 'orders' | 'addresses') {
+    this.selectedTab.set(tab);
+  }
 
   ngOnInit() {
     this.store.dispatch(orderActions.getUserOrders());
