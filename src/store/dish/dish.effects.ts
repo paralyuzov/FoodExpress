@@ -19,5 +19,21 @@ export const dishEffects = {
     },
     { functional: true }
   ),
-  
+  loadMostPopularDishes: createEffect(
+    (actions$ = inject(Actions), dishService = inject(DishService)) => {
+      return actions$.pipe(
+        ofType(dishActions.loadMostPopularDishes),
+        switchMap(({ limit }) =>
+          dishService.getMostPopularDishes(limit).pipe(
+            map((dishes) => dishActions.loadMostPopularDishesSuccess({ dishes })),
+            catchError((error) =>
+              of(dishActions.loadMostPopularDishesFailure({ error: error.error?.message || 'Failed to load popular dishes' }))
+            )
+          )
+        )
+      );
+    },
+    { functional: true }
+  ),
+
 };

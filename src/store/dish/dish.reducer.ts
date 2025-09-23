@@ -34,4 +34,19 @@ export const dishReducer = createReducer(
     loading: false,
     error,
   })),
+  on(dishActions.loadMostPopularDishes, (state, { limit }) => ({
+    ...state,
+    loading: true,
+    error: null,
+  })),
+  on(dishActions.loadMostPopularDishesSuccess, (state, { dishes }) => ({
+    ...state,
+    loading: false,
+    dishes,
+  })),
+  on(dishActions.loadMostPopularDishesFailure, (state, { error }) => ({
+    ...state,
+    loading: false,
+    error,
+  }))
 );
