@@ -3,10 +3,8 @@ import { UserState, addressAdapter } from './user.reducer';
 
 export const selectUserState = createFeatureSelector<UserState>('user');
 
-// Entity selectors
 const { selectAll, selectEntities, selectIds, selectTotal } = addressAdapter.getSelectors();
 
-// Profile selectors
 export const selectUserProfile = createSelector(
   selectUserState,
   (state) => state.profile

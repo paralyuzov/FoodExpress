@@ -92,6 +92,21 @@ export const userReducer = createReducer(
     addressesLoading: false,
     addressesError: error,
   })),
+  on(userActions.updateProfile, (state) => ({
+    ...state,
+    profileLoading: true,
+    profileError: null,
+  })),
+  on(userActions.updateProfileSuccess, (state, { user }) => ({
+    ...state,
+    profileLoading: false,
+    profile: user,
+  })),
+  on(userActions.updateProfileFailure, (state, { error }) => ({
+    ...state,
+    profileLoading: false,
+    profileError: error,
+  })),
 
   on(userActions.clearUserData, () => initialUserState)
 );

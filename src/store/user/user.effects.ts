@@ -4,7 +4,7 @@ import { catchError, count, map, switchMap, tap } from 'rxjs/operators';
 import { of } from 'rxjs';
 import { userActions } from './user.actions';
 import { UserService } from '../../app/core/services/user.service';
-import { OrderService } from '../../app/core/services/order.service';
+import { MessageService } from 'primeng/api';
 
 export const userEffects = {
   loadProfile: createEffect(
@@ -75,6 +75,40 @@ export const userEffects = {
                 })
               )
             )
+          );
+        })
+      );
+    },
+    { functional: true }
+  ),
+  updateProfile: createEffect(
+    (actions$ = inject(Actions), userService = inject(UserService), messageService = inject(MessageService)) => {
+      return actions$.pipe(
+        ofType(userActions.updateProfile),
+        switchMap(({ profile }) => {
+          return userService.updateUserProfile(profile).pipe(
+            map((updatedUser) => {
+              messageService.add({
+                severity: 'success',
+                summary: 'Profile Updated',
+                detail: 'Your profile has been updated successfully.',
+                life: 3000,
+              });
+              return userActions.updateProfileSuccess({ user: updatedUser });
+            }),
+            catchError((error) => {
+              messageService.add({
+                severity: 'error',
+                summary: 'Update Failed',
+                detail: error.error?.message || 'Failed to update profile',
+                life: 5000,
+              });
+              return of(
+                userActions.updateProfileFailure({
+                  error: error.error?.message || 'Failed to update profile',
+                })
+              );
+            })
           );
         })
       );

@@ -21,5 +21,8 @@ export const userActions = createActionGroup({
     'Update Address': props<{ addressId: string, address: CreateAddressRequest }>(),
     'Update Address Success': props<{ address: Address }>(),
     'Update Address Failure': props<{ error: string }>(),
+    'Update Profile': props<{ profile: Partial<User> }>(),
+    'Update Profile Success': props<{ user: User }>(),
+    'Update Profile Failure': props<{ error: string }>(),
   },
 });
