@@ -15,5 +15,8 @@ export const restaurantAction = createActionGroup({
     'Rate Restaurant': props<{ rating: number; restaurantId: string }>(),
     'Rate Restaurant Success': props<{ message: string }>(),
     'Rate Restaurant Failure': props<{ error: string }>(),
+    'Load Most Popular Restaurants': props<{ limit?: number }>(),
+    'Load Most Popular Restaurants Success': props<{ restaurants: Restaurant[] }>(),
+    'Load Most Popular Restaurants Failure': props<{ error: string }>(),
   },
 });

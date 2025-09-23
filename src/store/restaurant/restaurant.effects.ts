@@ -39,21 +39,42 @@ export const restaurantEffects = {
     },
     { functional: true }
   ),
-  rateRestaurant:createEffect(
+  rateRestaurant: createEffect(
     (actions$ = inject(Actions), restaurantService = inject(RestaurantService)) => {
       return actions$.pipe(
         ofType(restaurantAction.rateRestaurant),
         switchMap(({ rating, restaurantId }) =>
           restaurantService.rateRestaurant(rating, restaurantId).pipe(
-            map(( response ) => {
-              return restaurantAction.rateRestaurantSuccess( {message: response.message} );
+            map((response) => {
+              return restaurantAction.rateRestaurantSuccess({ message: response.message });
+            }),
+            catchError((error) => of(restaurantAction.rateRestaurantFailure({ error })))
+          )
+        )
+      );
+    },
+    { functional: true }
+  ),
+  loadMostPopularRestaurants: createEffect(
+    (actions$ = inject(Actions), restaurantService = inject(RestaurantService)) => {
+      return actions$.pipe(
+        ofType(restaurantAction.loadMostPopularRestaurants),
+        switchMap(({ limit }) =>
+          restaurantService.getMostPopularRestaurants(limit).pipe(
+            map((restaurants) => {
+              return restaurantAction.loadMostPopularRestaurantsSuccess({ restaurants });
             }),
             catchError((error) =>
-              of(restaurantAction.rateRestaurantFailure({ error }))
+              of(
+                restaurantAction.loadMostPopularRestaurantsFailure({
+                  error: error.error?.message || 'Failed to load popular restaurants',
+                })
+              )
             )
           )
         )
       );
-    }, { functional: true }
-  )
+    },
+    { functional: true }
+  ),
 };

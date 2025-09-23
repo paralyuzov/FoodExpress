@@ -65,5 +65,20 @@ export const restaurantReducer = createReducer(
     ...state,
     loading: false,
     error,
+  })),
+  on(restaurantAction.loadMostPopularRestaurants, (state, { limit }) => ({
+    ...state,
+    loading: true,
+    error: null,
+  })),
+  on(restaurantAction.loadMostPopularRestaurantsSuccess, (state, { restaurants }) => ({
+    ...state,
+    loading: false,
+    restaurants,
+  })),
+  on(restaurantAction.loadMostPopularRestaurantsFailure, (state, { error }) => ({
+    ...state,
+    loading: false,
+    error,
   }))
 );
