@@ -1,0 +1,58 @@
+ <form [formGroup]="editUserForm" (ngSubmit)="onSubmit()" class="w-full flex flex-col gap-4 p-2">
+
+    <div class="">
+      <p-floatlabel variant="on">
+        <input pInputText id="firstName" formControlName="firstName" autocomplete="off" class="w-full!" />
+        <label class="text-amber-300!" for="firstName">First Name</label>
+      </p-floatlabel>
+      @if(isInvalid('firstName')) {
+      <p-message size="small" severity="error" variant="simple">{{
+        getErrorMessage('firstName')
+        }}</p-message>
+      }
+    </div>
+
+     <div class="">
+      <p-floatlabel variant="on">
+        <input pInputText id="lastName" formControlName="lastName" autocomplete="off" class="w-full!" />
+        <label class="text-amber-300!" for="lastName">Last Name</label>
+      </p-floatlabel>
+      @if(isInvalid('lastName')) {
+      <p-message size="small" severity="error" variant="simple">{{
+        getErrorMessage('lastName')
+        }}</p-message>
+      }
+    </div>
+
+    <div class="">
+      <p-floatlabel variant="on">
+        <input pInputText id="email" formControlName="email" autocomplete="off" class="w-full!" />
+        <label class="text-amber-300!" for="email">Email</label>
+      </p-floatlabel>
+      @if(isInvalid('email')) {
+      <p-message size="small" severity="error" variant="simple">{{
+        getErrorMessage('email')
+        }}</p-message>
+      }
+    </div>
+      <div class="">
+      <p-floatlabel variant="on">
+        <input pInputText id="phone" formControlName="phone" autocomplete="off" class="w-full!" />
+        <label class="text-amber-300!" for="phone">Phone</label>
+      </p-floatlabel>
+      @if(isInvalid('phone')) {
+      <p-message size="small" severity="error" variant="simple">{{
+        getErrorMessage('phone')
+        }}</p-message>
+      }
+    </div>
+    <button type="submit" [disabled]="!canSubmit()"
+      class="w-full bg-gradient-to-r from-amber-400 to-orange-500 hover:from-amber-500 hover:to-orange-600 disabled:from-gray-400 disabled:to-gray-500 disabled:cursor-not-allowed text-white font-semibold py-3 px-6 rounded-lg transition-all duration-300 transform hover:scale-[1.02] disabled:scale-100 shadow-lg">
+      @if (isLoading()) {
+      <div class="flex items-center justify-center space-x-2">
+        <div class="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
+        <span>Updating...</span>
+      </div>
+      } @else { Update }
+    </button>
+  </form>
