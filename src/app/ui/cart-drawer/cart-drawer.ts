@@ -17,6 +17,7 @@ import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { CheckoutForm } from '../../user/checkout-form/checkout-form';
 import { orderActions } from '../../../store/orders/order.actions';
 import { Router } from '@angular/router';
+import { selectIsAuthenticated } from '../../../store/auth/auth.selectors';
 
 @Component({
   selector: 'app-cart-drawer',
@@ -31,8 +32,9 @@ export class CartDrawer {
   private store = inject(Store);
   private dialogService = inject(DialogService);
   private dialogRef: DynamicDialogRef | undefined;
-  router = inject(Router);
+  private router = inject(Router);
 
+  isAuthenticated = this.store.selectSignal(selectIsAuthenticated);
   cartItems = this.store.selectSignal(selectCartItems);
   cartTotal = this.store.selectSignal(selectCartTotal);
   isCartEmpty = this.store.selectSignal(selectIsCartEmpty);
@@ -53,6 +55,11 @@ export class CartDrawer {
   }
 
   showAddressForm() {
+    if(!this.isAuthenticated()) {
+      this.router.navigate(['/auth/login']);
+      this.visibleChange.emit(false);
+      return;
+    }
     this.store.dispatch(orderActions.clearOrderError());
     this.dialogRef = this.dialogService.open(CheckoutForm, {
       styleClass: 'bg-gradient-to-br! from-neutral-900! via-neutral-800! to-neutral-900!',
