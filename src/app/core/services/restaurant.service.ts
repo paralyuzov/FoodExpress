@@ -22,4 +22,9 @@ export class RestaurantService {
   rateRestaurant(rating:number, restaurantId:string) {
     return this.http.post<{ message: string }>(`${this.API_URL}/${restaurantId}/rate`, { rating });
   }
+
+  getMostPopularRestaurants(limit?:number) : Observable<Restaurant[]> {
+    const url = limit ? `${this.API_URL}/popular?limit=${limit}` : `${this.API_URL}/popular`;
+    return this.http.get<Restaurant[]>(url);
+  }
 }

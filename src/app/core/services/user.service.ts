@@ -22,4 +22,8 @@ export class UserService {
     return this.http.put<Address>(`${this.apiUrl}/address/${addressId}`, address);
   }
 
+  updateUserProfile(profile: Partial<User>) {
+    return this.http.patch<User>(`${this.apiUrl}/profile`, profile);
+  }
+
 }
