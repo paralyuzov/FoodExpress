@@ -9,10 +9,11 @@ import {
   selectOrderMessage,
 } from '../../../store/orders/order.selectors';
 import { cartAction } from '../../../store/cart/cart.actions';
+import { UpperCasePipe } from '@angular/common';
 
 @Component({
   selector: 'app-order-success-page',
-  imports: [RouterModule],
+  imports: [RouterModule, UpperCasePipe],
   templateUrl: './order-success-page.html',
   styleUrl: './order-success-page.css',
 })

@@ -1,5 +1,5 @@
 import { createActionGroup, emptyProps, props } from '@ngrx/store';
-import { ConfirmPaymentResponse, CreateOrderRequest, Order } from '../../models';
+import { ConfirmPaymentResponse, CreateOrderRequest, Order, OrderStatus } from '../../models';
 
 export const orderActions = createActionGroup({
   source: 'Orders',
@@ -15,5 +15,14 @@ export const orderActions = createActionGroup({
     'Get User Orders': emptyProps(),
     'Get User Orders Success': props<{ orders: Order[] }>(),
     'Get User Orders Failure': props<{ error: string }>(),
+    'Get All Orders': props<{ status?: OrderStatus }>(),
+    'Get All Orders Success': props<{ orders: Order[] }>(),
+    'Get All Orders Failure': props<{ error: string }>(),
+    'Get Orders By Status': props<{ status: OrderStatus }>(),
+    'Get Orders By Status Success': props<{ orders: Order[] }>(),
+    'Get Orders By Status Failure': props<{ error: string }>(),
+    'Update Order Status': props<{ orderId: string; status: OrderStatus }>(),
+    'Update Order Status Success': props<{ order: Order }>(),
+    'Update Order Status Failure': props<{ error: string }>(),
   },
 });

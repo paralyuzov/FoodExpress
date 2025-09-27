@@ -30,5 +30,13 @@ export const routes: Routes = [
   {
     path: 'profile',
     loadComponent: () => import('./user/profile-page/profile-page').then((m) => m.ProfilePage),
+  },
+  {
+    path: 'categories',
+    loadComponent: () => import('./categories/categories').then((m) => m.Categories)
+  },
+  {
+    path: 'admin',
+    loadComponent: () => import('./admin/admin').then((m) => m.Admin)
   }
 ];

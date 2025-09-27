@@ -28,6 +28,7 @@ export interface Dish {
   menu?: Menu;
   orderItems?: OrderItem[];
   ratings?: DishRating[];
+  category: string;
 }
 
 export interface DishRating {

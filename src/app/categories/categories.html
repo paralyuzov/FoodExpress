@@ -1,0 +1,144 @@
+<div class="container font-pt-sans tracking-wide min-h-screen bg-neutral-900 border-b border-amber-300/50">
+  <div class="relative overflow-hidden bg-neutral-900/98 backdrop-blur-sm">
+    <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-amber-500/20 via-transparent to-transparent"></div>
+    <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <div class="text-center">
+        <p class="text-xl text-slate-300 max-w-2xl mx-auto">
+          Discover delicious dishes from the best restaurants in your area
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <div class=" bg-neutral-900/98 border-b border-slate-500/50 rounded-b-xl">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+      <div class="mb-4">
+        <div class="relative max-w-lg mx-auto lg:mx-0">
+          <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+            <i class="pi pi-search text-slate-400"></i>
+          </div>
+          <input
+            type="text"
+            [ngModel]="searchTerm()"
+            (ngModelChange)="onSearchChange($event)"
+            placeholder="Search dishes, restaurants, or cuisines..."
+            class="w-full pl-12 pr-4 py-3 bg-slate-800/50 border border-slate-600/50 rounded-xl text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-transparent transition-all duration-200"
+          />
+          @if (searchTerm()) {
+            <button
+              (click)="onSearchChange('')"
+              class="absolute inset-y-0 right-0 pr-4 flex items-center text-slate-400 hover:text-white transition-colors"
+            >
+              <i class="pi pi-times"></i>
+            </button>
+          }
+        </div>
+      </div>
+
+      <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
+        <div class="flex flex-wrap items-center gap-3">
+          <span class="text-slate-300 text-sm font-medium mr-2">Categories:</span>
+          <p-chip
+            [label]="'All (' + dishes().length + ')'"
+            (click)="onCategoryChange('all')"
+            [class]="selectedCategory() === 'all'
+              ? '!bg-gradient-to-r !from-amber-500 !to-yellow-600 !text-slate-900 !border-amber-500 !shadow-lg !shadow-amber-500/25 !font-semibold hover:!from-amber-600 hover:!to-yellow-700 hover:!scale-105 hover:!shadow-xl hover:!shadow-amber-500/30'
+              : '!bg-slate-800/60 !text-slate-300 !border-slate-600/50 !backdrop-blur-sm hover:!bg-slate-700/70 hover:!text-white hover:!border-amber-400/30 hover:!shadow-md hover:!-translate-y-0.5'"
+            class="cursor-pointer !transition-all !duration-300 !ease-out !rounded-2xl !font-medium !text-sm !px-4 !py-2 !m-1"
+          ></p-chip>
+          @for (category of categories(); track category) {
+            <p-chip
+              [label]="category + ' (' + getCategoryCount(category) + ')'"
+              (click)="onCategoryChange(category)"
+              [class]="selectedCategory() === category
+                ? 'bg-gradient-to-r! from-sky-200! to-amber-300! text-neutral-900! border-amber-500! shadow-md! shadow-sky-200/25! font-semibold! hover:!from-amber-600! hover:!to-yellow-700! hover:!scale-105! hover:!shadow-xl! hover:!shadow-amber-500/30!'
+                : 'bg-slate-800/60! text-slate-300! border-slate-600/50! backdrop-blur-sm hover:!bg-slate-700/70 hover:!text-white hover:!border-amber-400/30 hover:!shadow-md hover:!-translate-y-0.5'"
+              class="cursor-pointer! transition-all! duration-300! ease-out! rounded-2xl! font-medium! text-sm! px-4! py-2! m-1!"
+            ></p-chip>
+          }
+        </div>
+
+        @if (searchTerm() || selectedCategory() !== 'all') {
+          <button
+            (click)="clearFilters()"
+            class="px-4 py-2 bg-slate-700/50 hover:bg-slate-600/50 text-slate-300 hover:text-white rounded-xl transition-all duration-200 border border-slate-600/50"
+          >
+            Clear Filters
+          </button>
+        }
+      </div>
+    </div>
+  </div>
+
+  @if (loadingDishes()) {
+    <div class="flex items-center justify-center min-h-96">
+      <div class="text-center">
+        <div class="animate-spin rounded-full h-16 w-16 border-4 border-amber-500 border-t-transparent mx-auto mb-4"></div>
+        <p class="text-slate-300 text-lg">Loading delicious dishes...</p>
+      </div>
+    </div>
+  }
+
+  @if (!loadingDishes()) {
+    <div class=" max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <div class="flex items-center justify-between mb-8">
+        <div class="text-slate-300">
+          @if (filteredDishes().length === 0) {
+            <p class="text-lg">No dishes found matching your criteria</p>
+          } @else if (searchTerm() || selectedCategory() !== 'all') {
+            <p class="text-lg">
+              Found {{ filteredDishes().length }} dish{{ filteredDishes().length !== 1 ? 'es' : '' }}
+              @if (searchTerm()) {
+                for "{{ searchTerm() }}"
+              }
+              @if (selectedCategory() !== 'all') {
+                in {{ selectedCategory() }}
+              }
+            </p>
+          } @else {
+            <p class="text-lg">Showing all {{ filteredDishes().length }} dishes</p>
+          }
+        </div>
+      </div>
+
+      @if (filteredDishes().length === 0 && !loadingDishes()) {
+        <div class="text-center py-16">
+          <div class="text-6xl text-slate-600 mb-4">🍽️</div>
+          <h3 class="text-2xl font-bold text-white mb-2">No dishes found</h3>
+          <p class="text-slate-400 mb-6">Try adjusting your search or filter criteria</p>
+          <button
+            (click)="clearFilters()"
+            class="px-6 py-3 bg-amber-500 hover:bg-amber-600 text-slate-900 font-semibold rounded-xl transition-all duration-200"
+          >
+            Clear All Filters
+          </button>
+        </div>
+      }
+
+      @if (filteredDishes().length > 0) {
+        <div class="space-y-12">
+          @for (categoryData of categoriesWithDishes(); track categoryData.name) {
+            <div class="category-section">
+              <div class="flex items-center justify-between mb-6">
+                <div class="flex items-center gap-4">
+                  <h2 class="text-3xl font-bold text-white">{{ categoryData.name }}</h2>
+                  <span class="px-3 py-1 bg-amber-500/20 text-amber-300 rounded-full text-sm font-semibold">
+                    {{ categoryData.dishes.length }} dish{{ categoryData.dishes.length !== 1 ? 'es' : '' }}
+                  </span>
+                </div>
+              </div>
+
+              <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                @for (dish of categoryData.dishes; track dish.id) {
+                  <div >
+                    <app-dish-card [dish]="dish" />
+                  </div>
+                }
+              </div>
+            </div>
+          }
+        </div>
+      }
+    </div>
+  }
+</div>

@@ -29,6 +29,7 @@ export class OrdersTable {
   expandedRows: { [key: string]: boolean } = {};
 
   orders = input.required<Order[]>();
+  isOrderLoading = input.required<boolean>();
   dialogService = inject(DialogService);
 
   expandAll() {

@@ -1,4 +1,12 @@
-<div class="orders-table-container font-pt-sans ">
+@if(isOrderLoading()) {
+<div class="flex justify-center items-center min-h-[50vh] font-pt-sans">
+  <div class="text-center space-y-4">
+    <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-amber-400 mx-auto"></div>
+    <p class="text-slate-300">Loading orders...</p>
+  </div>
+</div>
+} @else {
+  <div class="orders-table-container font-pt-sans ">
   <p-table
     [value]="orders()"
     dataKey="id"
@@ -145,7 +153,7 @@
             </div>
 
             <div class="mt-6 flex flex-wrap gap-3">
-              
+
               <button
                 (click)="onViewDetails(order)"
                 class="px-4 py-2 bg-amber-300 hover:bg-amber-400 text-neutral-700 rounded-lg transition-colors duration-200"
@@ -153,7 +161,7 @@
                 <i class="pi pi-info-circle mr-2"></i>
                 Details
               </button>
-           
+
             </div>
           </div>
         </td>
@@ -161,3 +169,5 @@
     </ng-template>
   </p-table>
 </div>
+}
+

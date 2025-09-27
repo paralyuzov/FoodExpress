@@ -7,11 +7,11 @@ import { RatingModule, RatingRateEvent } from 'primeng/rating';
 import { FormsModule } from '@angular/forms';
 import { selectIsAuthenticated } from '../../../store/auth/auth.selectors';
 import { dishActions } from '../../../store/dish/dish.actions';
-
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-dish-card',
-  imports: [DecimalPipe, RatingModule, FormsModule],
+  imports: [DecimalPipe, RatingModule, FormsModule, RouterModule],
   templateUrl: './dish-card.html',
   styleUrl: './dish-card.css',
 })

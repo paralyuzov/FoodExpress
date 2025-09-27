@@ -1,0 +1,264 @@
+<div class="min-h-screen font-pt-sans p-2">
+  <div class=" mx-auto mb-8">
+    <div class="text-center my-4">
+      <div class="inline-flex items-center gap-3 mb-4">
+        <h1
+          class="text-4xl font-bold bg-gradient-to-r from-amber-400 to-orange-500 bg-clip-text text-transparent"
+        >
+          Orders Management
+        </h1>
+      </div>
+      <p class="text-neutral-400 text-lg">Manage and track all orders in real-time</p>
+    </div>
+    <div
+      class="bg-neutral-800/50 backdrop-blur-sm rounded-2xl border border-neutral-600/50 p-6 shadow-xl shadow-black/30"
+    >
+      <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6 items-end">
+        <div class="lg:col-span-2">
+          <label class="block text-sm font-medium text-neutral-300 mb-2">
+            <i class="pi pi-search mr-2"></i>Search Orders
+          </label>
+          <div class="relative">
+            <input
+              pInputText
+              type="text"
+              placeholder="Search by customer(name,phone), restaurant, or order ID..."
+              [value]="searchTerm()"
+              (input)="onSearchInput($any($event.target).value)"
+              class="w-full bg-neutral-700/50 border-neutral-600 text-neutral-100 placeholder-neutral-400 rounded-xl px-4 py-3 focus:ring-2 focus:ring-amber-400 focus:border-transparent transition-all duration-200"
+            />
+          </div>
+        </div>
+
+        <div>
+          <label class="block text-sm font-medium text-neutral-300 mb-2">
+            <i class="pi pi-filter mr-2"></i>Filter by Status
+          </label>
+          <p-select
+            [(ngModel)]="selectedStatus"
+            [options]="statusOptions"
+            placeholder="All Statuses"
+            (onChange)="onFilterChange()"
+            class="w-full"
+            appendTo="body"
+            panelStyleClass="bg-neutral-800 border-neutral-600"
+          />
+        </div>
+
+        <div class="flex gap-3">
+          <p-button
+            icon="pi pi-refresh"
+            (onClick)="loadOrders()"
+            [loading]="loading()"
+            severity="info"
+          />
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class=" mx-auto">
+    <div
+      class="bg-neutral-800/50 backdrop-blur-sm rounded-2xl border border-neutral-600/50 shadow-xl shadow-black/30 overflow-hidden"
+    >
+      <p-table
+        #dt
+        [value]="filteredOrders()"
+        [exportHeader]="'customExportHeader'"
+        [loading]="loading()"
+        dataKey="id"
+        [paginator]="true"
+        [rows]="10"
+        [showCurrentPageReport]="true"
+        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} orders"
+        [globalFilterFields]="['customer.firstName', 'customer.lastName', 'restaurant.name', 'id']"
+        [tableStyle]="{ 'min-width': '100%' }"
+        class="p-datatable-sm"
+      >
+        <ng-template pTemplate="header">
+          <tr>
+            <th
+              class="text-neutral-300! font-semibold! p-4! text-left! border-b! border-neutral-600! bg-neutral-800!"
+            >
+              <i class="pi pi-hashtag text-amber-300 mr-2"></i>Order
+            </th>
+            <th
+              class="text-neutral-300! font-semibold! p-4! text-left! border-b! border-neutral-600! bg-neutral-800!"
+            >
+              <i class="pi pi-user text-amber-300 mr-2"></i>Customer
+            </th>
+            <th
+              class="text-neutral-300! font-semibold! p-4! text-left! border-b! border-neutral-600! bg-neutral-800!"
+            >
+              <i class="pi pi-map-marker text-amber-300 mr-2"></i>Address
+            </th>
+            <th
+              class="text-neutral-300! font-semibold! p-4! text-left! border-b! border-neutral-600! bg-neutral-800!"
+            >
+              <i class="pi pi-building text-amber-300 mr-2"></i>Restaurant
+            </th>
+            <th
+              class="text-neutral-300! font-semibold! p-4! text-left! border-b! border-neutral-600! bg-neutral-800!"
+            >
+              <i class="pi pi-money-bill text-amber-300 mr-2"></i>Amount
+            </th>
+            <th
+              class="text-neutral-300! font-semibold! p-4! text-left! border-b! border-neutral-600! bg-neutral-800!"
+            >
+              <i class="pi pi-tag text-amber-300 mr-2"></i>Status
+            </th>
+            <th
+              class="text-neutral-300! font-semibold! p-4! text-left! border-b! border-neutral-600! bg-neutral-800!"
+            >
+              <i class="pi pi-cog text-amber-300 mr-2"></i>Actions
+            </th>
+          </tr>
+        </ng-template>
+
+        <ng-template pTemplate="body" let-order>
+          <tr>
+            <td class="p-4! bg-neutral-700/10!">
+              <div class="space-y-1">
+                <div class="font-mono text-amber-400 font-semibold text-sm">
+                  #{{ order.id.slice(-8) | uppercase }}
+                </div>
+                <div class="text-xs text-neutral-400">
+                  {{ order.updatedAt | date : 'MMM d, y • h:mm a' }}
+                </div>
+              </div>
+            </td>
+
+            <td class="p-4! bg-neutral-700/10!">
+              <div class="space-y-1">
+                <div class="text-neutral-100 font-medium">
+                  {{ order.customer.firstName }} {{ order.customer.lastName }}
+                </div>
+                <div class="text-neutral-400 text-sm flex items-center">
+                  <i class="pi pi-phone mr-1 text-xs"></i>
+                  {{ order.customer.phone }}
+                </div>
+              </div>
+            </td>
+
+            <td class="p-4! bg-neutral-700/10!">
+              <div class="space-y-1">
+                <div class="text-neutral-100 text-sm">{{ order.address.street }}</div>
+                <div class="text-neutral-400 text-sm flex items-center">
+                  {{ order.address.city }}
+                </div>
+              </div>
+            </td>
+
+            <td class="p-4! bg-neutral-700/10!">
+              <div class="space-y-1">
+                <div class="text-neutral-100 font-medium">{{ order.restaurant.name }}</div>
+                <div class="text-neutral-400 text-sm flex items-center">
+                  <i class="pi pi-phone mr-1 text-xs"></i>
+                  {{ order.restaurant.phone }}
+                </div>
+              </div>
+            </td>
+
+            <td class="p-4! bg-neutral-700/10!">
+              <div class="">${{ order.total }}</div>
+            </td>
+
+            <td class="p-4! bg-neutral-700/10!">
+              <p-tag
+                [value]="order.status | removeUnderscore"
+                [severity]="getStatusSeverity(order.status)"
+                class="px-3 py-1 rounded-full text-xs font-medium"
+              />
+            </td>
+
+            <td class="p-4! bg-neutral-700/10!">
+              <div class="flex gap-3">
+                <div class="min-w-[160px]">
+                  <p-select
+                    [options]="getStatusChangeOptions(order.status)"
+                    placeholder="Change Status"
+                    (onChange)="onStatusChange(order, $event.value)"
+                    [showClear]="false"
+                    appendTo="body"
+                    panelStyleClass="bg-neutral-800 border-neutral-600 shadow-xl"
+                    class="w-full text-xs"
+                  />
+                </div>
+
+                <div class="flex gap-1">
+                  @if (order.status === orderStatusEnum.PENDING) {
+                  <p-button
+                    icon="pi pi-check"
+                    size="small"
+                    severity="success"
+                    pTooltip="Confirm Order"
+                    (onClick)="onStatusChange(order, orderStatusEnum.CONFIRMED)"
+                  />
+                  } @if (order.status === orderStatusEnum.CONFIRMED) {
+                  <p-button
+                    icon="pi pi-play"
+                    size="small"
+                    severity="info"
+                    pTooltip="Start Preparing"
+                    (onClick)="onStatusChange(order, orderStatusEnum.PREPARING)"
+                  />
+                  } @if (order.status === orderStatusEnum.PREPARING) {
+                  <p-button
+                    icon="pi pi-truck"
+                    size="small"
+                    severity="secondary"
+                    pTooltip="Mark as Out for Delivery"
+                    (onClick)="onStatusChange(order, orderStatusEnum.OUT_FOR_DELIVERY)"
+                  />
+                  } @if (order.status === orderStatusEnum.OUT_FOR_DELIVERY) {
+                  <p-button
+                    icon="pi pi-check"
+                    size="small"
+                    severity="secondary"
+                    pTooltip="Mark as Delivered"
+                    (onClick)="onStatusChange(order, orderStatusEnum.DELIVERED)"
+                  />
+                  } @if (order.status !== orderStatusEnum.CANCELLED && order.status !==
+                  orderStatusEnum.DELIVERED) {
+                  <p-button
+                    icon="pi pi-times"
+                    size="small"
+                    severity="danger"
+                    pTooltip="Cancel Order"
+                    (onClick)="onStatusChange(order, orderStatusEnum.CANCELLED)"
+                    class="w-8 h-8 rounded-lg bg-red-600 hover:bg-red-700 border-0 shadow-sm transition-all duration-200"
+                  />
+                  }
+                </div>
+              </div>
+            </td>
+          </tr>
+        </ng-template>
+
+        <ng-template pTemplate="emptymessage">
+          <tr>
+            <td colspan="7" class="">
+              <div class="flex flex-col items-center text-center space-y-4 p-8">
+                <div class="space-y-4">
+                  <div class="text-xl font-semibold text-neutral-300">No orders found</div>
+                  <div class="text-neutral-500">Try adjusting your search or filter criteria</div>
+                </div>
+                <p-button
+                  label="Clear All Filters"
+                  icon="pi pi-filter-slash"
+                  (onClick)="clearFilters()"
+                  severity="secondary"
+                />
+              </div>
+            </td>
+          </tr>
+        </ng-template>
+      </p-table>
+    </div>
+  </div>
+</div>
+
+<p-confirmDialog
+  styleClass="text-sm! text-neutral-300! bg-neutral-900/80! backdrop-blur-sm!"
+  position="center"
+/>

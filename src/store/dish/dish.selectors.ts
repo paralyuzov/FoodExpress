@@ -22,3 +22,75 @@ export const selectAllDishes = createSelector(
     selectDishes,
     (state) => state.dishes
 );
+
+export const selectSearchTerm = createSelector(
+    selectDishes,
+    (state) => state.searchTerm
+);
+
+export const selectSelectedCategory = createSelector(
+    selectDishes,
+    (state) => state.selectedCategory
+);
+
+export const selectCategories = createSelector(
+    selectAllDishes,
+    (dishes) => {
+        const uniqueCategories = [...new Set(dishes.map(dish => dish.category))];
+        return uniqueCategories.sort();
+    }
+);
+
+export const selectFilteredDishes = createSelector(
+    selectAllDishes,
+    selectSearchTerm,
+    selectSelectedCategory,
+    (dishes, searchTerm, selectedCategory) => {
+        let filtered = dishes;
+
+        if (searchTerm) {
+            const search = searchTerm.toLowerCase();
+            filtered = filtered.filter(dish =>
+                dish.name.toLowerCase().includes(search) ||
+                dish.description?.toLowerCase().includes(search) ||
+                dish.category.toLowerCase().includes(search)
+            );
+        }
+
+        if (selectedCategory !== 'all') {
+            filtered = filtered.filter(dish => dish.category === selectedCategory);
+        }
+
+        return filtered;
+    }
+);
+
+export const selectDishesByCategory = createSelector(
+    selectFilteredDishes,
+    (dishes) => {
+        return dishes.reduce((acc, dish) => {
+            if (!acc[dish.category]) {
+                acc[dish.category] = [];
+            }
+            acc[dish.category].push(dish);
+            return acc;
+        }, {} as Record<string, typeof dishes>);
+    }
+);
+
+export const selectCategoriesWithDishes = createSelector(
+    selectDishesByCategory,
+    (grouped) => {
+        return Object.keys(grouped).map(category => ({
+            name: category,
+            dishes: grouped[category]
+        }));
+    }
+);
+
+export const selectCategoryCount = createSelector(
+    selectAllDishes,
+    (dishes) => (category: string) => {
+        return dishes.filter(dish => dish.category === category).length;
+    }
+);

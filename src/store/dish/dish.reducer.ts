@@ -7,6 +7,9 @@ export interface DishState {
   loading: boolean;
   error: string | null;
   message: string | null;
+  // Filter state
+  searchTerm: string;
+  selectedCategory: string;
 }
 
 export const initialDishState: DishState = {
@@ -14,6 +17,8 @@ export const initialDishState: DishState = {
   loading: false,
   error: null,
   message: null,
+  searchTerm: '',
+  selectedCategory: 'all',
 };
 
 export const dishReducer = createReducer(
@@ -48,5 +53,34 @@ export const dishReducer = createReducer(
     ...state,
     loading: false,
     error,
+  })),
+  on(dishActions.getAllDishes, (state) => ({
+    ...state,
+    loading: true,
+    error: null,
+  })),
+  on(dishActions.getAllDishesSuccess, (state, { dishes }) => ({
+    ...state,
+    loading: false,
+    dishes,
+  })),
+  on(dishActions.getAllDishesFailure, (state, { error }) => ({
+    ...state,
+    loading: false,
+    error,
+  })),
+  // Filter reducers
+  on(dishActions.setSearchTerm, (state, { searchTerm }) => ({
+    ...state,
+    searchTerm,
+  })),
+  on(dishActions.setSelectedCategory, (state, { category }) => ({
+    ...state,
+    selectedCategory: category,
+  })),
+  on(dishActions.clearFilters, (state) => ({
+    ...state,
+    searchTerm: '',
+    selectedCategory: 'all',
   }))
 );

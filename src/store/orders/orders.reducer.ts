@@ -79,4 +79,54 @@ export const ordersReducer = createReducer(
     loading: false,
     error,
   })),
+  on(orderActions.getAllOrders, (state) => ({
+    ...state,
+    loading: true,
+    error: null,
+    message: null,
+  })),
+  on(orderActions.getAllOrdersSuccess, (state, { orders }) => ({
+    ...state,
+    loading: false,
+    orders,
+  })),
+  on(orderActions.getAllOrdersFailure, (state, { error }) => ({
+    ...state,
+    loading: false,
+    error,
+  })),
+  on(orderActions.getOrdersByStatus, (state) => ({
+    ...state,
+    loading: true,
+    error: null,
+    message: null,
+  })),
+  on(orderActions.getOrdersByStatusSuccess, (state, { orders }) => ({
+    ...state,
+    loading: false,
+    orders,
+  })),
+  on(orderActions.getOrdersByStatusFailure, (state, { error }) => ({
+    ...state,
+    loading: false,
+    error,
+  })),
+  on(orderActions.updateOrderStatus, (state) => ({
+    ...state,
+    loading: true,
+    error: null,
+    message: null,
+  })),
+  on(orderActions.updateOrderStatusSuccess, (state, { order }) => ({
+    ...state,
+    loading: false,
+    error: null,
+    message: 'Order status updated successfully',
+    orders: state.orders.map((o) => (o.id === order.id ? order : o)),
+  })),
+  on(orderActions.updateOrderStatusFailure, (state, { error }) => ({
+    ...state,
+    loading: false,
+    error,
+  })),
 );

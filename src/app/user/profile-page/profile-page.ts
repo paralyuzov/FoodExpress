@@ -5,6 +5,7 @@ import { RouterModule, Router } from '@angular/router';
 import { selectUserProfile, selectProfileLoading } from '../../../store/user/user.selectors';
 import {
   selectAllOrders,
+  selectOrderLoading,
   selectOrdersCount,
   selectTotalSpent,
 } from '../../../store/orders/order.selectors';
@@ -32,6 +33,7 @@ export class ProfilePage implements OnInit {
   isAuthenticated = this.store.selectSignal(selectIsAuthenticated);
   user = this.store.selectSignal(selectUserProfile);
   orders = this.store.selectSignal(selectAllOrders);
+  isOrderLoading = this.store.selectSignal(selectOrderLoading);
   isLoading = this.store.selectSignal(selectProfileLoading);
   totalOrders = this.store.selectSignal(selectOrdersCount);
   totalSpent = this.store.selectSignal(selectTotalSpent);

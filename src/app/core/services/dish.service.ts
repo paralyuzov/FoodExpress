@@ -19,4 +19,8 @@ export class DishService {
     return this.http.post<{ message: string }>(`${this.API_URL}/${dishId}/rate`, { rating });
   }
 
+  getAllDishes() {
+    return this.http.get<Dish[]>(this.API_URL);
+  }
+
 }
