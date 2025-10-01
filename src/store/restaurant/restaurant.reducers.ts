@@ -44,6 +44,9 @@ export const restaurantReducer = createReducer(
     ...state,
     loading: false,
     selectedRestaurant: restaurant,
+    restaurants: state.restaurants.map(r =>
+      r.id === restaurant.id ? restaurant : r
+    ),
   })),
   on(restaurantAction.loadSelectedRestaurantDetailsFailure, (state, { error }) => ({
     ...state,
@@ -80,5 +83,56 @@ export const restaurantReducer = createReducer(
     ...state,
     loading: false,
     error,
-  }))
+  })),
+  on(restaurantAction.createRestaurant, (state) => ({
+    ...state,
+    loading: true,
+    error: null,
+    message: null,
+  })),
+  on(restaurantAction.createRestaurantSuccess, (state, { restaurant }) => ({
+    ...state,
+    loading: false,
+    restaurants: [...state.restaurants, restaurant],
+    message: 'Restaurant created successfully',
+  })),
+  on(restaurantAction.createRestaurantFailure, (state, { error }) => ({
+    ...state,
+    loading: false,
+    error,
+  })),
+  on(restaurantAction.updateRestaurant, (state) => ({
+    ...state,
+    loading: true,
+    error: null,
+    message: null,
+  })),
+  on(restaurantAction.updateRestaurantSuccess, (state, { restaurant }) => ({
+    ...state,
+    loading: false,
+    restaurants: state.restaurants.map(r => r.id === restaurant.id ? restaurant : r),
+    message: 'Restaurant updated successfully',
+  })),
+  on(restaurantAction.updateRestaurantFailure, (state, { error }) => ({
+    ...state,
+    loading: false,
+    error,
+  })),
+  on(restaurantAction.deleteRestaurant, (state) => ({
+    ...state,
+    loading: true,
+    error: null,
+    message: null,
+  })),
+  on(restaurantAction.deleteRestaurantSuccess, (state, { restaurant }) => ({
+    ...state,
+    loading: false,
+    restaurants: state.restaurants.filter(r => r.id !== restaurant.id),
+    message: 'Restaurant deleted successfully',
+  })),
+  on(restaurantAction.deleteRestaurantFailure, (state, { error }) => ({
+    ...state,
+    loading: false,
+    error,
+  })),
 );
