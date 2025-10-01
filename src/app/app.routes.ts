@@ -17,11 +17,11 @@ export const routes: Routes = [
   },
   {
     path: 'restaurants',
-    loadComponent: () => import('./resutaurant/restaurant-page/restaurant-page').then((m) => m.RestaurantPage),
+    loadComponent: () => import('./restaurant/restaurant-page/restaurant-page').then((m) => m.RestaurantPage),
   },
   {
     path: 'restaurants/:id',
-    loadComponent: () => import('./resutaurant/restaurant-menu-page/restaurant-menu-page').then((m) => m.RestaurantMenuPage),
+    loadComponent: () => import('./restaurant/restaurant-menu-page/restaurant-menu-page').then((m) => m.RestaurantMenuPage),
   },
   {
     path: 'order-success',
@@ -37,6 +37,16 @@ export const routes: Routes = [
   },
   {
     path: 'admin',
+    children: [
+      {
+        path: 'orders',
+        loadComponent: () => import('./admin/admin-orders-table/admin-orders-table').then((m) => m.AdminOrdersTable)
+      },
+      {
+        path: 'restaurants',
+        loadComponent: () => import('./admin/admin-restaurant-table/admin-restaurant-table').then((m) => m.AdminRestaurantTable)
+      }
+    ],
     loadComponent: () => import('./admin/admin').then((m) => m.Admin)
   }
 ];

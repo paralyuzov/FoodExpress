@@ -27,6 +27,8 @@ import { ordersEffects } from '../store/orders/order.effects';
 import { ordersReducer } from '../store/orders/orders.reducer';
 import { dishReducer } from '../store/dish/dish.reducer';
 import { dishEffects } from '../store/dish/dish.effects';
+import { menusEffects } from '../store/menus/menu.effects';
+import { menusReducer } from '../store/menus/menus.reducer';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -46,6 +48,7 @@ export const appConfig: ApplicationConfig = {
       cart: cartReducer,
       orders: ordersReducer,
       dish: dishReducer,
+      menus: menusReducer,
     }),
     provideEffects(authEffects),
     provideEffects(userEffects),
@@ -53,6 +56,7 @@ export const appConfig: ApplicationConfig = {
     provideEffects(cartEffects),
     provideEffects(ordersEffects),
     provideEffects(dishEffects),
+    provideEffects(menusEffects),
     provideStoreDevtools({
       maxAge: 25,
       logOnly: false,
