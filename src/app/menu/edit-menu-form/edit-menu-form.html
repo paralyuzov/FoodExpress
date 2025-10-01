@@ -1,0 +1,66 @@
+<form [formGroup]="editMenuForm" (ngSubmit)="onSubmit()" class="w-full flex flex-col gap-4 p-2">
+
+  <div class="">
+    <p-floatlabel variant="on">
+      <input pInputText id="name" formControlName="name" autocomplete="off" class="w-full!" />
+      <label class="text-amber-300!" for="name">Name</label>
+    </p-floatlabel>
+    @if(isInvalid('name')) {
+    <p-message size="small" severity="error" variant="simple">{{
+      getErrorMessage('name')
+      }}</p-message>
+    }
+  </div>
+
+  <div class="">
+    <p-floatlabel variant="on">
+      <input pInputText id="description" formControlName="description" autocomplete="off" class="w-full!" />
+      <label class="text-amber-300!" for="description">Description</label>
+    </p-floatlabel>
+    @if(isInvalid('description')) {
+    <p-message size="small" severity="error" variant="simple">{{
+      getErrorMessage('description')
+      }}</p-message>
+    }
+  </div>
+
+  <div class="">
+    <label class="text-amber-300 font-medium mb-3 block">Status</label>
+    <div class="flex gap-6">
+      <div class="flex items-center">
+        <p-radiobutton
+          formControlName="isActive"
+          name="status"
+          [value]="true"
+          inputId="active"
+          [invalid]="isInvalid('isActive')"
+        />
+        <label for="active" class="ml-2 text-neutral-100 cursor-pointer">Active</label>
+      </div>
+      <div class="flex items-center">
+        <p-radiobutton
+          formControlName="isActive"
+          name="status"
+          [value]="false"
+          inputId="inactive"
+          [invalid]="isInvalid('isActive')"
+        />
+        <label for="inactive" class="ml-2 text-neutral-100 cursor-pointer">Inactive</label>
+      </div>
+    </div>
+    @if(isInvalid('isActive')) {
+      <p-message size="small" severity="error" variant="simple" class="mt-2">{{
+        getErrorMessage('isActive')
+      }}</p-message>
+    }
+  </div>
+  <button type="submit" [disabled]="!canSubmit()"
+    class="w-full bg-gradient-to-r from-amber-400 to-orange-500 hover:from-amber-500 hover:to-orange-600 disabled:from-gray-400 disabled:to-gray-500 disabled:cursor-not-allowed text-white font-semibold py-3 px-6 rounded-lg transition-all duration-300 transform hover:scale-[1.02] disabled:scale-100 shadow-lg">
+    @if (isLoading()) {
+    <div class="flex items-center justify-center space-x-2">
+      <div class="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
+      <span>Create...</span>
+    </div>
+    } @else { Add }
+  </button>
+</form>
