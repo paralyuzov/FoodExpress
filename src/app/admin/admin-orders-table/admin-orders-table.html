@@ -62,25 +62,25 @@
       class="bg-neutral-800/50 backdrop-blur-sm rounded-2xl border border-neutral-600/50 shadow-xl shadow-black/30 overflow-hidden"
     >
       <p-table
-        #dt
         [value]="filteredOrders()"
-        [exportHeader]="'customExportHeader'"
         [loading]="loading()"
         dataKey="id"
         [paginator]="true"
         [rows]="10"
         [showCurrentPageReport]="true"
         currentPageReportTemplate="Showing {first} to {last} of {totalRecords} orders"
-        [globalFilterFields]="['customer.firstName', 'customer.lastName', 'restaurant.name', 'id']"
+        [globalFilterFields]="['name']"
         [tableStyle]="{ 'min-width': '100%' }"
         class="p-datatable-sm"
       >
         <ng-template pTemplate="header">
           <tr>
             <th
+              pSortableColumn="updatedAt"
               class="text-neutral-300! font-semibold! p-4! text-left! border-b! border-neutral-600! bg-neutral-800!"
             >
               <i class="pi pi-hashtag text-amber-300 mr-2"></i>Order
+              <p-sortIcon field="updatedAt"></p-sortIcon>
             </th>
             <th
               class="text-neutral-300! font-semibold! p-4! text-left! border-b! border-neutral-600! bg-neutral-800!"
@@ -98,14 +98,18 @@
               <i class="pi pi-building text-amber-300 mr-2"></i>Restaurant
             </th>
             <th
+              pSortableColumn="total"
               class="text-neutral-300! font-semibold! p-4! text-left! border-b! border-neutral-600! bg-neutral-800!"
             >
               <i class="pi pi-money-bill text-amber-300 mr-2"></i>Amount
+              <p-sortIcon field="total"></p-sortIcon>
             </th>
             <th
+            pSortableColumn="status"
               class="text-neutral-300! font-semibold! p-4! text-left! border-b! border-neutral-600! bg-neutral-800!"
             >
               <i class="pi pi-tag text-amber-300 mr-2"></i>Status
+              <p-sortIcon field="status"></p-sortIcon>
             </th>
             <th
               class="text-neutral-300! font-semibold! p-4! text-left! border-b! border-neutral-600! bg-neutral-800!"
@@ -115,7 +119,7 @@
           </tr>
         </ng-template>
 
-        <ng-template pTemplate="body" let-order>
+        <ng-template #body let-order>
           <tr>
             <td class="p-4! bg-neutral-700/10!">
               <div class="space-y-1">

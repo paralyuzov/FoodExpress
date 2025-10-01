@@ -1,16 +1,15 @@
 import { Component, signal } from '@angular/core';
-import { AdminOrdersTable } from "./admin-orders-table/admin-orders-table";
+import { RouterModule, RouterOutlet } from '@angular/router';
 
 @Component({
   selector: 'app-admin',
-  imports: [AdminOrdersTable],
+  imports: [RouterOutlet, RouterModule],
   templateUrl: './admin.html',
   styleUrl: './admin.css'
 })
 export class Admin {
 
-  selectedTab = signal<'orders' | 'restaurants' | 'users' | 'statistic'>('orders');
-
+  selectedTab = signal<'orders' | 'restaurants' | 'users' | 'statistic' | null>(null);
 
   setTab(tab: 'orders' | 'restaurants' | 'users' | 'statistic') {
     this.selectedTab.set(tab);

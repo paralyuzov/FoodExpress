@@ -79,7 +79,7 @@ export class AdminOrdersTable implements OnInit, OnDestroy {
       );
     }
 
-    return filtered;
+    return [...filtered];
   });
 
   ngOnInit() {
@@ -176,7 +176,7 @@ export class AdminOrdersTable implements OnInit, OnDestroy {
       case OrderStatus.PREPARING:
         return 'warn';
       case OrderStatus.OUT_FOR_DELIVERY:
-        return 'info';
+        return 'contrast';
       case OrderStatus.DELIVERED:
         return 'success';
       case OrderStatus.CANCELLED:
