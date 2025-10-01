@@ -27,4 +27,17 @@ export class RestaurantService {
     const url = limit ? `${this.API_URL}/popular?limit=${limit}` : `${this.API_URL}/popular`;
     return this.http.get<Restaurant[]>(url);
   }
+
+  createRestaurant(restaurant: Partial<Restaurant>) : Observable<Restaurant> {
+    console.log(restaurant)
+    return this.http.post<Restaurant>(this.API_URL, restaurant);
+  }
+
+  editRestaurant(restaurantId: string, restaurant: Partial<Restaurant>) : Observable<Restaurant> {
+    return this.http.put<Restaurant>(`${this.API_URL}/${restaurantId}`, restaurant);
+  }
+
+  deleteRestaurant(restaurantId: string) : Observable<Restaurant> {
+    return this.http.delete<Restaurant>(`${this.API_URL}/${restaurantId}`);
+  }
 }
