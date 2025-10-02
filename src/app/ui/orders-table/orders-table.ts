@@ -43,7 +43,6 @@ export class OrdersTable {
   }
 
   onViewDetails(order: Order) {
-    console.log();
     this.dialogService.open(OrderDetailPage, {
       data: { order },
       styleClass: 'w-6xl! bg-neutral-900!',

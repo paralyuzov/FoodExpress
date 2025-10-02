@@ -20,6 +20,9 @@ import { EditRestaurantForm } from '../../restaurant/edit-restaurant-form/edit-r
 import { CreateMenuForm } from '../../menu/create-menu-form/create-menu-form';
 import { menusAction } from '../../../store/menus/menus.actions';
 import { EditMenuForm } from '../../menu/edit-menu-form/edit-menu-form';
+import { CreateDishForm } from '../../dish/create-dish-form/create-dish-form';
+import { dishActions } from '../../../store/dish/dish.actions';
+import { EditDishForm } from '../../dish/edit-dish-form/edit-dish-form';
 
 @Component({
   selector: 'app-admin-restaurant-table',
@@ -117,8 +120,8 @@ export class AdminRestaurantTable implements OnInit {
     });
   }
 
-  showEditMenuForm(menuId:string) {
-      this.dialogService.open(EditMenuForm, {
+  showEditMenuForm(menuId: string) {
+    this.dialogService.open(EditMenuForm, {
       header: 'Edit Menu',
       styleClass: 'w-96! bg-neutral-900!',
       closable: true,
@@ -132,8 +135,7 @@ export class AdminRestaurantTable implements OnInit {
   onDeleteMenu(event: Event, menuId: string) {
     this.confirmationService.confirm({
       target: event.target as EventTarget,
-      message:
-        'Are you sure that you want to delete this menu? This action cannot be undone.',
+      message: 'Are you sure that you want to delete this menu? This action cannot be undone.',
       header: 'Confirmation',
       closable: true,
       closeOnEscape: true,
@@ -150,6 +152,54 @@ export class AdminRestaurantTable implements OnInit {
       },
       accept: () => {
         this.store.dispatch(menusAction.deleteMenu({ menuId }));
+      },
+    });
+  }
+
+  showCreateDishForm(menuId: string) {
+    this.dialogService.open(CreateDishForm, {
+      header: 'Create Dish',
+      styleClass: 'w-96! bg-neutral-900!',
+      closable: true,
+      maskStyleClass: 'backdrop-blur-sm',
+      closeOnEscape: true,
+      data: { id: menuId },
+      focusOnShow: false,
+    });
+  }
+
+  showEditDishForm(menuId: string, dishId: string) {
+    this.dialogService.open(EditDishForm, {
+      header: 'Edit Dish',
+      styleClass: 'w-96! bg-neutral-900!',
+      closable: true,
+      maskStyleClass: 'backdrop-blur-sm',
+      closeOnEscape: true,
+      data: { menuId: menuId, dishId: dishId },
+      focusOnShow: false,
+    });
+  }
+
+  onDeleteDish(event: Event, dishId: string) {
+    this.confirmationService.confirm({
+      target: event.target as EventTarget,
+      message: 'Are you sure that you want to delete this dish? This action cannot be undone.',
+      header: 'Confirmation',
+      closable: true,
+      closeOnEscape: true,
+      icon: 'pi pi-exclamation-triangle',
+      acceptIcon: 'pi pi-trash',
+      acceptButtonStyleClass: 'p-button-danger',
+      rejectButtonProps: {
+        label: 'Cancel',
+        severity: 'secondary',
+        outlined: true,
+      },
+      acceptButtonProps: {
+        label: 'Delete',
+      },
+      accept: () => {
+        this.store.dispatch(dishActions.deleteDish({ dishId }));
       },
     });
   }
