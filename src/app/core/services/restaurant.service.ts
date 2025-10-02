@@ -29,7 +29,6 @@ export class RestaurantService {
   }
 
   createRestaurant(restaurant: Partial<Restaurant>) : Observable<Restaurant> {
-    console.log(restaurant)
     return this.http.post<Restaurant>(this.API_URL, restaurant);
   }
 

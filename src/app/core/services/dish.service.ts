@@ -16,11 +16,31 @@ export class DishService {
   }
 
   rateDish(dishId: string, rating: number) {
-    return this.http.post<{ message: string }>(`${this.API_URL}/${dishId}/rate`, { rating });
+    return this.http.post<{ message: string }>(`${this.API_URL}/dish/${dishId}/rate`, { rating });
   }
 
   getAllDishes() {
     return this.http.get<Dish[]>(this.API_URL);
+  }
+
+  getDishById(dishId: string) {
+    return this.http.get<Dish>(`${this.API_URL}/dish/${dishId}`);
+  }
+
+  getDishesByMenu(menuId: string) {
+    return this.http.get<Dish[]>(`${this.API_URL}/menu/${menuId}`);
+  }
+
+  createDish(menuId: string, dish: Partial<Dish>) {
+    return this.http.post<Dish>(`${this.API_URL}/menu/${menuId}`, dish);
+  }
+
+  updateDish(menuId: string, dishId: string, dish: Partial<Dish>) {
+    return this.http.put<Dish>(`${this.API_URL}/menu/${menuId}/dish/${dishId}`, dish);
+  }
+
+  deleteDish(dishId: string) {
+    return this.http.delete<Dish>(`${this.API_URL}/dish/${dishId}`);
   }
 
 }
