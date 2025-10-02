@@ -1,0 +1,123 @@
+<form [formGroup]="createDishForm" (ngSubmit)="onSubmit()" class="w-full flex flex-col gap-4 p-2">
+  <div class="">
+    <p-floatlabel variant="on">
+      <input pInputText id="name" formControlName="name" autocomplete="off" class="w-full!" />
+      <label class="text-amber-300!" for="name">Name</label>
+    </p-floatlabel>
+    @if(isInvalid('name')) {
+    <p-message size="small" severity="error" variant="simple">{{
+      getErrorMessage('name')
+    }}</p-message>
+    }
+  </div>
+
+  <div class="">
+    <p-floatlabel variant="on">
+      <input
+        pInputText
+        id="description"
+        formControlName="description"
+        autocomplete="off"
+        class="w-full!"
+      />
+      <label class="text-amber-300!" for="description">Description</label>
+    </p-floatlabel>
+    @if(isInvalid('description')) {
+    <p-message size="small" severity="error" variant="simple">{{
+      getErrorMessage('description')
+    }}</p-message>
+    }
+  </div>
+
+  <div class="">
+    <p-floatlabel variant="on">
+      <p-inputnumber [min]="1" [max]="1000" formControlName="price"  class="w-full!" [showButtons]="true"  inputId="price" mode="currency" currency="USD" locale="en-US"/>
+      <label class="text-amber-300!" for="price">Price</label>
+    </p-floatlabel>
+    @if(isInvalid('price')) {
+    <p-message size="small" severity="error" variant="simple">{{
+      getErrorMessage('price')
+    }}</p-message>
+    }
+  </div>
+
+  <div class="">
+    <p-floatlabel variant="on">
+      <input
+        pInputText
+        id="category"
+        formControlName="category"
+        autocomplete="off"
+        class="w-full!"
+      />
+      <label class="text-amber-300!" for="category">Category</label>
+    </p-floatlabel>
+    @if(isInvalid('category')) {
+    <p-message size="small" severity="error" variant="simple">{{
+      getErrorMessage('category')
+    }}</p-message>
+    }
+  </div>
+
+   <div class="">
+    <p-floatlabel variant="on">
+      <input
+        pInputText
+        id="imageUrl"
+        formControlName="imageUrl"
+        autocomplete="off"
+        class="w-full!"
+      />
+      <label class="text-amber-300!" for="imageUrl">Image URL</label>
+    </p-floatlabel>
+    @if(isInvalid('imageUrl')) {
+    <p-message size="small" severity="error" variant="simple">{{
+      getErrorMessage('imageUrl')
+    }}</p-message>
+    }
+  </div>
+
+   <div class="">
+    <label class="text-amber-300 font-medium mb-3 block">Status</label>
+    <div class="flex gap-6">
+      <div class="flex items-center">
+        <p-radiobutton
+          formControlName="isAvailable"
+          name="isAvailable"
+          [value]="true"
+          inputId="active"
+          [invalid]="isInvalid('isAvailable')"
+        />
+        <label for="active" class="ml-2 text-neutral-100 cursor-pointer">Active</label>
+      </div>
+      <div class="flex items-center">
+        <p-radiobutton
+          formControlName="isAvailable"
+          name="isAvailable"
+          [value]="false"
+          inputId="inactive"
+          [invalid]="isInvalid('isAvailable')"
+        />
+        <label for="inactive" class="ml-2 text-neutral-100 cursor-pointer">Inactive</label>
+      </div>
+    </div>
+    @if(isInvalid('isAvailable')) {
+      <p-message size="small" severity="error" variant="simple" class="mt-2">{{
+        getErrorMessage('isAvailable')
+      }}</p-message>
+    }
+  </div>
+
+  <button
+    type="submit"
+    [disabled]="!canSubmit()"
+    class="w-full bg-gradient-to-r from-amber-400 to-orange-500 hover:from-amber-500 hover:to-orange-600 disabled:from-gray-400 disabled:to-gray-500 disabled:cursor-not-allowed text-white font-semibold py-3 px-6 rounded-lg transition-all duration-300 transform hover:scale-[1.02] disabled:scale-100 shadow-lg"
+  >
+    @if (isLoading()) {
+    <div class="flex items-center justify-center space-x-2">
+      <div class="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
+      <span>Create...</span>
+    </div>
+    } @else { Add }
+  </button>
+</form>
