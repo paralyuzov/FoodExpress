@@ -6,6 +6,7 @@ import { restaurantAction } from './restaurant.actions';
 import { MessageService } from 'primeng/api';
 import { menusAction } from '../menus/menus.actions';
 import { Store } from '@ngrx/store';
+import { dishActions } from '../dish/dish.actions';
 
 export const restaurantEffects = {
   loadRestaurants: createEffect(
@@ -81,17 +82,29 @@ export const restaurantEffects = {
     { functional: true }
   ),
   createRestaurant: createEffect(
-    (actions$ = inject(Actions), restaurantService = inject(RestaurantService), messageService = inject(MessageService)) => {
+    (
+      actions$ = inject(Actions),
+      restaurantService = inject(RestaurantService),
+      messageService = inject(MessageService)
+    ) => {
       return actions$.pipe(
         ofType(restaurantAction.createRestaurant),
         switchMap(({ restaurant }) =>
           restaurantService.createRestaurant(restaurant).pipe(
             map((newRestaurant) => {
-              messageService.add({severity:'success', summary: 'Success', detail: 'Restaurant created successfully'});
+              messageService.add({
+                severity: 'success',
+                summary: 'Success',
+                detail: 'Restaurant created successfully',
+              });
               return restaurantAction.createRestaurantSuccess({ restaurant: newRestaurant });
             }),
             catchError((error) =>
-              of(restaurantAction.createRestaurantFailure({ error: error.error?.message || 'Failed to create restaurant' }))
+              of(
+                restaurantAction.createRestaurantFailure({
+                  error: error.error?.message || 'Failed to create restaurant',
+                })
+              )
             )
           )
         )
@@ -100,17 +113,29 @@ export const restaurantEffects = {
     { functional: true }
   ),
   updateRestaurant: createEffect(
-    (actions$ = inject(Actions), restaurantService = inject(RestaurantService), messageService = inject(MessageService)) => {
+    (
+      actions$ = inject(Actions),
+      restaurantService = inject(RestaurantService),
+      messageService = inject(MessageService)
+    ) => {
       return actions$.pipe(
         ofType(restaurantAction.updateRestaurant),
         switchMap(({ restaurantId, restaurant }) =>
           restaurantService.editRestaurant(restaurantId, restaurant).pipe(
             map((updatedRestaurant) => {
-              messageService.add({severity:'success', summary: 'Success', detail: 'Restaurant updated successfully'});
+              messageService.add({
+                severity: 'success',
+                summary: 'Success',
+                detail: 'Restaurant updated successfully',
+              });
               return restaurantAction.updateRestaurantSuccess({ restaurant: updatedRestaurant });
             }),
             catchError((error) =>
-              of(restaurantAction.updateRestaurantFailure({ error: error.error?.message || 'Failed to update restaurant' }))
+              of(
+                restaurantAction.updateRestaurantFailure({
+                  error: error.error?.message || 'Failed to update restaurant',
+                })
+              )
             )
           )
         )
@@ -119,17 +144,29 @@ export const restaurantEffects = {
     { functional: true }
   ),
   deleteRestaurant: createEffect(
-    (actions$ = inject(Actions), restaurantService = inject(RestaurantService), messageService = inject(MessageService)) => {
+    (
+      actions$ = inject(Actions),
+      restaurantService = inject(RestaurantService),
+      messageService = inject(MessageService)
+    ) => {
       return actions$.pipe(
         ofType(restaurantAction.deleteRestaurant),
         switchMap(({ restaurantId }) =>
           restaurantService.deleteRestaurant(restaurantId).pipe(
             map((deletedRestaurant) => {
-              messageService.add({severity:'success', summary: 'Success', detail: 'Restaurant deleted successfully'});
+              messageService.add({
+                severity: 'success',
+                summary: 'Success',
+                detail: 'Restaurant deleted successfully',
+              });
               return restaurantAction.deleteRestaurantSuccess({ restaurant: deletedRestaurant });
             }),
             catchError((error) =>
-              of(restaurantAction.deleteRestaurantFailure({ error: error.error?.message || 'Failed to delete restaurant' }))
+              of(
+                restaurantAction.deleteRestaurantFailure({
+                  error: error.error?.message || 'Failed to delete restaurant',
+                })
+              )
             )
           )
         )
@@ -149,9 +186,33 @@ export const restaurantEffects = {
         tap((action) => {
           const restaurantId = action.menu.restaurantId;
           if (restaurantId) {
-            store.dispatch(restaurantAction.loadSelectedRestaurantDetails({
-              id: restaurantId
-            }));
+            store.dispatch(
+              restaurantAction.loadSelectedRestaurantDetails({
+                id: restaurantId,
+              })
+            );
+          }
+        })
+      );
+    },
+    { functional: true, dispatch: false }
+  ),
+  refreshRestaurantOnDishChanges: createEffect(
+    (actions$ = inject(Actions), store = inject(Store)) => {
+      return actions$.pipe(
+        ofType(
+          dishActions.createDishSuccess,
+          dishActions.deleteDishSuccess,
+          dishActions.updateDishSuccess
+        ),
+        tap((action) => {
+          const restaurantId = action.dish.restaurantId;
+          if (restaurantId) {
+            store.dispatch(
+              restaurantAction.loadSelectedRestaurantDetails({
+                id: restaurantId,
+              })
+            );
           }
         })
       );
