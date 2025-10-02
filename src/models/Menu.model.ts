@@ -29,6 +29,7 @@ export interface Dish {
   orderItems?: OrderItem[];
   ratings?: DishRating[];
   category: string;
+  restaurantId?: string; // Added to match backend response
 }
 
 export interface DishRating {

@@ -5,3 +5,4 @@ export * from './Menu.model';
 export * from './Order.model';
 export * from './Rating.model';
 export * from './Cart.model';
+export type { Dish, DishRating } from './Menu.model';
