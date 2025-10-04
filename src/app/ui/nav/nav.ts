@@ -1,4 +1,4 @@
-import { Component, inject, OnInit, signal } from '@angular/core';
+import { Component, effect, inject, OnInit, signal } from '@angular/core';
 import { MenuItem } from 'primeng/api';
 import { TieredMenuModule } from 'primeng/tieredmenu';
 import { Store } from '@ngrx/store';
@@ -44,6 +44,10 @@ export class Nav implements OnInit {
 
   navigateToAuth() {
     this.router.navigate(['auth/signup']);
+  }
+
+  navigateToAdminPage() {
+    this.router.navigate(['admin']);
   }
 
   openCart() {

@@ -38,7 +38,7 @@
     </div>
 
     <div class="relative">
-      @if(isAuthenticated()) {
+      @if(isAuthenticated() && user()) {
       <div class="flex space-x-4 items-center">
         <button
           (click)="openCart()"
@@ -46,16 +46,29 @@
         >
           <i class="pi pi-shopping-cart mr-1"></i>
           @if(cartItemsCount() > 0) {
-            <span class="absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center font-bold">
-              {{ cartItemsCount() }}
-            </span>
+          <span
+            class="absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center font-bold"
+          >
+            {{ cartItemsCount() }}
+          </span>
           }
         </button>
+
+        @if(user()?.role === 'ADMIN') {
+        <button
+          (click)="navigateToAdminPage()"
+          class="px-4 py-2 bg-neutral-900 rounded-xl hover:cursor-pointer hover:bg-neutral-900/50"
+        >
+          <i class="pi pi-shield"></i> Admin
+        </button>
+        }
+
         <button
           (click)="menu.toggle($event)"
           class="px-4 py-2 bg-amber-300 text-black rounded-md text-sm hover:cursor-pointer hover:bg-gradient-to-r from-amber-200 to-amber-300"
         >
           <i class="pi pi-user"></i>
+          {{ user()?.firstName}}
         </button>
       </div>
       <p-tieredmenu
@@ -73,9 +86,11 @@
         >
           <i class="pi pi-shopping-cart mr-1"></i>
           @if(cartItemsCount() > 0) {
-            <span class="absolute -top-2 -right-1 bg-red-500 text-white text-xs rounded-full h-6 w-6 flex items-center justify-center font-bold border-2 border-slate-900">
-              {{ cartItemsCount() }}
-            </span>
+          <span
+            class="absolute -top-2 -right-1 bg-red-500 text-white text-xs rounded-full h-6 w-6 flex items-center justify-center font-bold border-2 border-slate-900"
+          >
+            {{ cartItemsCount() }}
+          </span>
           }
         </button>
         <button
@@ -85,7 +100,6 @@
           Signup
         </button>
       </div>
-
       }
     </div>
   </div>
