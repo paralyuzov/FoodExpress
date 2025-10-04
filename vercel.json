@@ -1,12 +1,8 @@
 {
-  "buildCommand": "npm run build",
-  "outputDirectory": "dist/food-delivery-web",
-  "installCommand": "npm install",
-  "framework": "angular",
-  "routes": [
+  "rewrites": [
     {
-      "src": "/(.*)",
-      "dest": "/index.html"
+      "source": "/((?!api/.*).*)",
+      "destination": "/index.html"
     }
   ]
 }
