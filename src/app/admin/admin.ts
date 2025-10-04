@@ -9,9 +9,9 @@ import { RouterModule, RouterOutlet } from '@angular/router';
 })
 export class Admin {
 
-  selectedTab = signal<'orders' | 'restaurants' | 'users' | 'statistic' | null>(null);
+  selectedTab = signal< 'orders' | 'restaurants' | 'users' | 'dashboard' | null>('dashboard');
 
-  setTab(tab: 'orders' | 'restaurants' | 'users' | 'statistic') {
+  setTab(tab: 'orders' | 'restaurants' | 'users' | 'dashboard') {
     this.selectedTab.set(tab);
   }
 
