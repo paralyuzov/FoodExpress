@@ -43,6 +43,12 @@ export const authReducer = createReducer(
 
   on(AuthActions.logout, () => initialAuthState),
 
+  on(AuthActions.initApp, (state) => ({
+    ...state,
+    loading: true,
+    error: null,
+  })),
+
   on(AuthActions.register, (state) => ({
     ...state,
     loading: true,
@@ -92,7 +98,6 @@ export const authReducer = createReducer(
     error: null,
   })),
 
-  // IMPORTANT: No user data stored, just auth status
   on(AuthActions.verifyUserSuccess, (state) => ({
     ...state,
     loading: false,

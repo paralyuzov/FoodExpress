@@ -27,5 +27,3 @@ export const selectHasToken = createSelector(
   selectAuthState,
   (state) => state.hasToken
 );
-
-// Remove selectUser and selectAddresses - these belong in user store now
