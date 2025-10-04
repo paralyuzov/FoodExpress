@@ -1,5 +1,6 @@
 import { Routes } from '@angular/router';
 import { Home } from './home/home';
+import { adminGuard } from './core/guards/admin-guard';
 
 export const routes: Routes = [
   { path: '', component: Home },
@@ -37,14 +38,32 @@ export const routes: Routes = [
   },
   {
     path: 'admin',
+    canActivate: [adminGuard],
     children: [
       {
+        path: '',
+        redirectTo: 'dashboard',
+        pathMatch: 'full'
+      },
+      {
+        path: 'dashboard',
+        canActivate: [adminGuard],
+        loadComponent: () => import('./admin/admin-dashboard/admin-dashboard').then((m) => m.AdminDashboard)
+      },
+      {
         path: 'orders',
+        canActivate: [adminGuard],
         loadComponent: () => import('./admin/admin-orders-table/admin-orders-table').then((m) => m.AdminOrdersTable)
       },
       {
         path: 'restaurants',
+        canActivate: [adminGuard],
         loadComponent: () => import('./admin/admin-restaurant-table/admin-restaurant-table').then((m) => m.AdminRestaurantTable)
+      },
+      {
+        path: 'users',
+        canActivate: [adminGuard],
+        loadComponent: () => import('./admin/admin-users-table/admin-users-table').then((m) => m.AdminUsersTable)
       }
     ],
     loadComponent: () => import('./admin/admin').then((m) => m.Admin)
