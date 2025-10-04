@@ -2,14 +2,15 @@ import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { ConfirmPaymentResponse, Order, OrderCheckoutResponse, OrderStatus } from '../../../models';
 import { CreateOrderRequest } from '../../../models';
+import { ConfigService } from './config.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class OrderService {
-  private readonly API_URL = 'http://localhost:3000/orders';
-
   private http = inject(HttpClient);
+  private config = inject(ConfigService);
+  private readonly API_URL = `${this.config.baseApiUrl}/orders`;
 
   createOrder(order: CreateOrderRequest) {
     return this.http.post<OrderCheckoutResponse>(`${this.API_URL}/checkout`, order);

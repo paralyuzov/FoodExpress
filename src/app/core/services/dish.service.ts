@@ -1,14 +1,15 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { Dish } from '../../../models';
+import { ConfigService } from './config.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class DishService {
-
-  private readonly API_URL = 'http://localhost:3000/dishes';
   private http = inject(HttpClient);
+  private config = inject(ConfigService);
+  private readonly API_URL = `${this.config.baseApiUrl}/dishes`;
 
   getMostPopularDishes(limit? : number) {
     const url = limit ? `${this.API_URL}/popular?limit=${limit}` : `${this.API_URL}/popular`;

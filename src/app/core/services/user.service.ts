@@ -1,13 +1,15 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { Address, User } from '../../../models';
+import { ConfigService } from './config.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class UserService {
-  private apiUrl = 'http://localhost:3000/user';
   private http = inject(HttpClient);
+  private config = inject(ConfigService);
+  private apiUrl = `${this.config.baseApiUrl}/user`;
 
 
   getProfile() {

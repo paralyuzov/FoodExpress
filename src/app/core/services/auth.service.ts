@@ -2,13 +2,15 @@ import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { RegisterDto, RegisterResponse, User, UserResponse } from '../../../models/User.model';
 import { Observable } from 'rxjs';
+import { ConfigService } from './config.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
-  private readonly API_URL = 'http://localhost:3000/auth';
   private http = inject(HttpClient);
+  private config = inject(ConfigService);
+  private readonly API_URL = `${this.config.baseApiUrl}/auth`;
 
   login(email: string, password: string): Observable<UserResponse> {
     return this.http.post<UserResponse>(`${this.API_URL}/login`, { email, password });

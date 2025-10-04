@@ -1,13 +1,15 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { Menu } from '../../../models';
+import { ConfigService } from './config.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class MenuService {
-  private readonly API_URL = 'http://localhost:3000/menus';
   private http = inject(HttpClient);
+  private config = inject(ConfigService);
+  private readonly API_URL = `${this.config.baseApiUrl}/menus`;
 
 
   getMenuById(menuId: string) {
