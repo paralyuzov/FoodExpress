@@ -26,4 +26,20 @@ export class UserService {
     return this.http.patch<User>(`${this.apiUrl}/profile`, profile);
   }
 
+  getAllUsers() {
+    return this.http.get<User[]>(`${this.apiUrl}/admin/users`);
+  }
+
+  updateUserStatus(userId: string, isActive: boolean) {
+    return this.http.patch<User>(`${this.apiUrl}/admin/users/${userId}/status`, { isActive });
+  }
+
+  updateUserRole(userId: string, role: 'ADMIN' | 'CUSTOMER') {
+    return this.http.patch<User>(`${this.apiUrl}/admin/users/${userId}/role`, { role });
+  }
+
+  deleteUser(userId: string) {
+    return this.http.delete<void>(`${this.apiUrl}/admin/users/${userId}`);
+  }
+
 }

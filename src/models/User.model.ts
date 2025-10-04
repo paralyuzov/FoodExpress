@@ -10,6 +10,7 @@ export interface User {
   lastName: string;
   phone?: string;
   isEmailVerified: boolean;
+  isActive: boolean;
   role: Role;
   createdAt?: Date;
   updatedAt?: Date;
@@ -32,7 +33,7 @@ export interface RegisterDto {
   confirmPassword: string;
   firstName: string;
   lastName: string;
-  phone?: string;
+  phone: string;
   role?: Role
 }
 
