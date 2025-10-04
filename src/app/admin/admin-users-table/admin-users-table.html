@@ -1,0 +1,177 @@
+<div class="min-h-screen mx-auto font-pt-sans p-2">
+  <div
+    class="bg-neutral-800/50 backdrop-blur-sm rounded-2xl border border-neutral-600/50 shadow-xl shadow-black/30 overflow-hidden">
+    <p-table #dt [value]="users()" [loading]="loading()" dataKey="id" [paginator]="true" [rows]="10"
+      [showCurrentPageReport]="true" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} users"
+      [globalFilterFields]="['firstName', 'lastName', 'email', 'role']" [tableStyle]="{ 'min-width': '100%' }"
+      class="p-datatable-sm">
+
+      <ng-template #caption>
+        <div
+          class="flex items-center justify-between rounded-t-2xl p-6 bg-neutral-800/80 border-b border-neutral-600/50">
+          <div class="flex items-center gap-3">
+            <h3 class="text-lg font-semibold text-amber-300">
+              <i class="pi pi-users mr-2"></i>
+              User Management
+            </h3>
+            <span class="px-3 py-1 bg-neutral-700 text-neutral-300 rounded-full text-sm">
+              {{ users().length }} users
+            </span>
+          </div>
+
+          <div class="flex items-center gap-4">
+            <p-iconfield iconPosition="left" class="relative">
+              <p-inputicon class="text-neutral-400">
+                <i class="pi pi-search"></i>
+              </p-inputicon>
+              <input pInputText type="text" (input)="dt.filterGlobal($any($event.target).value, 'contains')"
+                placeholder="Search users by name, email, or role..."
+                class="w-80 bg-neutral-700/50 border-neutral-600 text-neutral-100 placeholder-neutral-400 rounded-xl px-4 py-3 pl-12 focus:ring-2 focus:ring-amber-400 focus:border-transparent transition-all duration-200" />
+            </p-iconfield>
+
+             <p-button
+            icon="pi pi-refresh"
+            (onClick)="refreshUsers()"
+            [loading]="loading()"
+            severity="info"
+          />
+          </div>
+        </div>
+      </ng-template>
+
+      <ng-template pTemplate="header">
+        <tr>
+          <th class="text-neutral-300! font-semibold! p-4! text-left! border-b! border-neutral-600! bg-neutral-800!">
+            <i class="pi pi-user text-amber-300 mr-2"></i>Name
+          </th>
+          <th class="text-neutral-300! font-semibold! p-4! text-left! border-b! border-neutral-600! bg-neutral-800!">
+            <i class="pi pi-envelope text-amber-300 mr-2"></i>Email
+          </th>
+          <th class="text-neutral-300! font-semibold! p-4! text-left! border-b! border-neutral-600! bg-neutral-800!">
+            <i class="pi pi-phone text-amber-300 mr-2"></i>Phone
+          </th>
+          <th class="text-neutral-300! font-semibold! p-4! text-left! border-b! border-neutral-600! bg-neutral-800!">
+            <i class="pi pi-shield text-amber-300 mr-2"></i>Role
+          </th>
+          <th class="text-neutral-300! font-semibold! p-4! text-left! border-b! border-neutral-600! bg-neutral-800!">
+            <i class="pi pi-check-circle text-amber-300 mr-2"></i>Status
+          </th>
+          <th class="text-neutral-300! font-semibold! p-4! text-left! border-b! border-neutral-600! bg-neutral-800!">
+            <i class="pi pi-calendar text-amber-300 mr-2"></i>Joined
+          </th>
+          <th class="text-neutral-300! font-semibold! p-4! text-left! border-b! border-neutral-600! bg-neutral-800!">
+            <i class="pi pi-cog text-amber-300 mr-2"></i>Actions
+          </th>
+        </tr>
+      </ng-template>
+
+      <ng-template pTemplate="body" let-user>
+        <tr>
+          <td class="p-4! bg-neutral-700/10!">
+            <div class="flex items-center gap-3">
+              <div class="w-10 h-10 rounded-full bg-gradient-to-br from-amber-400 to-orange-500 flex items-center justify-center text-white font-semibold">
+                {{ user.firstName.charAt(0) }}{{ user.lastName.charAt(0) }}
+              </div>
+              <div>
+                <div class="font-medium text-neutral-100">{{ user.firstName }} {{ user.lastName }}</div>
+                @if (user.isEmailVerified) {
+                  <span class="text-xs text-green-400 flex items-center mt-1">
+                    <i class="pi pi-check-circle mr-1"></i>
+                    Verified
+                  </span>
+                } @else {
+                  <span class="text-xs text-red-400 flex items-center mt-1">
+                    <i class="pi pi-times-circle mr-1"></i>
+                    Unverified
+                  </span>
+                }
+              </div>
+            </div>
+          </td>
+
+          <td class="p-4! bg-neutral-700/10!">
+            <div class="text-neutral-100">{{ user.email }}</div>
+          </td>
+
+          <td class="p-4! bg-neutral-700/10!">
+            <div class="text-neutral-100">{{ user.phone || 'N/A' }}</div>
+          </td>
+
+          <td class="p-4! bg-neutral-700/10!">
+            <p-tag [value]="user.role" [severity]="getRoleSeverity(user.role)"
+              class="px-3 py-1 rounded-full text-xs font-medium" />
+          </td>
+
+          <td class="p-4! bg-neutral-700/10!">
+            <div class="flex items-center gap-2">
+              @if (user.isActive) {
+                <span class="w-2 h-2 rounded-full bg-green-400"></span>
+                <span class="text-neutral-100 text-sm">Active</span>
+              } @else {
+                <span class="w-2 h-2 rounded-full bg-red-400"></span>
+                <span class="text-neutral-100 text-sm">Inactive</span>
+              }
+            </div>
+          </td>
+
+          <td class="p-4! bg-neutral-700/10!">
+            <div class="text-neutral-100 text-sm">
+              {{ user.createdAt | date:'MMM dd, yyyy' }}
+            </div>
+          </td>
+
+          <td class="p-4! bg-neutral-700/10!">
+            <div class="flex items-center gap-2">
+              @if (user.isActive) {
+                <p-button (onClick)="onUpdateUserStatus(user, false)" icon="pi pi-ban" size="small" severity="warn"
+                  pTooltip="Deactivate User" tooltipPosition="top" class="w-8 h-8 rounded-lg" />
+              } @else {
+                <p-button (onClick)="onUpdateUserStatus(user, true)" icon="pi pi-check" size="small" severity="success"
+                  pTooltip="Activate User" tooltipPosition="top" class="w-8 h-8 rounded-lg" />
+              }
+
+              @if (user.role === 'CUSTOMER') {
+                <p-button (onClick)="onUpdateUserRole(user, 'ADMIN')" icon="pi pi-shield" size="small" severity="info"
+                  pTooltip="Make Admin" tooltipPosition="top" class="w-8 h-8 rounded-lg" />
+              } @else if (user.role === 'ADMIN') {
+                <p-button (onClick)="onUpdateUserRole(user, 'CUSTOMER')" icon="pi pi-user" size="small" severity="secondary"
+                  pTooltip="Make Customer" tooltipPosition="top" class="w-8 h-8 rounded-lg" />
+              }
+
+              @if (user.role !== 'ADMIN') {
+                <p-button (onClick)="onDeleteUser($event, user)" icon="pi pi-trash" size="small" severity="danger"
+                  pTooltip="Delete User" tooltipPosition="top" class="w-8 h-8 rounded-lg" />
+              }
+            </div>
+          </td>
+        </tr>
+      </ng-template>
+
+      <ng-template pTemplate="emptymessage">
+        <tr>
+          <td colspan="7" class="">
+            <div class="flex flex-col items-center text-center space-y-4 p-8">
+              <div class="space-y-4">
+                <div class="text-6xl text-neutral-600 mb-4">👥</div>
+                <div class="text-xl font-semibold text-neutral-300">No users found</div>
+                <div class="text-neutral-500">
+                  @if (error()) {
+                    Error loading users: {{ error() }}
+                  } @else {
+                    Try adjusting your search criteria or refresh the data
+                  }
+                </div>
+              </div>
+              <div class="flex gap-3">
+                <p-button label="Clear Search" icon="pi pi-filter-slash" severity="secondary" (onClick)="dt.clear()" />
+                <p-button label="Refresh" icon="pi pi-refresh" severity="info" (onClick)="refreshUsers()" />
+              </div>
+            </div>
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </div>
+</div>
+
+<p-confirmdialog />

@@ -1,0 +1,54 @@
+/* Admin Dashboard Styles */
+
+/* Custom card styling */
+::ng-deep .p-card {
+  background: rgba(38, 38, 38, 0.5) !important;
+  border: 1px solid rgba(115, 115, 115, 0.3) !important;
+  border-radius: 16px !important;
+  backdrop-filter: blur(8px) !important;
+}
+
+::ng-deep .p-card .p-card-content {
+  padding: 0 !important;
+}
+
+/* Chart styling */
+::ng-deep .p-chart {
+  background: transparent !important;
+}
+
+/* Table styling */
+::ng-deep .p-datatable {
+  background: transparent !important;
+}
+
+::ng-deep .p-datatable .p-datatable-thead > tr > th {
+  background: rgba(55, 65, 81, 0.5) !important;
+  border: none !important;
+  color: #d1d5db !important;
+}
+
+::ng-deep .p-datatable .p-datatable-tbody > tr {
+  background: transparent !important;
+}
+
+::ng-deep .p-datatable .p-datatable-tbody > tr > td {
+  border: none !important;
+  border-bottom: 1px solid rgba(75, 85, 99, 0.3) !important;
+}
+
+::ng-deep .p-datatable .p-datatable-tbody > tr:hover {
+  background: rgba(55, 65, 81, 0.3) !important;
+}
+
+/* Button styling */
+::ng-deep .p-button {
+  border-radius: 12px !important;
+  font-weight: 600 !important;
+}
+
+/* Tag styling */
+::ng-deep .p-tag {
+  border-radius: 6px !important;
+  font-weight: 500 !important;
+}
