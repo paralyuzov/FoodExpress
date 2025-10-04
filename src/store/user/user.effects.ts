@@ -5,6 +5,8 @@ import { of } from 'rxjs';
 import { userActions } from './user.actions';
 import { UserService } from '../../app/core/services/user.service';
 import { MessageService } from 'primeng/api';
+import { Store } from '@ngrx/store';
+import { AuthActions } from '../auth/auth.actions';
 
 export const userEffects = {
   loadProfile: createEffect(
@@ -110,6 +112,160 @@ export const userEffects = {
               );
             })
           );
+        })
+      );
+    },
+    { functional: true }
+  ),
+
+  // Admin user management effects
+  loadAllUsers: createEffect(
+    (actions$ = inject(Actions), userService = inject(UserService)) => {
+      return actions$.pipe(
+        ofType(userActions.loadAllUsers),
+        switchMap(() =>
+          userService.getAllUsers().pipe(
+            map((users) => userActions.loadAllUsersSuccess({ users })),
+            catchError((error) =>
+              of(
+                userActions.loadAllUsersFailure({
+                  error: error.error?.message || 'Failed to load users',
+                })
+              )
+            )
+          )
+        )
+      );
+    },
+    { functional: true }
+  ),
+
+  updateUserStatus: createEffect(
+    (
+      actions$ = inject(Actions),
+      userService = inject(UserService),
+      messageService = inject(MessageService)
+    ) => {
+      return actions$.pipe(
+        ofType(userActions.updateUserStatus),
+        switchMap(({ userId, isActive }) =>
+          userService.updateUserStatus(userId, isActive).pipe(
+            map((user) => {
+              messageService.add({
+                severity: 'success',
+                summary: 'Success',
+                detail: `User status updated successfully`,
+                life: 3000,
+              });
+              return userActions.updateUserStatusSuccess({ user });
+            }),
+            catchError((error) => {
+              messageService.add({
+                severity: 'error',
+                summary: 'Update Failed',
+                detail: error.error?.message || 'Failed to update user status',
+                life: 5000,
+              });
+              return of(
+                userActions.updateUserStatusFailure({
+                  error: error.error?.message || 'Failed to update user status',
+                })
+              );
+            })
+          )
+        )
+      );
+    },
+    { functional: true }
+  ),
+
+  updateUserRole: createEffect(
+    (
+      actions$ = inject(Actions),
+      userService = inject(UserService),
+      messageService = inject(MessageService)
+    ) => {
+      return actions$.pipe(
+        ofType(userActions.updateUserRole),
+        switchMap(({ userId, role }) =>
+          userService.updateUserRole(userId, role).pipe(
+            map((user) => {
+              messageService.add({
+                severity: 'success',
+                summary: 'Success',
+                detail: `User role updated to ${role}`,
+                life: 3000,
+              });
+              return userActions.updateUserRoleSuccess({ user });
+            }),
+            catchError((error) => {
+              messageService.add({
+                severity: 'error',
+                summary: 'Update Failed',
+                detail: error.error?.message || 'Failed to update user role',
+                life: 5000,
+              });
+              return of(
+                userActions.updateUserRoleFailure({
+                  error: error.error?.message || 'Failed to update user role',
+                })
+              );
+            })
+          )
+        )
+      );
+    },
+    { functional: true }
+  ),
+
+  deleteUser: createEffect(
+    (
+      actions$ = inject(Actions),
+      userService = inject(UserService),
+      messageService = inject(MessageService)
+    ) => {
+      return actions$.pipe(
+        ofType(userActions.deleteUser),
+        switchMap(({ userId }) =>
+          userService.deleteUser(userId).pipe(
+            map(() => {
+              messageService.add({
+                severity: 'success',
+                summary: 'Success',
+                detail: 'User deleted successfully',
+                life: 3000,
+              });
+              return userActions.deleteUserSuccess({ userId });
+            }),
+            catchError((error) => {
+              messageService.add({
+                severity: 'error',
+                summary: 'Delete Failed',
+                detail: error.error?.message || 'Failed to delete user',
+                life: 5000,
+              });
+              return of(
+                userActions.deleteUserFailure({
+                  error: error.error?.message || 'Failed to delete user',
+                })
+              );
+            })
+          )
+        )
+      );
+    },
+    { functional: true }
+  ),
+  loadUserProfileAfterAutoVerify: createEffect(
+    (actions$ = inject(Actions)) => {
+      return actions$.pipe(
+        ofType(AuthActions.initApp,AuthActions.verifyUserSuccess,AuthActions.loginSuccess),
+        map(() => {
+          const hasToken = !!localStorage.getItem('access_token');
+          if (hasToken) {
+            return userActions.loadProfile();
+          }
+          return AuthActions.logout();
         })
       );
     },

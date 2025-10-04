@@ -50,6 +50,41 @@ export const selectAddressById = (id: string) => createSelector(
   (entities) => entities[id] ?? null
 );
 
+export const selectAllUsers = createSelector(
+  selectUserState,
+  (state) => state.users
+);
+
+export const selectUsersLoading = createSelector(
+  selectUserState,
+  (state) => state.usersLoading
+);
+
+export const selectUsersError = createSelector(
+  selectUserState,
+  (state) => state.usersError
+);
+
+export const selectUserById = (id: string) => createSelector(
+  selectAllUsers,
+  (users) => users.find(user => user.id === id) ?? null
+);
+
+export const selectUsersByRole = (role: 'ADMIN' | 'CUSTOMER') => createSelector(
+  selectAllUsers,
+  (users) => users.filter(user => user.role === role)
+);
+
+export const selectActiveUsers = createSelector(
+  selectAllUsers,
+  (users) => users.filter(user => user.isActive)
+);
+
+export const selectInactiveUsers = createSelector(
+  selectAllUsers,
+  (users) => users.filter(user => !user.isActive)
+);
+
 export const selectAddressCount = createSelector(
   selectUserState,
   selectTotal
@@ -68,4 +103,9 @@ export const selectUserEmail = createSelector(
 export const selectHasAddresses = createSelector(
   selectAddressCount,
   (count) => count > 0
+);
+
+export const selectUserRole = createSelector(
+  selectUserProfile,
+  (profile) => profile?.role ?? null
 );

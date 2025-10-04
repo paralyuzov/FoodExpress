@@ -14,6 +14,10 @@ export interface UserState extends EntityState<Address> {
   profileError: string | null;
   addressesLoading: boolean;
   addressesError: string | null;
+  // Admin user management
+  users: User[];
+  usersLoading: boolean;
+  usersError: string | null;
 }
 
 export const initialUserState: UserState = addressAdapter.getInitialState({
@@ -22,6 +26,9 @@ export const initialUserState: UserState = addressAdapter.getInitialState({
   profileError: null,
   addressesLoading: false,
   addressesError: null,
+  users: [],
+  usersLoading: false,
+  usersError: null,
 });
 
 export const userReducer = createReducer(
@@ -106,6 +113,79 @@ export const userReducer = createReducer(
     ...state,
     profileLoading: false,
     profileError: error,
+  })),
+
+  // Admin user management
+  on(userActions.loadAllUsers, (state) => ({
+    ...state,
+    usersLoading: true,
+    usersError: null,
+  })),
+
+  on(userActions.loadAllUsersSuccess, (state, { users }) => ({
+    ...state,
+    usersLoading: false,
+    users,
+  })),
+
+  on(userActions.loadAllUsersFailure, (state, { error }) => ({
+    ...state,
+    usersLoading: false,
+    usersError: error,
+  })),
+
+  on(userActions.updateUserStatus, (state) => ({
+    ...state,
+    usersLoading: true,
+    usersError: null,
+  })),
+
+  on(userActions.updateUserStatusSuccess, (state, { user }) => ({
+    ...state,
+    usersLoading: false,
+    users: state.users.map(u => u.id === user.id ? user : u),
+  })),
+
+  on(userActions.updateUserStatusFailure, (state, { error }) => ({
+    ...state,
+    usersLoading: false,
+    usersError: error,
+  })),
+
+  on(userActions.updateUserRole, (state) => ({
+    ...state,
+    usersLoading: true,
+    usersError: null,
+  })),
+
+  on(userActions.updateUserRoleSuccess, (state, { user }) => ({
+    ...state,
+    usersLoading: false,
+    users: state.users.map(u => u.id === user.id ? user : u),
+  })),
+
+  on(userActions.updateUserRoleFailure, (state, { error }) => ({
+    ...state,
+    usersLoading: false,
+    usersError: error,
+  })),
+
+  on(userActions.deleteUser, (state) => ({
+    ...state,
+    usersLoading: true,
+    usersError: null,
+  })),
+
+  on(userActions.deleteUserSuccess, (state, { userId }) => ({
+    ...state,
+    usersLoading: false,
+    users: state.users.filter(user => user.id !== userId),
+  })),
+
+  on(userActions.deleteUserFailure, (state, { error }) => ({
+    ...state,
+    usersLoading: false,
+    usersError: error,
   })),
 
   on(userActions.clearUserData, () => initialUserState)
