@@ -1,4 +1,6 @@
 {
+  "buildCommand": "npm run build",
+  "outputDirectory": "dist/food-delivery-web/browser",
   "rewrites": [
     {
       "source": "/((?!api/.*).*)",
