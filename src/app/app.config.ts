@@ -29,6 +29,8 @@ import { dishReducer } from '../store/dish/dish.reducer';
 import { dishEffects } from '../store/dish/dish.effects';
 import { menusEffects } from '../store/menus/menu.effects';
 import { menusReducer } from '../store/menus/menus.reducer';
+import { dashboardReducer } from '../store/dashboard/dashboard.reducer';
+import { DashboardEffects } from '../store/dashboard/dashboard.effects';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -39,6 +41,10 @@ export const appConfig: ApplicationConfig = {
     providePrimeNG({
       theme: {
         preset: Aura,
+        options: {
+          ripple: true,
+          darkModeSelector: '.my-app-dark'
+        }
       },
     }),
     provideStore({
@@ -49,6 +55,7 @@ export const appConfig: ApplicationConfig = {
       orders: ordersReducer,
       dish: dishReducer,
       menus: menusReducer,
+      dashboard: dashboardReducer,
     }),
     provideEffects(authEffects),
     provideEffects(userEffects),
@@ -57,6 +64,7 @@ export const appConfig: ApplicationConfig = {
     provideEffects(ordersEffects),
     provideEffects(dishEffects),
     provideEffects(menusEffects),
+    provideEffects(DashboardEffects),
     provideStoreDevtools({
       maxAge: 25,
       logOnly: false,
