@@ -8,6 +8,7 @@ import { FormsModule } from '@angular/forms';
 import { selectIsAuthenticated } from '../../../store/auth/auth.selectors';
 import { dishActions } from '../../../store/dish/dish.actions';
 import { RouterModule } from '@angular/router';
+import { cleanDishForCartAlt } from '../../core/utils/dish.utils';
 
 @Component({
   selector: 'app-dish-card',
@@ -22,7 +23,8 @@ export class DishCard {
   isAuth = this.store.selectSignal(selectIsAuthenticated);
 
   addToCart(dish: Dish) {
-    this.store.dispatch(cartAction.addItemToCart({dish}));
+    const cleanDish = cleanDishForCartAlt(dish);
+    this.store.dispatch(cartAction.addItemToCart({ dish: cleanDish }));
   }
 
 

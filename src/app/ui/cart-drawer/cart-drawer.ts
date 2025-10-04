@@ -13,7 +13,7 @@ import {
 } from '../../../store/cart/cart.selectors';
 import { cartAction } from '../../../store/cart/cart.actions';
 import { DecimalPipe } from '@angular/common';
-import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
+import { DialogService } from 'primeng/dynamicdialog';
 import { CheckoutForm } from '../../user/checkout-form/checkout-form';
 import { orderActions } from '../../../store/orders/order.actions';
 import { Router } from '@angular/router';
@@ -31,7 +31,6 @@ export class CartDrawer {
   visibleChange = output<boolean>();
   private store = inject(Store);
   private dialogService = inject(DialogService);
-  private dialogRef: DynamicDialogRef | undefined;
   private router = inject(Router);
 
   isAuthenticated = this.store.selectSignal(selectIsAuthenticated);
@@ -55,13 +54,13 @@ export class CartDrawer {
   }
 
   showAddressForm() {
-    if(!this.isAuthenticated()) {
+    if (!this.isAuthenticated()) {
       this.router.navigate(['/auth/login']);
       this.visibleChange.emit(false);
       return;
     }
     this.store.dispatch(orderActions.clearOrderError());
-    this.dialogRef = this.dialogService.open(CheckoutForm, {
+    this.dialogService.open(CheckoutForm, {
       styleClass: 'bg-gradient-to-br! from-neutral-900! via-neutral-800! to-neutral-900!',
     });
   }
