@@ -1,11 +1,13 @@
+@if(authLoading()) {
+<app-app-loader />
+} @else {
 <div class="bg-neutral-900">
   <app-nav />
-
   <div class="container mx-auto">
     <p-toast position="bottom-right" />
     <router-outlet />
   </div>
-
   <app-footer />
   <app-cart-toast />
 </div>
+}
