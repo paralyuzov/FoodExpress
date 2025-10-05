@@ -19,5 +19,8 @@ export const AuthActions = createActionGroup({
     'Verify User Success': props<{ user: User }>(),
     'Verify User Failure': props<{ error: string }>(),
     'Init App': emptyProps(),
+    'Change Password': props<{ currentPassword: string; newPassword: string; confirmNewPassword: string }>(),
+    'Change Password Success': props<{ message: string }>(),
+    'Change Password Failure': props<{ error: string }>(),
   },
 });
