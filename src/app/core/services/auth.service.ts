@@ -27,4 +27,8 @@ export class AuthService {
   verifyUser() {
     return this.http.get<User>(`${this.API_URL}/me`);
   }
+
+  changePassword(currentPassword: string, newPassword: string, confirmNewPassword: string) {
+    return this.http.post<{ message: string }>(`${this.API_URL}/change-password`, { currentPassword, newPassword, confirmNewPassword });
+  }
 }
