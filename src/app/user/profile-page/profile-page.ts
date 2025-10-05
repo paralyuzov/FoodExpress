@@ -17,6 +17,7 @@ import { OrdersTable } from '../../ui/orders-table/orders-table';
 import { AdressTab } from '../../ui/adress-tab/adress-tab';
 import { DialogService } from 'primeng/dynamicdialog';
 import { EditUserForm } from '../edit-user-form/edit-user-form';
+import { ChangePasswordForm } from '../change-password/change-password-form';
 
 @Component({
   selector: 'app-profile-page',
@@ -64,8 +65,15 @@ export class ProfilePage implements OnInit {
     });
   }
 
-  onChangePassword() {
-    console.log('Change password clicked');
+    onChangePassword() {
+    this.dialogService.open(ChangePasswordForm, {
+      header: 'Change Password',
+      styleClass: 'w-96! bg-neutral-900!',
+      closable: true,
+      maskStyleClass: 'backdrop-blur-sm',
+      closeOnEscape: true,
+      focusOnShow: false,
+    });
   }
 
   onLogout() {
