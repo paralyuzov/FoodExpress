@@ -7,6 +7,7 @@ import {
   FormGroup,
 } from '@angular/forms';
 import { InputTextModule } from 'primeng/inputtext';
+import { PasswordModule } from 'primeng/password';
 import { FloatLabel } from 'primeng/floatlabel';
 import { Message } from 'primeng/message';
 import { Store } from '@ngrx/store';
@@ -21,7 +22,7 @@ import { AuthActions } from '../../../store/auth/auth.actions';
 
 @Component({
   selector: 'app-register-form',
-  imports: [ReactiveFormsModule, InputTextModule, FloatLabel, Message, RouterModule],
+  imports: [ReactiveFormsModule, InputTextModule, PasswordModule, FloatLabel, Message, RouterModule],
   templateUrl: './register-form.html',
   styleUrl: './register-form.css',
 })

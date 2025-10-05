@@ -1,5 +1,5 @@
 <div class="font-pt-sans">
-  <form [formGroup]="registerForm" (ngSubmit)="onSubmit()" class="w-full flex flex-col gap-4 p-8">
+  <form [formGroup]="registerForm" (ngSubmit)="onSubmit()" class=" flex flex-col gap-4 p-8">
     <div class="text-center">
       <h2 class="text-2xl bg-gradient-to-r from-amber-200 to-amber-400 bg-clip-text text-transparent">Register your FoodExpress account</h2>
       <h3>Please enter your account details.</h3>
@@ -7,7 +7,7 @@
 
     <div class="">
       <p-floatlabel variant="on">
-        <input pInputText id="firstName" formControlName="firstName" autocomplete="off" class="w-full!" />
+        <input pInputText id="firstName" formControlName="firstName" autocomplete="off" class="w-full" />
         <label class="text-amber-300!" for="firstName">First Name</label>
       </p-floatlabel>
       @if(isInvalid('firstName')) {
@@ -19,7 +19,7 @@
 
      <div class="">
       <p-floatlabel variant="on">
-        <input pInputText id="lastName" formControlName="lastName" autocomplete="off" class="w-full!" />
+        <input pInputText id="lastName" formControlName="lastName" autocomplete="off" class="w-full" />
         <label class="text-amber-300!" for="lastName">Last Name</label>
       </p-floatlabel>
       @if(isInvalid('lastName')) {
@@ -31,7 +31,7 @@
 
     <div class="">
       <p-floatlabel variant="on">
-        <input pInputText id="email" formControlName="email" autocomplete="off" class="w-full!" />
+        <input pInputText id="email" formControlName="email" autocomplete="off" class="w-full"/>
         <label class="text-amber-300!" for="email">Email</label>
       </p-floatlabel>
       @if(isInvalid('email')) {
@@ -42,7 +42,7 @@
     </div>
       <div class="">
       <p-floatlabel variant="on">
-        <input pInputText id="phone" formControlName="phone" autocomplete="off" class="w-full!" />
+        <input pInputText id="phone" formControlName="phone" autocomplete="off" class="w-full" />
         <label class="text-amber-300!" for="phone">Phone</label>
       </p-floatlabel>
       @if(isInvalid('phone')) {
@@ -53,7 +53,7 @@
     </div>
     <div class="">
       <p-floatlabel variant="on">
-        <input pInputText id="password" formControlName="password" type="password" autocomplete="off" class="w-full!" />
+        <p-password id="password" formControlName="password" [toggleMask]="true" [feedback]="true" fluid="true" autocomplete="off" class="w-full"/>
         <label class="text-amber-300!" for="password">Password</label>
       </p-floatlabel>
       @if(isInvalid('password')) {
@@ -64,7 +64,7 @@
     </div>
       <div class="">
       <p-floatlabel variant="on">
-        <input pInputText id="confirmPassword" formControlName="confirmPassword" type="password" autocomplete="off" class="w-full!" />
+        <p-password id="confirmPassword" formControlName="confirmPassword" [feedback]="false" [toggleMask]="true" fluid="true" autocomplete="off" class="w-full" />
         <label class="text-amber-300!" for="confirmPassword">Confirm Password</label>
       </p-floatlabel>
       @if(isInvalid('confirmPassword')) {
