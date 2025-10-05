@@ -1,6 +1,7 @@
 import { Component, effect, inject, signal } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { InputTextModule } from 'primeng/inputtext';
+import { PasswordModule } from 'primeng/password';
 import { FloatLabel } from 'primeng/floatlabel';
 import { Message } from 'primeng/message';
 import { Store } from '@ngrx/store';
@@ -12,7 +13,7 @@ import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login-form',
-  imports: [ReactiveFormsModule, InputTextModule, FloatLabel, Message, ToastModule],
+  imports: [ReactiveFormsModule, InputTextModule, PasswordModule, FloatLabel, Message, ToastModule],
   templateUrl: './login-form.html',
   providers:[MessageService]
 })

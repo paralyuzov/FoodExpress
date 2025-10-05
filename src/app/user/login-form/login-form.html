@@ -18,7 +18,7 @@
     </div>
     <div class="">
       <p-floatlabel variant="on">
-        <input pInputText id="password" formControlName="password" type="password" autocomplete="off" class="w-full!"  />
+        <p-password id="password" formControlName="password" [feedback]="false" [toggleMask]="true" autocomplete="on" class="w-full!" />
         <label class="text-amber-300!" for="password">Password</label>
       </p-floatlabel>
       @if(isInvalid('password')) {
