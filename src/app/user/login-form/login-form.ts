@@ -9,11 +9,11 @@ import { selectAuthError, selectAuthLoading, selectIsAuthenticated } from '../..
 import { AuthActions } from '../../../store/auth/auth.actions';
 import { MessageService } from 'primeng/api';
 import { ToastModule } from 'primeng/toast';
-import { Router } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-login-form',
-  imports: [ReactiveFormsModule, InputTextModule, PasswordModule, FloatLabel, Message, ToastModule],
+  imports: [ReactiveFormsModule, InputTextModule, PasswordModule, FloatLabel, Message, ToastModule, RouterModule],
   templateUrl: './login-form.html',
   providers:[MessageService]
 })

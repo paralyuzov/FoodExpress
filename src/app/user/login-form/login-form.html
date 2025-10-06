@@ -1,49 +1,68 @@
 <div class="font-pt-sans">
-  <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="w-full flex flex-col gap-4 p-12">
-    <div class="text-center">
-      <h2 class="text-2xl bg-gradient-to-r from-amber-200 to-amber-400 bg-clip-text text-transparent">Welcome back!</h2>
-      <h3>Please enter your account details.</h3>
+  <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="flex flex-col gap-6">
+
+    <div class="space-y-4">
+      <div class="space-y-2">
+        <p-floatlabel variant="on">
+          <input pInputText id="email" formControlName="email" autocomplete="email" class="w-full" />
+          <label class="text-amber-300!" for="email">Email Address</label>
+        </p-floatlabel>
+        @if(isInvalid('email')) {
+        <p-message size="small" severity="error" variant="simple">{{
+          getErrorMessage('email')
+          }}</p-message>
+        }
+      </div>
+
+      <div class="space-y-2">
+        <p-floatlabel variant="on">
+          <p-password id="password" formControlName="password" [feedback]="false" fluid="true" [toggleMask]="true" autocomplete="current-password" class="w-full" />
+          <label class="text-amber-300!" for="password">Password</label>
+        </p-floatlabel>
+        @if(isInvalid('password')) {
+        <p-message size="small" severity="error" variant="simple">{{
+          getErrorMessage('password')
+          }}</p-message>
+        }
+      </div>
     </div>
 
-    <div class="">
-      <p-floatlabel variant="on">
-        <input pInputText id="email" formControlName="email" autocomplete="off" class="w-full!" autocomplete="on" />
-        <label class="text-amber-300!" for="email">Email</label>
-      </p-floatlabel>
-      @if(isInvalid('email')) {
-      <p-message size="small" severity="error" variant="simple">{{
-        getErrorMessage('email')
-        }}</p-message>
-      }
+    <div class="flex items-center justify-between text-sm">
+      <a href="#" class="text-amber-400 hover:text-amber-300 transition-colors font-medium">
+        Forgot password?
+      </a>
     </div>
-    <div class="">
-      <p-floatlabel variant="on">
-        <p-password id="password" formControlName="password" [feedback]="false" [toggleMask]="true" autocomplete="on" class="w-full!" />
-        <label class="text-amber-300!" for="password">Password</label>
-      </p-floatlabel>
-      @if(isInvalid('password')) {
-      <p-message size="small" severity="error" variant="simple">{{
-        getErrorMessage('password')
-        }}</p-message>
-      }
-    </div>
-    <button type="submit" [disabled]="!canSubmit()"
-      class="w-full bg-gradient-to-r from-amber-400 to-orange-500 hover:from-amber-500 hover:to-orange-600 disabled:from-gray-400 disabled:to-gray-500 disabled:cursor-not-allowed text-white font-semibold py-3 px-6 rounded-lg transition-all duration-300 transform hover:scale-[1.02] disabled:scale-100 shadow-lg">
-      @if (isLoading()) {
-      <div class="flex items-center justify-center space-x-2">
-        <div class="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
-        <span>Signing in...</span>
+
+    <div class="space-y-4 pt-2">
+      <button type="submit" [disabled]="!canSubmit()"
+        class="w-full bg-gradient-to-r from-amber-400 to-orange-500 hover:from-amber-500 hover:to-orange-600 disabled:from-gray-400 disabled:to-gray-500 disabled:cursor-not-allowed text-white font-semibold py-4 px-6 rounded-xl transition-all duration-300 transform hover:scale-[1.02] disabled:scale-100 shadow-lg hover:shadow-xl focus:outline-none focus:ring-4 focus:ring-amber-500/20">
+        @if (isLoading()) {
+        <div class="flex items-center justify-center space-x-2">
+          <div class="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
+          <span>Signing in...</span>
+        </div>
+        } @else {
+        <div class="flex items-center justify-center space-x-2">
+          <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+            <path d="M10 17l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+          </svg>
+          <span>Sign In</span>
+        </div>
+        }
+      </button>
+
+      <div class="relative">
+        <div class="absolute inset-0 flex items-center">
+          <div class="w-full border-t border-neutral-700"></div>
+        </div>
       </div>
-      } @else { Sign In }
-    </button>
-     <div class="text-center space-y-2">
-        <a href="#" class="text-amber-300 hover:text-amber-200 text-sm transition-colors">
-          Forgot your password?
-        </a>
-        <p class="text-white/60 text-sm">
+
+      <div class="text-center pt-2">
+        <p class="text-neutral-400 text-sm">
           Don't have an account?
-          <a href="#" class="text-amber-300 hover:text-amber-200 transition-colors">Sign up</a>
+          <a routerLink="/auth/signup" class="text-amber-400 hover:text-amber-300 transition-colors font-medium ml-1">Create one now</a>
         </p>
       </div>
+    </div>
   </form>
 </div>

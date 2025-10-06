@@ -1,6 +1,55 @@
-<div class="flex justify-center p-8">
-  <div class="shadow-lg rounded-2xl shadow-black">
-      <app-login-form/>
+<div class="min-h-screen flex items-center justify-center p-4">
 
+
+  <div class="relative w-full max-w-md">
+    <div class="text-center mb-8">
+      <h1 class="text-3xl font-bold bg-gradient-to-r from-amber-200 to-amber-400 bg-clip-text text-transparent">
+        Welcome Back
+      </h1>
+      <p class="text-neutral-400 mt-2">Sign in to your FoodExpress account</p>
+    </div>
+
+    <div class="bg-neutral-800/50 backdrop-blur-xl border border-neutral-700/50 rounded-3xl shadow-2xl shadow-black/30 overflow-hidden">
+      <div class="bg-gradient-to-r from-amber-500/10 to-orange-500/10 border-b border-neutral-700/50 p-6">
+        <h2 class="text-xl font-semibold text-white text-center">Sign In</h2>
+        <p class="text-neutral-400 text-sm text-center mt-1">Enter your credentials to continue</p>
+      </div>
+
+      <div class="p-6">
+        <app-login-form />
+      </div>
+    </div>
+
+    <div class="mt-8 text-center space-y-4">
+      <div class="flex items-center justify-center space-x-6 text-neutral-500 text-xs">
+        <div class="flex items-center space-x-1">
+          <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+            <path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4z"/>
+          </svg>
+          <span>Secure Login</span>
+        </div>
+        <div class="flex items-center space-x-1">
+          <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+          </svg>
+          <span>Remember Device</span>
+        </div>
+        <div class="flex items-center space-x-1">
+          <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+            <path d="M13 10V3L4 14h7v7l9-11h-7z"/>
+          </svg>
+          <span>Quick Access</span>
+        </div>
+      </div>
+
+      <div class="text-xs text-neutral-500 max-w-sm mx-auto">
+        <p>
+          By signing in, you agree to our updated
+          <a href="#" class="text-amber-400 hover:text-amber-300 transition-colors">Terms of Service</a>
+          and
+          <a href="#" class="text-amber-400 hover:text-amber-300 transition-colors">Privacy Policy</a>
+        </p>
+      </div>
+    </div>
   </div>
 </div>
