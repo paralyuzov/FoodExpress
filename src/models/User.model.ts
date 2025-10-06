@@ -25,6 +25,7 @@ export type Role = 'ADMIN' | 'CUSTOMER';
 export interface UserResponse {
   user: User;
   access_token: string;
+  refresh_token: string;
 }
 
 export interface RegisterDto {
@@ -39,4 +40,9 @@ export interface RegisterDto {
 
 export interface RegisterResponse {
   message: string;
+}
+
+export interface RefreshTokenResponse {
+  access_token: string;
+  refresh_token: string;
 }
