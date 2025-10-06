@@ -1,6 +1,61 @@
-<div class="flex justify-center p-8">
-  <div class="shadow-lg rounded-2xl shadow-black">
-      <app-register-form />
+<div
+  class="min-h-screen flex items-center justify-center p-4"
+>
+  <div class="relative w-full max-w-md">
+    <div class="text-center mb-8">
+      <h1
+        class="text-3xl font-bold bg-gradient-to-r from-amber-200 to-amber-400 bg-clip-text text-transparent"
+      >
+        Join FoodExpress
+      </h1>
+      <p class="text-neutral-400 mt-2">Create your account and start ordering</p>
+    </div>
 
+    <div
+      class="bg-neutral-800/50 backdrop-blur-xl border border-neutral-700/50 rounded-3xl shadow-2xl shadow-black/30 overflow-hidden"
+    >
+      <div
+        class="bg-gradient-to-r from-amber-500/10 to-orange-500/10 border-b border-neutral-700/50 p-6"
+      >
+        <h2 class="text-xl font-semibold text-white text-center">Account Details</h2>
+        <p class="text-neutral-400 text-sm text-center mt-1">Please fill in all required fields</p>
+      </div>
+
+      <div class="p-6">
+        <app-register-form />
+      </div>
+    </div>
+
+    <div class="mt-8 text-center space-y-4">
+      <div class="flex items-center justify-center space-x-6 text-neutral-500 text-xs">
+        <div class="flex items-center space-x-1">
+          <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+            <path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4z" />
+          </svg>
+          <span>Secure Registration</span>
+        </div>
+        <div class="flex items-center space-x-1">
+          <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+            <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+          </svg>
+          <span>Email Verification</span>
+        </div>
+        <div class="flex items-center space-x-1">
+          <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+            <path d="M13 10V3L4 14h7v7l9-11h-7z" />
+          </svg>
+          <span>Quick Setup</span>
+        </div>
+      </div>
+
+      <p class="text-xs text-neutral-500">
+        By creating an account, you agree to our
+        <a href="#" class="text-amber-400 hover:text-amber-300 transition-colors"
+          >Terms of Service</a
+        >
+        and
+        <a href="#" class="text-amber-400 hover:text-amber-300 transition-colors">Privacy Policy</a>
+      </p>
+    </div>
   </div>
 </div>

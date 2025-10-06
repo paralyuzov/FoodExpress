@@ -1,100 +1,117 @@
 <div class="font-pt-sans">
-  <form [formGroup]="registerForm" (ngSubmit)="onSubmit()" class=" flex flex-col gap-4 p-8">
-    <div class="text-center">
-      <h2 class="text-2xl bg-gradient-to-r from-amber-200 to-amber-400 bg-clip-text text-transparent">Register your FoodExpress account</h2>
-      <h3>Please enter your account details.</h3>
-    </div>
+  <form [formGroup]="registerForm" (ngSubmit)="onSubmit()" class="flex flex-col gap-6">
 
-    <div class="">
-      <p-floatlabel variant="on">
-        <input pInputText id="firstName" formControlName="firstName" autocomplete="off" class="w-full" />
-        <label class="text-amber-300!" for="firstName">First Name</label>
-      </p-floatlabel>
-      @if(isInvalid('firstName')) {
-      <p-message size="small" severity="error" variant="simple">{{
-        getErrorMessage('firstName')
-        }}</p-message>
-      }
-    </div>
-
-     <div class="">
-      <p-floatlabel variant="on">
-        <input pInputText id="lastName" formControlName="lastName" autocomplete="off" class="w-full" />
-        <label class="text-amber-300!" for="lastName">Last Name</label>
-      </p-floatlabel>
-      @if(isInvalid('lastName')) {
-      <p-message size="small" severity="error" variant="simple">{{
-        getErrorMessage('lastName')
-        }}</p-message>
-      }
-    </div>
-
-    <div class="">
-      <p-floatlabel variant="on">
-        <input pInputText id="email" formControlName="email" autocomplete="off" class="w-full"/>
-        <label class="text-amber-300!" for="email">Email</label>
-      </p-floatlabel>
-      @if(isInvalid('email')) {
-      <p-message size="small" severity="error" variant="simple">{{
-        getErrorMessage('email')
-        }}</p-message>
-      }
-    </div>
-      <div class="">
-      <p-floatlabel variant="on">
-        <input pInputText id="phone" formControlName="phone" autocomplete="off" class="w-full" />
-        <label class="text-amber-300!" for="phone">Phone</label>
-      </p-floatlabel>
-      @if(isInvalid('phone')) {
-      <p-message size="small" severity="error" variant="simple">{{
-        getErrorMessage('phone')
-        }}</p-message>
-      }
-    </div>
-    <div class="">
-      <p-floatlabel variant="on">
-        <p-password id="password" formControlName="password" [toggleMask]="true" [feedback]="true" fluid="true" autocomplete="off" class="w-full"/>
-        <label class="text-amber-300!" for="password">Password</label>
-      </p-floatlabel>
-      @if(isInvalid('password')) {
-      <p-message size="small" severity="error" variant="simple">{{
-        getErrorMessage('password')
-        }}</p-message>
-      }
-    </div>
-      <div class="">
-      <p-floatlabel variant="on">
-        <p-password id="confirmPassword" formControlName="confirmPassword" [feedback]="false" [toggleMask]="true" fluid="true" autocomplete="off" class="w-full" />
-        <label class="text-amber-300!" for="confirmPassword">Confirm Password</label>
-      </p-floatlabel>
-      @if(isInvalid('confirmPassword')) {
-      <p-message size="small" severity="error" variant="simple">{{
-        getErrorMessage('confirmPassword')
-        }}</p-message>
-      }
-      @if(hasPasswordMismatch()) {
-      <p-message size="small" severity="error" variant="simple">{{
-        getFormError()
-        }}</p-message>
-      }
-    </div>
-    <button type="submit" [disabled]="!canSubmit()"
-      class="w-full bg-gradient-to-r from-amber-400 to-orange-500 hover:from-amber-500 hover:to-orange-600 disabled:from-gray-400 disabled:to-gray-500 disabled:cursor-not-allowed text-white font-semibold py-3 px-6 rounded-lg transition-all duration-300 transform hover:scale-[1.02] disabled:scale-100 shadow-lg">
-      @if (isLoading()) {
-      <div class="flex items-center justify-center space-x-2">
-        <div class="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
-        <span>Signing up...</span>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div class="space-y-2">
+        <p-floatlabel variant="on">
+          <input pInputText id="firstName" formControlName="firstName" autocomplete="off" class="w-full" />
+          <label class="text-amber-300!" for="firstName">First Name</label>
+        </p-floatlabel>
+        @if(isInvalid('firstName')) {
+        <p-message size="small" severity="error" variant="simple">{{
+          getErrorMessage('firstName')
+          }}</p-message>
+        }
       </div>
-      } @else { Sign up }
-    </button>
-     <div class="text-center space-y-2">
-        <p class="text-white/60 text-sm">
+
+      <div class="space-y-2">
+        <p-floatlabel variant="on">
+          <input pInputText id="lastName" formControlName="lastName" autocomplete="off" class="w-full" />
+          <label class="text-amber-300!" for="lastName">Last Name</label>
+        </p-floatlabel>
+        @if(isInvalid('lastName')) {
+        <p-message size="small" severity="error" variant="simple">{{
+          getErrorMessage('lastName')
+          }}</p-message>
+        }
+      </div>
+    </div>
+
+    <div class="space-y-4">
+      <div class="space-y-2">
+        <p-floatlabel variant="on">
+          <input pInputText id="email" formControlName="email" autocomplete="off" class="w-full"/>
+          <label class="text-amber-300!" for="email">Email Address</label>
+        </p-floatlabel>
+        @if(isInvalid('email')) {
+        <p-message size="small" severity="error" variant="simple">{{
+          getErrorMessage('email')
+          }}</p-message>
+        }
+      </div>
+
+      <div class="space-y-2">
+        <p-floatlabel variant="on">
+          <input pInputText id="phone" formControlName="phone" autocomplete="off" class="w-full" />
+          <label class="text-amber-300!" for="phone">Phone Number</label>
+        </p-floatlabel>
+        @if(isInvalid('phone')) {
+        <p-message size="small" severity="error" variant="simple">{{
+          getErrorMessage('phone')
+          }}</p-message>
+        }
+      </div>
+    </div>
+
+    <div class="space-y-4">
+      <div class="border-t border-neutral-700/50 pt-4">
+        <div class="space-y-4">
+          <div class="space-y-2">
+            <p-floatlabel variant="on">
+              <p-password id="password" formControlName="password" [toggleMask]="true" [feedback]="false" fluid="true" autocomplete="off" class="w-full"/>
+              <label class="text-amber-300!" for="password">Password</label>
+            </p-floatlabel>
+            @if(isInvalid('password')) {
+            <p-message size="small" severity="error" variant="simple">{{
+              getErrorMessage('password')
+              }}</p-message>
+            }
+          </div>
+
+          <div class="space-y-2">
+            <p-floatlabel variant="on">
+              <p-password id="confirmPassword" formControlName="confirmPassword" [feedback]="false" [toggleMask]="true" fluid="true" autocomplete="off" class="w-full" />
+              <label class="text-amber-300!" for="confirmPassword">Confirm Password</label>
+            </p-floatlabel>
+            @if(isInvalid('confirmPassword')) {
+            <p-message size="small" severity="error" variant="simple">{{
+              getErrorMessage('confirmPassword')
+              }}</p-message>
+            }
+            @if(hasPasswordMismatch()) {
+            <p-message size="small" severity="error" variant="simple">{{
+              getFormError()
+              }}</p-message>
+            }
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="space-y-4 pt-2">
+      <button type="submit" [disabled]="!canSubmit()"
+        class="w-full bg-gradient-to-r from-amber-400 to-orange-500 hover:from-amber-500 hover:to-orange-600 disabled:from-gray-400 disabled:to-gray-500 disabled:cursor-not-allowed text-white font-semibold py-4 px-6 rounded-xl transition-all duration-300 transform hover:scale-[1.02] disabled:scale-100 shadow-lg hover:shadow-xl focus:outline-none focus:ring-4 focus:ring-amber-500/20">
+        @if (isLoading()) {
+        <div class="flex items-center justify-center space-x-2">
+          <div class="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
+          <span>Creating Account...</span>
+        </div>
+        } @else {
+        <div class="flex items-center justify-center space-x-2">
+          <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+            <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/>
+          </svg>
+          <span>Create Account</span>
+        </div>
+        }
+      </button>
+
+      <div class="text-center">
+        <p class="text-neutral-400 text-sm">
           Already have an account?
-          <a routerLink='/auth/login' class="text-amber-300 hover:text-amber-200 transition-colors">Login here.</a>
+          <a routerLink='/auth/login' class="text-amber-400 hover:text-amber-300 transition-colors font-medium ml-1">Sign in here</a>
         </p>
       </div>
+    </div>
   </form>
-  <div>
-
-  </div>
 </div>
