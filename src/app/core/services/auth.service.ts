@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
-import { RegisterDto, RegisterResponse, User, UserResponse } from '../../../models/User.model';
+import { RegisterDto, RegisterResponse, User, UserResponse, RefreshTokenResponse } from '../../../models/User.model';
 import { Observable } from 'rxjs';
 import { ConfigService } from './config.service';
 
@@ -26,6 +26,18 @@ export class AuthService {
 
   verifyUser() {
     return this.http.get<User>(`${this.API_URL}/me`);
+  }
+
+  refreshToken(): Observable<RefreshTokenResponse> {
+    const refreshToken = localStorage.getItem('x-refresh-token');
+    const headers = {
+      'x-refresh-token': refreshToken || ''
+    }
+    return this.http.post<RefreshTokenResponse>(`${this.API_URL}/refresh`, {}, { headers });
+  }
+
+  logout() {
+    return this.http.post<{ message: string }>(`${this.API_URL}/logout`, {});
   }
 
   changePassword(currentPassword: string, newPassword: string, confirmNewPassword: string) {
