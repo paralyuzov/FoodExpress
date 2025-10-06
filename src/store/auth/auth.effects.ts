@@ -9,17 +9,22 @@ import { MessageService } from 'primeng/api';
 
 export const authEffects = {
   login: createEffect(
-    (actions$ = inject(Actions), authService = inject(AuthService), messageService = inject(MessageService)) => {
+    (
+      actions$ = inject(Actions),
+      authService = inject(AuthService),
+      messageService = inject(MessageService)
+    ) => {
       return actions$.pipe(
         ofType(AuthActions.login),
         switchMap(({ email, password }) =>
           authService.login(email, password).pipe(
             map((response) => {
               localStorage.setItem('access_token', response.access_token);
+              localStorage.setItem('x-refresh-token', response.refresh_token);
               messageService.add({
                 severity: 'success',
                 summary: 'Success',
-                detail: 'Login successful!'
+                detail: 'Login successful!',
               });
               return AuthActions.loginSuccess({ user: response.user });
             }),
@@ -27,7 +32,7 @@ export const authEffects = {
               messageService.add({
                 severity: 'error',
                 summary: 'Login Failed',
-                detail: error.error?.message || error.message || 'Login failed'
+                detail: error.error?.message || error.message || 'Login failed',
               });
               return of(
                 AuthActions.loginFailure({
@@ -43,7 +48,11 @@ export const authEffects = {
   ),
 
   register: createEffect(
-    (actions$ = inject(Actions), authService = inject(AuthService), messageService = inject(MessageService)) => {
+    (
+      actions$ = inject(Actions),
+      authService = inject(AuthService),
+      messageService = inject(MessageService)
+    ) => {
       return actions$.pipe(
         ofType(AuthActions.register),
         switchMap((action) => {
@@ -61,7 +70,7 @@ export const authEffects = {
               messageService.add({
                 severity: 'success',
                 summary: 'Success',
-                detail: response.message || 'Registration successful!'
+                detail: response.message || 'Registration successful!',
               });
               return AuthActions.registerSuccess({ message: response.message });
             }),
@@ -69,7 +78,7 @@ export const authEffects = {
               messageService.add({
                 severity: 'error',
                 summary: 'Registration Failed',
-                detail: error.error?.message || error.message || 'Registration failed'
+                detail: error.error?.message || error.message || 'Registration failed',
               });
               return of(
                 AuthActions.registerFailure({
@@ -85,7 +94,11 @@ export const authEffects = {
   ),
 
   veryifyEmail: createEffect(
-    (actions$ = inject(Actions), authService = inject(AuthService), messageService = inject(MessageService)) => {
+    (
+      actions$ = inject(Actions),
+      authService = inject(AuthService),
+      messageService = inject(MessageService)
+    ) => {
       return actions$.pipe(
         ofType(AuthActions.verifyEmail),
         switchMap(({ token }) =>
@@ -94,7 +107,7 @@ export const authEffects = {
               messageService.add({
                 severity: 'success',
                 summary: 'Success',
-                detail: response.message || 'Email verified successfully!'
+                detail: response.message || 'Email verified successfully!',
               });
               return AuthActions.verifyEmailSuccess({ message: response.message });
             }),
@@ -102,7 +115,7 @@ export const authEffects = {
               messageService.add({
                 severity: 'error',
                 summary: 'Verification Failed',
-                detail: error.error?.message || error.message || 'Email verification failed'
+                detail: error.error?.message || error.message || 'Email verification failed',
               });
               return of(
                 AuthActions.verifyEmailFailure({
@@ -118,17 +131,27 @@ export const authEffects = {
   ),
 
   logout: createEffect(
-    (actions$ = inject(Actions), messageService = inject(MessageService)) => {
+    (actions$ = inject(Actions), authService = inject(AuthService), messageService = inject(MessageService)) => {
       return actions$.pipe(
         ofType(AuthActions.logout),
-        map(() => {
+        switchMap(() => authService.logout()),
+        map((response) => {
           localStorage.removeItem('access_token');
+          localStorage.removeItem('x-refresh-token');
           messageService.add({
             severity: 'info',
             summary: 'Logged Out',
-            detail: 'You have been logged out successfully'
+            detail: `${response.message}` || 'You have been logged out successfully',
           });
-          return { type: 'NO_ACTION' };
+          return AuthActions.logoutSuccess({ message: response.message });
+        }),
+        catchError((error) => {
+          messageService.add({
+            severity: 'error',
+            summary: 'Logout Failed',
+            detail: error.error?.message || error.message || 'Logout failed',
+          });
+          return of(AuthActions.logoutFailure({ error: error.error?.message || error.message || 'Logout failed' }));
         })
       );
     },
@@ -210,7 +233,11 @@ export const authEffects = {
     { functional: true }
   ),
   changePassword: createEffect(
-    (actions$ = inject(Actions), authService = inject(AuthService), messageService = inject(MessageService)) => {
+    (
+      actions$ = inject(Actions),
+      authService = inject(AuthService),
+      messageService = inject(MessageService)
+    ) => {
       return actions$.pipe(
         ofType(AuthActions.changePassword),
         switchMap(({ currentPassword, newPassword, confirmNewPassword }) =>
@@ -219,7 +246,7 @@ export const authEffects = {
               messageService.add({
                 severity: 'success',
                 summary: 'Success',
-                detail: 'Password changed successfully. Please login with your new password.'
+                detail: 'Password changed successfully. Please login with your new password.',
               });
               return AuthActions.logout();
             }),
@@ -227,7 +254,7 @@ export const authEffects = {
               messageService.add({
                 severity: 'error',
                 summary: 'Password Change Failed',
-                detail: error.error?.message || error.message || 'Failed to change password'
+                detail: error.error?.message || error.message || 'Failed to change password',
               });
               return of(
                 AuthActions.changePasswordFailure({
