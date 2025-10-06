@@ -146,11 +146,6 @@ export const authEffects = {
           return AuthActions.logoutSuccess({ message: response.message });
         }),
         catchError((error) => {
-          messageService.add({
-            severity: 'error',
-            summary: 'Logout Failed',
-            detail: error.error?.message || error.message || 'Logout failed',
-          });
           return of(AuthActions.logoutFailure({ error: error.error?.message || error.message || 'Logout failed' }));
         })
       );
