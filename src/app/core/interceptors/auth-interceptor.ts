@@ -1,13 +1,10 @@
 import { HttpInterceptorFn, HttpErrorResponse } from '@angular/common/http';
 import { inject } from '@angular/core';
-import { Store } from '@ngrx/store';
 import { AuthService } from '../services/auth.service';
-import { AuthActions } from '../../../store/auth/auth.actions';
 import { catchError, switchMap, throwError } from 'rxjs';
 
 export const authInterceptor: HttpInterceptorFn = (req, next) => {
   const authService = inject(AuthService);
-  const store = inject(Store);
   const token = localStorage.getItem('access_token');
 
   const authReq = token ? req.clone({
@@ -36,13 +33,9 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
               return next(newAuthReq);
             }),
             catchError((refreshError) => {
-              store.dispatch(AuthActions.logout());
-
               return throwError(() => refreshError);
             })
           );
-        } else {
-          store.dispatch(AuthActions.logout());
         }
       }
       return throwError(() => error);
