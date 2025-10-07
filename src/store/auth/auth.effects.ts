@@ -131,7 +131,11 @@ export const authEffects = {
   ),
 
   logout: createEffect(
-    (actions$ = inject(Actions), authService = inject(AuthService), messageService = inject(MessageService)) => {
+    (
+      actions$ = inject(Actions),
+      authService = inject(AuthService),
+      messageService = inject(MessageService)
+    ) => {
       return actions$.pipe(
         ofType(AuthActions.logout),
         switchMap(() => authService.logout()),
@@ -146,7 +150,11 @@ export const authEffects = {
           return AuthActions.logoutSuccess({ message: response.message });
         }),
         catchError((error) => {
-          return of(AuthActions.logoutFailure({ error: error.error?.message || error.message || 'Logout failed' }));
+          return of(
+            AuthActions.logoutFailure({
+              error: error.error?.message || error.message || 'Logout failed',
+            })
+          );
         })
       );
     },
@@ -254,6 +262,78 @@ export const authEffects = {
               return of(
                 AuthActions.changePasswordFailure({
                   error: error.error?.message || error.message || 'Change password failed',
+                })
+              );
+            })
+          )
+        )
+      );
+    },
+    { functional: true }
+  ),
+  forgotPassword: createEffect(
+    (
+      actions$ = inject(Actions),
+      authService = inject(AuthService),
+      messageService = inject(MessageService)
+    ) => {
+      return actions$.pipe(
+        ofType(AuthActions.forgotPassword),
+        switchMap(({ email }) =>
+          authService.forgotPassword(email).pipe(
+            map((response) => {
+              messageService.add({
+                severity: 'success',
+                summary: 'Success',
+                detail: response.message || 'Password reset link sent to your email.',
+              });
+              return AuthActions.forgotPasswordSuccess({ message: response.message });
+            }),
+            catchError((error) => {
+              messageService.add({
+                severity: 'error',
+                summary: 'Request Failed',
+                detail: error.error?.message || error.message || 'Failed to send reset link',
+              });
+              return of(
+                AuthActions.forgotPasswordFailure({
+                  error: error.error?.message || error.message || 'Failed to send reset link',
+                })
+              );
+            })
+          )
+        )
+      );
+    },
+    { functional: true }
+  ),
+  resetPassword: createEffect(
+    (
+      actions$ = inject(Actions),
+      authService = inject(AuthService),
+      messageService = inject(MessageService)
+    ) => {
+      return actions$.pipe(
+        ofType(AuthActions.resetPassword),
+        switchMap(({ token, newPassword, confirmNewPassword }) =>
+          authService.resetPassword(token, newPassword, confirmNewPassword).pipe(
+            map((response) => {
+              messageService.add({
+                severity: 'success',
+                summary: 'Success',
+                detail: response.message || 'Password has been reset successfully. Please login with your new password.',
+              });
+              return AuthActions.resetPasswordSuccess({ message: response.message });
+            }),
+            catchError((error) => {
+              messageService.add({
+                severity: 'error',
+                summary: 'Reset Failed',
+                detail: error.error?.message || error.message || 'Failed to reset password',
+              });
+              return of(
+                AuthActions.resetPasswordFailure({
+                  error: error.error?.message || error.message || 'Failed to reset password',
                 })
               );
             })

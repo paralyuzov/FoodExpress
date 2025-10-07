@@ -5,23 +5,34 @@ import { PasswordModule } from 'primeng/password';
 import { FloatLabel } from 'primeng/floatlabel';
 import { Message } from 'primeng/message';
 import { Store } from '@ngrx/store';
-import { selectAuthError, selectAuthLoading, selectIsAuthenticated } from '../../../store/auth/auth.selectors';
+import {
+  selectAuthError,
+  selectAuthLoading,
+  selectIsAuthenticated,
+} from '../../../store/auth/auth.selectors';
 import { AuthActions } from '../../../store/auth/auth.actions';
-import { MessageService } from 'primeng/api';
-import { ToastModule } from 'primeng/toast';
 import { Router, RouterModule } from '@angular/router';
+import { DialogService } from 'primeng/dynamicdialog';
+import { ForgotPassword } from '../forgot-password/forgot-password';
 
 @Component({
   selector: 'app-login-form',
-  imports: [ReactiveFormsModule, InputTextModule, PasswordModule, FloatLabel, Message, ToastModule, RouterModule],
+  imports: [
+    ReactiveFormsModule,
+    InputTextModule,
+    PasswordModule,
+    FloatLabel,
+    Message,
+    RouterModule,
+  ],
   templateUrl: './login-form.html',
-  providers:[MessageService]
+  providers: [DialogService],
 })
 export class LoginForm {
   private fb = inject(FormBuilder);
   private store = inject(Store);
-  private messageService = inject(MessageService);
-  private router = inject(Router)
+  private router = inject(Router);
+  private dialogService = inject(DialogService);
 
   formSubmitted = signal<boolean>(false);
 
@@ -34,27 +45,15 @@ export class LoginForm {
     const isAuth = this.isAuthenticated();
     if (error) {
       this.formSubmitted.set(false);
-      this.messageService.add({
-        severity: 'error',
-        summary: 'Login Failed',
-        detail: error,
-        life: 5000,
-      });
 
       setTimeout(() => {
         this.loginForm.reset();
         this.formSubmitted.set(false);
         this.store.dispatch(AuthActions.clearAuthError());
-      }, 1000);
+      }, 3000);
     }
 
-    if(isAuth) {
-      this.messageService.add({
-        severity: 'success',
-        summary: 'Login Successful',
-        detail: 'You have been logged in successfully.',
-        life: 3000,
-      });
+    if (isAuth) {
       this.router.navigate(['/']);
     }
   });
@@ -93,5 +92,16 @@ export class LoginForm {
     } else {
       this.loginForm.markAllAsTouched();
     }
+  }
+
+  onForgotPassword() {
+    this.dialogService.open(ForgotPassword, {
+      header: 'Forgot Password',
+      styleClass: 'w-96! bg-neutral-900!',
+      closable: true,
+      maskStyleClass: 'backdrop-blur-sm',
+      closeOnEscape: true,
+      focusOnShow: false,
+    });
   }
 }

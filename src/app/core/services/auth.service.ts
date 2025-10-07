@@ -43,4 +43,12 @@ export class AuthService {
   changePassword(currentPassword: string, newPassword: string, confirmNewPassword: string) {
     return this.http.post<{ message: string }>(`${this.API_URL}/change-password`, { currentPassword, newPassword, confirmNewPassword });
   }
+
+  forgotPassword(email: string) {
+    return this.http.post<{ message: string }>(`${this.API_URL}/forgot-password`, { email });
+  }
+
+  resetPassword(token: string, newPassword: string, confirmNewPassword: string) {
+    return this.http.post<{ message: string }>(`${this.API_URL}/reset-password?token=${token}`, { newPassword, confirmNewPassword });
+  }
 }

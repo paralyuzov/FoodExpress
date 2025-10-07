@@ -29,7 +29,7 @@ export class ChangePasswordForm {
 
   isLoading = this.store.selectSignal(selectAuthLoading);
 
-  resetPasswordForm: FormGroup = this.fb.group(
+  changePasswordForm: FormGroup = this.fb.group(
     {
       currentPassword: ['', Validators.required],
       newPassword: ['', [Validators.required, Validators.minLength(6)]],
@@ -47,19 +47,19 @@ export class ChangePasswordForm {
   }
 
   isInvalid(controlName: string): boolean {
-    const control = this.resetPasswordForm.get(controlName);
+    const control = this.changePasswordForm.get(controlName);
     return !!(control?.invalid && (control?.touched || control?.dirty || this.isSubmitted()));
   }
 
   hasPasswordMismatch(): boolean {
     return !!(
-      this.resetPasswordForm.errors?.['passwordsMismatch'] &&
-      this.resetPasswordForm.get('confirmNewPassword')?.touched
+      this.changePasswordForm.errors?.['passwordsMismatch'] &&
+      this.changePasswordForm.get('confirmNewPassword')?.touched
     );
   }
 
   getErrorMessage(controlName: string): string {
-    const control = this.resetPasswordForm.get(controlName);
+    const control = this.changePasswordForm.get(controlName);
     if (!control?.errors) return '';
     if (control.errors['required']) {
       return 'This field is required';
@@ -70,7 +70,7 @@ export class ChangePasswordForm {
     }
     if (
       controlName === 'confirmNewPassword' &&
-      this.resetPasswordForm.errors?.['passwordsMismatch']
+      this.changePasswordForm.errors?.['passwordsMismatch']
     ) {
       return 'Passwords do not match';
     }
@@ -78,23 +78,23 @@ export class ChangePasswordForm {
   }
 
    getFormError(): string {
-    return this.resetPasswordForm.errors?.['passwordsMismatch'] ? 'Passwords do not match.' : '';
+    return this.changePasswordForm.errors?.['passwordsMismatch'] ? 'Passwords do not match.' : '';
   }
 
   canSubmit(): boolean {
-    return this.resetPasswordForm.valid && !this.isLoading() && !this.isSubmitted();
+    return this.changePasswordForm.valid && !this.isLoading() && !this.isSubmitted();
   }
 
   onSubmit() {
     this.isSubmitted.set(true);
-    if (this.resetPasswordForm.valid) {
-      const { currentPassword, newPassword, confirmNewPassword } = this.resetPasswordForm.value;
+    if (this.changePasswordForm.valid) {
+      const { currentPassword, newPassword, confirmNewPassword } = this.changePasswordForm.value;
       this.store.dispatch(
         AuthActions.changePassword({ currentPassword, newPassword, confirmNewPassword })
       );
       this.dialogRef.close();
     } else {
-      this.resetPasswordForm.markAllAsTouched();
+      this.changePasswordForm.markAllAsTouched();
     }
   }
 }

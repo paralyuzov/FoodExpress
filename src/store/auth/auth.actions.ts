@@ -24,5 +24,11 @@ export const AuthActions = createActionGroup({
     'Change Password': props<{ currentPassword: string; newPassword: string; confirmNewPassword: string }>(),
     'Change Password Success': props<{ message: string }>(),
     'Change Password Failure': props<{ error: string }>(),
+    'Forgot Password': props<{ email: string }>(),
+    'Forgot Password Success': props<{ message: string }>(),
+    'Forgot Password Failure': props<{ error: string }>(),
+    'Reset Password': props<{ token: string; newPassword: string; confirmNewPassword: string }>(),
+    'Reset Password Success': props<{ message: string }>(),
+    'Reset Password Failure': props<{ error: string }>(),
   },
 });

@@ -14,19 +14,30 @@ export const routes: Routes = [
   },
   {
     path: 'auth/verify-email',
-    loadComponent: () => import('./user/verify-email-page/verify-email-page').then((m) => m.VerifyEmailPage),
+    loadComponent: () =>
+      import('./user/verify-email-page/verify-email-page').then((m) => m.VerifyEmailPage),
+  },
+  {
+    path: 'auth/reset-password',
+    loadComponent: () =>
+      import('./user/reset-password-page/reset-password-page').then((m) => m.ResetPasswordPage),
   },
   {
     path: 'restaurants',
-    loadComponent: () => import('./restaurant/restaurant-page/restaurant-page').then((m) => m.RestaurantPage),
+    loadComponent: () =>
+      import('./restaurant/restaurant-page/restaurant-page').then((m) => m.RestaurantPage),
   },
   {
     path: 'restaurants/:id',
-    loadComponent: () => import('./restaurant/restaurant-menu-page/restaurant-menu-page').then((m) => m.RestaurantMenuPage),
+    loadComponent: () =>
+      import('./restaurant/restaurant-menu-page/restaurant-menu-page').then(
+        (m) => m.RestaurantMenuPage
+      ),
   },
   {
     path: 'order-success',
-    loadComponent: () => import('./user/order-success-page/order-success-page').then((m) => m.OrderSuccessPage),
+    loadComponent: () =>
+      import('./user/order-success-page/order-success-page').then((m) => m.OrderSuccessPage),
   },
   {
     path: 'profile',
@@ -34,7 +45,7 @@ export const routes: Routes = [
   },
   {
     path: 'categories',
-    loadComponent: () => import('./categories/categories').then((m) => m.Categories)
+    loadComponent: () => import('./categories/categories').then((m) => m.Categories),
   },
   {
     path: 'admin',
@@ -43,29 +54,35 @@ export const routes: Routes = [
       {
         path: '',
         redirectTo: 'dashboard',
-        pathMatch: 'full'
+        pathMatch: 'full',
       },
       {
         path: 'dashboard',
         canActivate: [adminGuard],
-        loadComponent: () => import('./admin/admin-dashboard/admin-dashboard').then((m) => m.AdminDashboard)
+        loadComponent: () =>
+          import('./admin/admin-dashboard/admin-dashboard').then((m) => m.AdminDashboard),
       },
       {
         path: 'orders',
         canActivate: [adminGuard],
-        loadComponent: () => import('./admin/admin-orders-table/admin-orders-table').then((m) => m.AdminOrdersTable)
+        loadComponent: () =>
+          import('./admin/admin-orders-table/admin-orders-table').then((m) => m.AdminOrdersTable),
       },
       {
         path: 'restaurants',
         canActivate: [adminGuard],
-        loadComponent: () => import('./admin/admin-restaurant-table/admin-restaurant-table').then((m) => m.AdminRestaurantTable)
+        loadComponent: () =>
+          import('./admin/admin-restaurant-table/admin-restaurant-table').then(
+            (m) => m.AdminRestaurantTable
+          ),
       },
       {
         path: 'users',
         canActivate: [adminGuard],
-        loadComponent: () => import('./admin/admin-users-table/admin-users-table').then((m) => m.AdminUsersTable)
-      }
+        loadComponent: () =>
+          import('./admin/admin-users-table/admin-users-table').then((m) => m.AdminUsersTable),
+      },
     ],
-    loadComponent: () => import('./admin/admin').then((m) => m.Admin)
-  }
+    loadComponent: () => import('./admin/admin').then((m) => m.Admin),
+  },
 ];

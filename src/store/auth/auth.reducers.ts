@@ -127,5 +127,37 @@ export const authReducer = createReducer(
     ...state,
     loading: false,
     error,
+  })),
+  on(AuthActions.forgotPassword, (state) => ({
+    ...state,
+    loading: false,
+    error: null,
+    message: null,
+  })),
+  on(AuthActions.forgotPasswordSuccess, (state, { message }) => ({
+    ...state,
+    loading: false,
+    message,
+  })),
+  on(AuthActions.forgotPasswordFailure, (state, { error }) => ({
+    ...state,
+    loading: false,
+    error,
+  })),
+  on(AuthActions.resetPassword, (state) => ({
+    ...state,
+    loading: false,
+    error: null,
+    message: null,
+  })),
+  on(AuthActions.resetPasswordSuccess, (state, { message }) => ({
+    ...state,
+    loading: false,
+    message,
+  })),
+  on(AuthActions.resetPasswordFailure, (state, { error }) => ({
+    ...state,
+    loading: false,
+    error,
   }))
 );
