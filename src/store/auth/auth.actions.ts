@@ -30,5 +30,8 @@ export const AuthActions = createActionGroup({
     'Reset Password': props<{ token: string; newPassword: string; confirmNewPassword: string }>(),
     'Reset Password Success': props<{ message: string }>(),
     'Reset Password Failure': props<{ error: string }>(),
+    'Resend Verification Email': props<{ email: string }>(),
+    'Resend Verification Email Success': props<{ message: string }>(),
+    'Resend Verification Email Failure': props<{ error: string }>(),
   },
 });

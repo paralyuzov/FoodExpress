@@ -1,8 +1,270 @@
-<div class="flex justify-center p-8">
-  @if(message()) {
-  <span class="text-3xl text-center p-12 text-amber-300">{{ message() }}</span>
-  <h2>You can now <a routerLink="/auth/login">Login</a></h2>
-  } @else {
-  <h2 class="text-3xl text-red-500">{{ error() }}</h2>
-  }
+<div class="min-h-screen bg-gradient-to-br from-neutral-900 via-neutral-800 to-neutral-900 flex items-center justify-center p-4">
+  <div class="absolute inset-0 opacity-30" style="background-image: url('data:image/svg+xml,%3Csvg width=&quot;60&quot; height=&quot;60&quot; viewBox=&quot;0 0 60 60&quot; xmlns=&quot;http://www.w3.org/2000/svg&quot;%3E%3Cg fill=&quot;none&quot; fill-rule=&quot;evenodd&quot;%3E%3Cg fill=&quot;%23f59e0b&quot; fill-opacity=&quot;0.05&quot;%3E%3Ccircle cx=&quot;30&quot; cy=&quot;30&quot; r=&quot;2&quot;/%3E%3C/g%3E%3C/g%3E%3C/svg%3E');"></div>
+
+  <div class="relative w-full max-w-md">
+    <div class="text-center mb-8">
+      <h1 class="text-3xl font-bold bg-gradient-to-r from-amber-200 to-amber-400 bg-clip-text text-transparent">
+        Email Verification
+      </h1>
+      <p class="text-neutral-400 mt-2">Confirming your account activation</p>
+    </div>
+
+    @if (isLoading()) {
+      <div class="bg-neutral-800/50 backdrop-blur-xl border border-neutral-700/50 rounded-3xl shadow-2xl shadow-black/30 overflow-hidden">
+        <div class="p-8 text-center">
+          <div class="flex justify-center mb-6">
+            <div class="w-16 h-16 border-4 border-amber-400/30 border-t-amber-400 rounded-full animate-spin"></div>
+          </div>
+          <h2 class="text-xl font-semibold text-white mb-2">Verifying Your Email</h2>
+          <p class="text-neutral-400">Please wait while we confirm your account...</p>
+        </div>
+      </div>
+    } @else if (message()) {
+      <div class="bg-neutral-800/50 backdrop-blur-xl border border-neutral-700/50 rounded-3xl shadow-2xl shadow-black/30 overflow-hidden">
+        <div class="bg-gradient-to-r from-green-500/10 to-emerald-500/10 border-b border-neutral-700/50 p-6">
+          <div class="flex items-center justify-center mb-4">
+            <div class="w-16 h-16 bg-gradient-to-r from-green-400 to-emerald-500 rounded-full flex items-center justify-center">
+              <svg class="w-8 h-8 text-white" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+              </svg>
+            </div>
+          </div>
+          <h2 class="text-xl font-semibold text-white text-center">Email Verified Successfully!</h2>
+        </div>
+
+        <div class="p-6">
+          <div class="text-center mb-6">
+            <p class="text-neutral-300 text-lg mb-2">{{ message() }}</p>
+            <p class="text-neutral-400 text-sm">Your account has been activated and you're ready to start using FoodExpress.</p>
+          </div>
+
+          <div class="bg-neutral-700/30 rounded-xl p-4 mb-6">
+            <h3 class="text-sm font-medium text-neutral-300 mb-3 flex items-center">
+              <svg class="w-4 h-4 mr-2 text-green-400" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+              </svg>
+              What's Next?
+            </h3>
+            <ul class="text-xs text-neutral-400 space-y-2">
+              <li class="flex items-center">
+                <span class="w-2 h-2 bg-green-400 rounded-full mr-3"></span>
+                Browse thousands of restaurants and cuisines
+              </li>
+              <li class="flex items-center">
+                <span class="w-2 h-2 bg-green-400 rounded-full mr-3"></span>
+                Create your personalized food profile
+              </li>
+              <li class="flex items-center">
+                <span class="w-2 h-2 bg-green-400 rounded-full mr-3"></span>
+                Enjoy fast and reliable food delivery
+              </li>
+            </ul>
+          </div>
+
+          <div class="space-y-4">
+            <a routerLink="/auth/login"
+               class="w-full bg-gradient-to-r from-green-400 to-emerald-500 hover:from-green-500 hover:to-emerald-600 text-white font-semibold py-4 px-6 rounded-xl transition-all duration-300 transform hover:scale-[1.02] shadow-lg hover:shadow-xl focus:outline-none focus:ring-4 focus:ring-green-500/20 flex items-center justify-center space-x-2">
+              <span>Continue to Sign In</span>
+            </a>
+
+            <div class="text-center">
+              <a routerLink="/" class="text-neutral-400 hover:text-neutral-300 transition-colors text-sm font-medium">
+                ← Back to Home
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    } @else if (error()) {
+      <div class="bg-neutral-800/50 backdrop-blur-xl border border-neutral-700/50 rounded-3xl shadow-2xl shadow-black/30 overflow-hidden">
+        <div class="bg-gradient-to-r from-red-500/10 to-rose-500/10 border-b border-neutral-700/50 p-6">
+          <div class="flex items-center justify-center mb-4">
+            <div class="w-16 h-16 bg-gradient-to-r from-red-400 to-rose-500 rounded-full flex items-center justify-center">
+              <svg class="w-8 h-8 text-white" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
+              </svg>
+            </div>
+          </div>
+          <h2 class="text-xl font-semibold text-white text-center">Verification Failed</h2>
+        </div>
+
+        <div class="p-6">
+          <div class="text-center mb-6">
+            <p class="text-red-300 text-lg mb-2">{{ error() }}</p>
+            <p class="text-neutral-400 text-sm">The verification link may have expired or is invalid.</p>
+          </div>
+
+          <div class="bg-neutral-700/30 rounded-xl p-4 mb-6">
+            <h3 class="text-sm font-medium text-neutral-300 mb-3 flex items-center">
+              <svg class="w-4 h-4 mr-2 text-amber-400" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+              </svg>
+              What to do next?
+            </h3>
+            <ul class="text-xs text-neutral-400 space-y-2">
+              <li class="flex items-center">
+                <span class="w-2 h-2 bg-amber-400 rounded-full mr-3"></span>
+                Check if the verification link is complete
+              </li>
+              <li class="flex items-center">
+                <span class="w-2 h-2 bg-amber-400 rounded-full mr-3"></span>
+                Request a new verification email
+              </li>
+              <li class="flex items-center">
+                <span class="w-2 h-2 bg-amber-400 rounded-full mr-3"></span>
+                Contact support if the problem persists
+              </li>
+            </ul>
+          </div>
+
+          <div class="space-y-4 mb-6">
+            <div>
+              <label for="error-resend-email" class="block text-sm font-medium text-neutral-300 mb-2">
+                Try Again - Enter Your Email
+              </label>
+              <div class="relative">
+                <input
+                  type="email"
+                  id="error-resend-email"
+                  #errorEmailInput
+                  placeholder="Enter your email address"
+                  class="w-full px-4 py-3 bg-neutral-700/50 border border-neutral-600/50 rounded-xl text-white placeholder-neutral-400 focus:outline-none focus:ring-2 focus:ring-amber-500/50 focus:border-amber-500/50 transition-colors"
+                  required
+                />
+                <div class="absolute inset-y-0 right-0 flex items-center pr-3">
+                  <svg class="w-5 h-5 text-neutral-400" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+                  </svg>
+                </div>
+              </div>
+            </div>
+
+            <button
+              type="button"
+              (click)="resendVerificationEmail(errorEmailInput.value)"
+              [disabled]="isLoading()"
+              class="w-full bg-gradient-to-r from-amber-400 to-orange-500 hover:from-amber-500 hover:to-orange-600 disabled:from-amber-400/50 disabled:to-orange-500/50 text-white font-semibold py-4 px-6 rounded-xl transition-all duration-300 transform hover:scale-[1.02] disabled:scale-100 shadow-lg hover:shadow-xl focus:outline-none focus:ring-4 focus:ring-amber-500/20 flex items-center justify-center space-x-2 disabled:cursor-not-allowed">
+              @if (isLoading()) {
+                <div class="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
+                <span>Sending...</span>
+              } @else {
+                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+                </svg>
+                <span>Resend Verification Email</span>
+              }
+            </button>
+          </div>
+
+          <div class="space-y-3">
+            <div class="flex space-x-3">
+              <a routerLink="/auth/register" class="flex-1 text-center bg-neutral-700 hover:bg-neutral-600 text-white font-medium py-3 px-4 rounded-xl transition-colors">
+                Create New Account
+              </a>
+              <a routerLink="/auth/login" class="flex-1 text-center bg-neutral-700 hover:bg-neutral-600 text-white font-medium py-3 px-4 rounded-xl transition-colors">
+                Sign In Instead
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    } @else {
+      <div class="bg-neutral-800/50 backdrop-blur-xl border border-neutral-700/50 rounded-3xl shadow-2xl shadow-black/30 overflow-hidden">
+        <div class="bg-gradient-to-r from-amber-500/10 to-orange-500/10 border-b border-neutral-700/50 p-6">
+          <div class="flex items-center justify-center mb-4">
+            <div class="w-16 h-16 bg-gradient-to-r from-amber-400 to-orange-500 rounded-full flex items-center justify-center">
+              <svg class="w-8 h-8 text-white" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+              </svg>
+            </div>
+          </div>
+          <h2 class="text-xl font-semibold text-white text-center">No Verification Token</h2>
+        </div>
+
+        <div class="p-6">
+          <div class="text-center mb-6">
+            <p class="text-neutral-300 text-lg mb-2">Missing verification token</p>
+            <p class="text-neutral-400 text-sm">Enter your email address to resend the verification link.</p>
+          </div>
+
+          <div class="space-y-4 mb-6">
+            <div>
+              <label for="resend-email" class="block text-sm font-medium text-neutral-300 mb-2">
+                Email Address
+              </label>
+              <div class="relative">
+                <input
+                  type="email"
+                  id="resend-email"
+                  #emailInput
+                  placeholder="Enter your email address"
+                  class="w-full px-4 py-3 bg-neutral-700/50 border border-neutral-600/50 rounded-xl text-white placeholder-neutral-400 focus:outline-none focus:ring-2 focus:ring-amber-500/50 focus:border-amber-500/50 transition-colors"
+                  required
+                  validate="email"
+                />
+                <div class="absolute inset-y-0 right-0 flex items-center pr-3">
+                  <svg class="w-5 h-5 text-neutral-400" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+                  </svg>
+                </div>
+              </div>
+            </div>
+
+            <button
+              type="button"
+              (click)="resendVerificationEmail(emailInput.value)"
+              [disabled]="isLoading()"
+              class="w-full bg-gradient-to-r from-amber-400 to-orange-500 hover:from-amber-500 hover:to-orange-600 disabled:from-amber-400/50 disabled:to-orange-500/50 text-white font-semibold py-4 px-6 rounded-xl transition-all duration-300 transform hover:scale-[1.02] disabled:scale-100 shadow-lg hover:shadow-xl focus:outline-none focus:ring-4 focus:ring-amber-500/20 flex items-center justify-center space-x-2 disabled:cursor-not-allowed">
+              @if (isLoading()) {
+                <div class="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
+                <span>Sending...</span>
+              } @else {
+                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+                </svg>
+                <span>Resend Verification Email</span>
+              }
+            </button>
+          </div>
+
+          <div class="space-y-3">
+            <a routerLink="/auth/register"
+               class="w-full bg-neutral-700 hover:bg-neutral-600 text-white font-medium py-3 px-4 rounded-xl transition-colors flex items-center justify-center space-x-2">
+              <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z"/>
+              </svg>
+              <span>Create New Account</span>
+            </a>
+
+            <div class="text-center">
+              <a routerLink="/auth/login" class="text-neutral-400 hover:text-neutral-300 transition-colors text-sm font-medium">
+                Already have an account? Sign In →
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    }
+
+    <!-- Security Notice -->
+    <div class="mt-8 text-center">
+      <div class="text-xs text-neutral-500 max-w-sm mx-auto">
+        <div class="flex items-center justify-center space-x-4 mb-3">
+          <div class="flex items-center space-x-1">
+            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4z"/>
+            </svg>
+            <span>Secure</span>
+          </div>
+          <div class="flex items-center space-x-1">
+            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M20 6L9 17l-5-5"/>
+            </svg>
+            <span>Verified</span>
+          </div>
+        </div>
+        <p>This verification process ensures the security of your account and protects against unauthorized access.</p>
+      </div>
+    </div>
+  </div>
 </div>

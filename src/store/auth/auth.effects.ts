@@ -343,4 +343,40 @@ export const authEffects = {
     },
     { functional: true }
   ),
+  resendVerificationEmail: createEffect(
+    (
+      actions$ = inject(Actions),
+      authService = inject(AuthService),
+      messageService = inject(MessageService)
+    ) => {
+      return actions$.pipe(
+        ofType(AuthActions.resendVerificationEmail),
+        switchMap(({ email }) =>
+          authService.resendVerificationEmail(email).pipe(
+            map((response) => {
+              messageService.add({
+                severity: 'success',
+                summary: 'Success',
+                detail: response.message || 'Verification email resent successfully.',
+              });
+              return AuthActions.resendVerificationEmailSuccess({ message: response.message });
+            }),
+            catchError((error) => {
+              messageService.add({
+                severity: 'error',
+                summary: 'Request Failed',
+                detail: error.error?.message || error.message || 'Failed to resend verification email',
+              });
+              return of(
+                AuthActions.resendVerificationEmailFailure({
+                  error: error.error?.message || error.message || 'Failed to resend verification email',
+                })
+              );
+            })
+          )
+        )
+      );
+    },
+    { functional: true }
+  ),
 };

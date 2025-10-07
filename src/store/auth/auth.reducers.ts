@@ -76,7 +76,7 @@ export const authReducer = createReducer(
 
   on(AuthActions.verifyEmail, (state) => ({
     ...state,
-    loading: true,
+    loading: false,
     error: null,
   })),
 
@@ -156,6 +156,22 @@ export const authReducer = createReducer(
     message,
   })),
   on(AuthActions.resetPasswordFailure, (state, { error }) => ({
+    ...state,
+    loading: false,
+    error,
+  })),
+  on(AuthActions.resendVerificationEmail, (state) => ({
+    ...state,
+    loading: false,
+    error: null,
+    message: null,
+  })),
+  on(AuthActions.resendVerificationEmailSuccess, (state, { message }) => ({
+    ...state,
+    loading: false,
+    message,
+  })),
+  on(AuthActions.resendVerificationEmailFailure, (state, { error }) => ({
     ...state,
     loading: false,
     error,

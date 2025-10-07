@@ -51,4 +51,8 @@ export class AuthService {
   resetPassword(token: string, newPassword: string, confirmNewPassword: string) {
     return this.http.post<{ message: string }>(`${this.API_URL}/reset-password?token=${token}`, { newPassword, confirmNewPassword });
   }
+
+  resendVerificationEmail(email: string) {
+    return this.http.post<{ message: string }>(`${this.API_URL}/resend-verification-email`, { email });
+  }
 }
