@@ -1,6 +1,6 @@
 <div class="min-h-screen bg-neutral-900  p-6 font-pt-sans">
   <div class="mb-8">
-    <div class="flex items-center justify-between">
+    <div class="flex flex-col gap-2 items-center justify-between md:flex-row">
       <div>
         <h1 class="text-3xl font-bold text-amber-300">
           <i class="pi pi-chart-line mr-3"></i>
@@ -133,12 +133,12 @@
           <i class="pi pi-chart-pie text-amber-400"></i>
         </div>
       </ng-template>
-      <div class="p-4">
+      <div class="">
         <p-chart
           type="doughnut"
           [data]="statusChartData()"
           [options]="statusChartOptions()"
-          class="w-max h-80 mx-auto">
+          class="w-max h-80 mx-auto ">
         </p-chart>
       </div>
     </p-card>

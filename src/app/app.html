@@ -4,10 +4,13 @@
 <div class="bg-neutral-900">
   <app-nav />
   <div class="container mx-auto">
-    <p-toast position="bottom-right" />
+    <p-toast
+      position="bottom-right"
+      [breakpoints]="{ '920px': { width: '100%', right: '0', left: '0' } }"
+    />
     <router-outlet />
   </div>
   <app-footer />
-  <app-cart-toast  />
+  <app-cart-toast />
 </div>
 }

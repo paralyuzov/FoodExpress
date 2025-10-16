@@ -5,6 +5,7 @@ import { MessageService } from 'primeng/api';
 import { cartAction } from './cart.actions';
 import { tap, withLatestFrom, map } from 'rxjs';
 import { selectCartState } from './cart.selectors';
+import { AuthActions } from '../auth/auth.actions';
 
 const CART_STORAGE_KEY = 'food_delivery_cart';
 
@@ -16,7 +17,7 @@ export const cartEffects = {
           cartAction.addItemToCart,
           cartAction.removeItemFromCart,
           cartAction.updateItemQuantity,
-          cartAction.clearCart,
+          cartAction.clearCart
         ),
         withLatestFrom(store.select(selectCartState)),
         tap(([, cartState]) => {
@@ -43,8 +44,8 @@ export const cartEffects = {
             life: 3000,
             data: {
               dish,
-              quantity
-            }
+              quantity,
+            },
           });
         })
       );
@@ -55,7 +56,7 @@ export const cartEffects = {
   loadPersistedCart: createEffect(
     (actions$ = inject(Actions)) => {
       return actions$.pipe(
-        ofType(cartAction.loadPersistedCart),
+        ofType(cartAction.loadPersistedCart, AuthActions.initApp),
         map(() => {
           try {
             const savedCart = localStorage.getItem(CART_STORAGE_KEY);

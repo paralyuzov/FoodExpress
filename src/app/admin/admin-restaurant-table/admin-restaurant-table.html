@@ -8,25 +8,25 @@
       (onRowCollapse)="onRowCollapse($event)">
       <ng-template #caption>
         <div
-          class="flex items-center justify-between rounded-t-2xl p-6 bg-neutral-800/80 border-b border-neutral-600/50">
+          class="flex flex-col sm:flex-row gap-4 items-center justify-between rounded-t-2xl p-6 bg-neutral-800/80 border-b border-neutral-600/50">
           <div class="flex items-center gap-3">
             <h3 class="text-lg font-semibold text-amber-300">
               <i class="pi pi-building mr-2"></i>
               Restaurant Management
             </h3>
-            <span class="px-3 py-1 bg-neutral-700 text-neutral-300 rounded-full text-sm">
+            <span class="px-2 py-1 bg-neutral-700 text-neutral-300 rounded-lg text-center text-sm">
               {{ restaurants().length }} total
             </span>
           </div>
 
-          <div class="flex items-center gap-4">
+          <div class="flex flex-col items-center gap-4 sm:flex-row">
             <p-iconfield iconPosition="left" class="relative">
               <p-inputicon class="text-neutral-400">
                 <i class="pi pi-search"></i>
               </p-inputicon>
               <input pInputText type="text" (input)="dt2.filterGlobal($any($event.target).value, 'contains')"
                 placeholder="Search restaurants by name, address, or email..."
-                class="w-80 bg-neutral-700/50 border-neutral-600 text-neutral-100 placeholder-neutral-400 rounded-xl px-4 py-3 pl-12 focus:ring-2 focus:ring-amber-400 focus:border-transparent transition-all duration-200" />
+                class=" bg-neutral-700/50 border-neutral-600 text-neutral-100 placeholder-neutral-400 rounded-xl px-4 py-3 pl-12 focus:ring-2 focus:ring-amber-400 focus:border-transparent transition-all duration-200" />
             </p-iconfield>
 
             <p-button (onClick)="showCreateRestaurantForm()" icon="pi pi-plus" label="Add Restaurant" severity="success"

@@ -60,26 +60,35 @@ export class AdminRestaurantTable implements OnInit {
     console.log('Row collapsed:', event.data.name);
   }
 
+  breakpoints = {
+    '960px': '75vw',
+    '640px': '90vw',
+    '480px': '95vw',
+    '0px': '100vw',
+  };
+
   showCreateRestaurantForm() {
     this.dialogService.open(CreateRestaurantForm, {
       header: 'Create Restaurant',
-      styleClass: 'w-96! bg-neutral-900!',
+      styleClass: 'bg-neutral-900/20!',
       closable: true,
       maskStyleClass: 'backdrop-blur-sm',
       closeOnEscape: true,
       focusOnShow: false,
+      breakpoints: this.breakpoints,
     });
   }
 
   showEditRestaurantForm(restaurantId: string) {
     this.dialogService.open(EditRestaurantForm, {
       header: 'Edit Restaurant',
-      styleClass: 'w-96! bg-neutral-900!',
+      styleClass: 'bg-neutral-900/20!',
       closable: true,
       maskStyleClass: 'backdrop-blur-sm',
       closeOnEscape: true,
       focusOnShow: false,
       data: { id: restaurantId },
+      breakpoints: this.breakpoints,
     });
   }
 
@@ -111,24 +120,26 @@ export class AdminRestaurantTable implements OnInit {
   showCreateMenuForm(restaurantId: string) {
     this.dialogService.open(CreateMenuForm, {
       header: 'Create Menu',
-      styleClass: 'w-96! bg-neutral-900!',
+      styleClass: 'bg-neutral-900/20!',
       closable: true,
       maskStyleClass: 'backdrop-blur-sm',
       closeOnEscape: true,
       data: { id: restaurantId },
       focusOnShow: false,
+      breakpoints: this.breakpoints,
     });
   }
 
   showEditMenuForm(menuId: string) {
     this.dialogService.open(EditMenuForm, {
       header: 'Edit Menu',
-      styleClass: 'w-96! bg-neutral-900!',
+      styleClass: 'bg-neutral-900/20!',
       closable: true,
       maskStyleClass: 'backdrop-blur-sm',
       closeOnEscape: true,
       data: { id: menuId },
       focusOnShow: false,
+      breakpoints: this.breakpoints,
     });
   }
 
@@ -159,24 +170,26 @@ export class AdminRestaurantTable implements OnInit {
   showCreateDishForm(menuId: string) {
     this.dialogService.open(CreateDishForm, {
       header: 'Create Dish',
-      styleClass: 'w-96! bg-neutral-900!',
+      styleClass: 'bg-neutral-900/20!',
       closable: true,
       maskStyleClass: 'backdrop-blur-sm',
       closeOnEscape: true,
       data: { id: menuId },
       focusOnShow: false,
+      breakpoints: this.breakpoints,
     });
   }
 
   showEditDishForm(menuId: string, dishId: string) {
     this.dialogService.open(EditDishForm, {
       header: 'Edit Dish',
-      styleClass: 'w-96! bg-neutral-900!',
+      styleClass: 'bg-neutral-900/20!',
       closable: true,
       maskStyleClass: 'backdrop-blur-sm',
       closeOnEscape: true,
       data: { menuId: menuId, dishId: dishId },
       focusOnShow: false,
+      breakpoints: this.breakpoints,
     });
   }
 

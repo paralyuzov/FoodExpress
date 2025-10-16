@@ -7,6 +7,7 @@ import { UserService } from '../../app/core/services/user.service';
 import { MessageService } from 'primeng/api';
 import { Store } from '@ngrx/store';
 import { AuthActions } from '../auth/auth.actions';
+import { cartAction } from '../cart/cart.actions';
 
 export const userEffects = {
   loadProfile: createEffect(
@@ -84,7 +85,11 @@ export const userEffects = {
     { functional: true }
   ),
   updateProfile: createEffect(
-    (actions$ = inject(Actions), userService = inject(UserService), messageService = inject(MessageService)) => {
+    (
+      actions$ = inject(Actions),
+      userService = inject(UserService),
+      messageService = inject(MessageService)
+    ) => {
       return actions$.pipe(
         ofType(userActions.updateProfile),
         switchMap(({ profile }) => {
@@ -259,7 +264,11 @@ export const userEffects = {
   loadUserProfileAfterAutoVerify: createEffect(
     (actions$ = inject(Actions)) => {
       return actions$.pipe(
-        ofType(AuthActions.initApp,AuthActions.verifyUserSuccess,AuthActions.loginSuccess),
+        ofType(
+          AuthActions.initApp,
+          AuthActions.verifyUserSuccess,
+          AuthActions.loginSuccess,
+        ),
         map(() => {
           const hasToken = !!localStorage.getItem('access_token');
           if (hasToken) {
