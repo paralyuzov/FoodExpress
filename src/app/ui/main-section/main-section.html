@@ -149,12 +149,13 @@
     <div class="container mx-auto rounded-2xl">
       <p-carousel
         [value]="dishes()"
-        [numVisible]="5"
+        [numVisible]="3"
         [numScroll]="1"
         [circular]="true"
         [autoplayInterval]="5000"
         [showIndicators]="false"
         [showNavigators]="false"
+        [responsiveOptions]="responsiveOptions"
       >
         <ng-template let-dish #item>
           <div class="p-3">
@@ -198,12 +199,13 @@
     <div class="container mx-auto rounded-2xl">
       <p-carousel
         [value]="restaurants()"
-        [numVisible]="5"
+        [numVisible]="3"
         [numScroll]="1"
         [circular]="true"
         [autoplayInterval]="6000"
         [showIndicators]="false"
         [showNavigators]="false"
+        [responsiveOptions]="responsiveOptions"
       >
         <ng-template #item let-restaurant>
           <div class="p-3">

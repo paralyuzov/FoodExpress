@@ -1,6 +1,6 @@
 @if(dish(); as dishData) {
 <div
-  class="group bg-slate-800/50 backdrop-blur-sm rounded-2xl overflow-hidden shadow-xl border border-slate-700/50 hover:border-amber-400/30 transform  transition-all duration-300 hover:shadow-2xl hover:shadow-amber-500/10 hover:saturate-150"
+  class="group bg-neutral-800/50 backdrop-blur-sm rounded-2xl overflow-hidden shadow-xl border border-neutral-700/50 hover:border-amber-400/30 transform  transition-all duration-300 hover:shadow-2xl hover:shadow-amber-500/10 hover:saturate-150"
 >
   <div class="relative overflow-hidden">
     <img
@@ -33,7 +33,7 @@
 
     <div class="absolute top-4 right-4">
       <div
-        class="bg-gradient-to-r from-amber-400 to-yellow-500 text-slate-900 text-lg font-bold px-3 py-1.5 rounded-full shadow-lg"
+        class="bg-gradient-to-r from-amber-400 to-yellow-500 text-neutral-900 text-lg font-bold px-3 py-1.5 rounded-full shadow-lg"
       >
         ${{ dishData.price | number : '1.2-2' }}
       </div>
@@ -57,7 +57,7 @@
       <i class="pi pi-map-marker text-amber-400 text-sm"></i>
       <a
         [routerLink]="['/restaurants', dishData.menu?.restaurant?.id]"
-        class="text-slate-400 hover:text-amber-400 text-sm font-medium transition-colors duration-200 cursor-pointer"
+        class="text-neutral-400 hover:text-amber-400 text-sm font-medium transition-colors duration-200 cursor-pointer"
       >
         {{ dishData.menu?.restaurant?.name }}
       </a>
@@ -70,7 +70,7 @@
     </h3>
 
     @if (dishData.description) {
-    <p class="text-slate-400 text-sm font-pt-sans mb-4 line-clamp-2 leading-relaxed">
+    <p class="text-neutral-400 text-sm font-pt-sans mb-4 line-clamp-2 leading-relaxed">
       {{ dishData.description }}
     </p>
     }
@@ -90,7 +90,7 @@
       <button
         (click)="addToCart(dishData)"
         [disabled]="!dishData.isAvailable"
-        class="group/btn relative overflow-hidden bg-gradient-to-r from-amber-500 to-yellow-500 hover:from-amber-600 hover:to-yellow-600 disabled:from-slate-600 disabled:to-slate-700 text-slate-900 disabled:text-slate-400 font-bold px-5 py-2.5 rounded-xl transition-all duration-300 transform hover:scale-105 disabled:hover:scale-100 disabled:cursor-not-allowed shadow-lg hover:shadow-xl hover:cursor-pointer"
+        class="group/btn relative overflow-hidden bg-gradient-to-r from-amber-500 to-yellow-500 hover:from-amber-600 hover:to-yellow-600 disabled:from-neutral-600 disabled:to-neutral-700 text-neutral-900 disabled:text-neutral-400 font-bold px-5 py-2.5 rounded-xl transition-all duration-300 transform hover:scale-105 disabled:hover:scale-100 disabled:cursor-not-allowed shadow-lg hover:shadow-xl hover:cursor-pointer"
       >
         <span class="relative z-10 flex items-center gap-2">
           @if(dishData.isAvailable) {
@@ -101,7 +101,7 @@
         </span>
         @if(dishData.isAvailable) {
         <div
-          class="absolute inset-0 bg-gradient-to-r from-white/20 to-transparent translate-x-[-100%] group-hover/btn:translate-x-[100%] transition-transform duration-500"
+          class="absolute inset-0 bg-gradient-to-r from-white/20 to-transparent tranneutral-x-[-100%] group-hover/btn:tranneutral-x-[100%] transition-transform duration-500"
         ></div>
         }
       </button>

@@ -21,8 +21,9 @@ import { selectCartItemCount } from '../../../store/cart/cart.selectors';
 export class Nav implements OnInit {
   items: MenuItem[] | undefined;
   private store = inject(Store);
-  private router = inject(Router);
+  public router = inject(Router);
   openCartDrawer = signal(false);
+  mobileMenuOpen = signal(false);
   cartItemsCount = this.store.selectSignal(selectCartItemCount);
 
   isAuthenticated = this.store.selectSignal(selectIsAuthenticated);
@@ -56,6 +57,24 @@ export class Nav implements OnInit {
 
   onCartVisibilityChange(visible: boolean) {
     this.openCartDrawer.set(visible);
+  }
+
+  toggleMobileMenu() {
+    this.mobileMenuOpen.update(open => !open);
+  }
+
+  closeMobileMenu() {
+    this.mobileMenuOpen.set(false);
+  }
+
+  logout() {
+    this.store.dispatch(AuthActions.logout());
+    this.closeMobileMenu();
+  }
+
+  navigateToProfile() {
+    this.router.navigate(['/profile']);
+    this.closeMobileMenu();
   }
 
 }
