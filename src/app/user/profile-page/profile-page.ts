@@ -40,6 +40,13 @@ export class ProfilePage implements OnInit {
   totalSpent = this.store.selectSignal(selectTotalSpent);
   selectedTab = signal<'orders' | 'addresses'>('orders');
 
+  breakpoints = {
+    '960px': '75vw',
+    '640px': '90vw',
+    '480px': '95vw',
+    '0px': '100vw',
+  };
+
   userInitials = computed(() => {
     const user = this.user() as User;
     if (!user || !user.firstName || !user.lastName) return 'U';
@@ -57,22 +64,24 @@ export class ProfilePage implements OnInit {
   onEditProfile() {
     this.dialogService.open(EditUserForm, {
       header: 'Update Profile',
-      styleClass: 'w-96! bg-neutral-900!',
+      styleClass: 'bg-neutral-900/20!',
       closable: true,
       maskStyleClass: 'backdrop-blur-sm',
       closeOnEscape: true,
       focusOnShow: false,
+      breakpoints: this.breakpoints,
     });
   }
 
-    onChangePassword() {
+  onChangePassword() {
     this.dialogService.open(ChangePasswordForm, {
       header: 'Change Password',
-      styleClass: 'w-96! bg-neutral-900!',
+      styleClass: 'w-96! bg-neutral-900/20!',
       closable: true,
       maskStyleClass: 'backdrop-blur-sm',
       closeOnEscape: true,
       focusOnShow: false,
+      breakpoints: this.breakpoints,
     });
   }
 

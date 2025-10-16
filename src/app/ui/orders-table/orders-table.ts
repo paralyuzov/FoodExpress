@@ -31,6 +31,12 @@ export class OrdersTable {
   orders = input.required<Order[]>();
   isOrderLoading = input.required<boolean>();
   dialogService = inject(DialogService);
+  breakpoints= {
+    '960px': '75vw',
+    '640px': '90vw',
+    '480px': '95vw',
+    '0px': '100vw',
+  };
 
   expandAll() {
     const orders = this.orders();
@@ -45,12 +51,13 @@ export class OrdersTable {
   onViewDetails(order: Order) {
     this.dialogService.open(OrderDetailPage, {
       data: { order },
-      styleClass: 'w-6xl! bg-neutral-900!',
+      styleClass: 'bg-neutral-900!',
       closable: true,
       maskStyleClass: 'backdrop-blur-sm',
       maximizable: true,
       closeOnEscape: true,
       focusOnShow: false,
+       breakpoints: this.breakpoints,
     });
   }
 
