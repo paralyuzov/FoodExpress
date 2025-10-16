@@ -97,7 +97,7 @@ export class LoginForm {
   onForgotPassword() {
     this.dialogService.open(ForgotPassword, {
       header: 'Forgot Password',
-      styleClass: 'w-96! bg-neutral-900!',
+      styleClass: 'bg-neutral-900!',
       closable: true,
       maskStyleClass: 'backdrop-blur-sm',
       closeOnEscape: true,
