@@ -85,4 +85,8 @@ export const routes: Routes = [
     ],
     loadComponent: () => import('./admin/admin').then((m) => m.Admin),
   },
+  {
+    path: '**',
+    loadComponent: () => import('./not-found/not-found').then((m) => m.NotFound),
+  }
 ];
